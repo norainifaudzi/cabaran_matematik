@@ -71,36 +71,36 @@ body {
 }
 
 /* SETIAP PULAU */
-#pulau-nombor img {
-    width: 140px;
+#pulau-nombor > a > img {
+    width: 120px;
 }
 
-#pulau-tambah img {
-    width: 140px;
+#pulau-tambah > img:first-child {
+    width: 120px;
 }
 
-#pulau-tolak img {
-    width: 140px;
+#pulau-tolak > img:first-child {
+    width: 120px;
 }
 
-#pulau-darab img {
-    width: 230px;
+#pulau-darab > img:first-child {
+    width: 200px;
 }
 
-#pulau-bahagi img {
-    width: 140px;
+#pulau-bahagi > img:first-child {
+    width: 110px;
 }
 
-#pulau-pecahan img {
-    width: 130px;
+#pulau-pecahan > img:first-child {
+    width: 110px;
 }
 
-#pulau-masa img {
-    width: 130px;
+#pulau-masa > img:first-child {
+    width: 110px;
 }
 
-#pulau-wang img {
-    width: 130px;
+#pulau-wang > img:first-child {
+    width: 110px;
 }
 
 
@@ -111,19 +111,19 @@ body {
 
 
 #pulau-nombor {
-    transform: translate(-50px, 350px);
+    transform: translate(-50px, 360px);
     z-index: 5;
 }
 
 
 #pulau-tambah {
-    transform: translate(30px, 400px);
+    transform: translate(30px, 410px);
     z-index: 5;
 }
 
 
 #pulau-tolak {
-    transform: translate(110px, 370px);
+    transform: translate(110px, 400px);
     z-index: 5;
 }
 
@@ -135,13 +135,13 @@ body {
 
 
 #pulau-bahagi {
-    transform: translate(550px, -100px);
+    transform: translate(550px, -80px);
     z-index: 5;
 }
 
 
 #pulau-pecahan {
-    transform: translate(-200px, -160px);
+    transform: translate(-180px, -150px);
     z-index: 5;
 }
 
@@ -153,7 +153,7 @@ body {
 
 
 #pulau-wang {
-    transform: translate(-90px, -240px);
+    transform: translate(-80px, -200px);
     z-index: 5;
 }
 
@@ -247,24 +247,134 @@ body {
 
 }
 
+/* =========================================================
+   🔒 PADLOCK - TETAPAN SETIAP PULAU
+========================================================= */
 
-/* Padlock */
-
+/* Tetapan asas semua padlock */
 .padlock {
-
     position: absolute;
 
-    top: 50%;
-    left: 50%;
+    transform: translate(-50%, -50%);
 
-    width: 60px;
-
-    transform:
-        translate(-50%, -50%);
+    height: auto;
 
     pointer-events: none;
+
+    z-index: 10;
 }
 
+
+/* =========================================================
+   1. PULAU NOMBOR
+   Saiz pulau: 120px
+========================================================= */
+
+#lock-nombor {
+    width: 150px;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================================
+   2. PULAU TAMBAH
+   Saiz pulau: 120px
+========================================================= */
+
+#lock-tambah {
+   width: 150px;
+    height: auto;
+    top: 40%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================================
+   3. PULAU TOLAK
+   Saiz pulau: 120px
+========================================================= */
+
+#lock-tolak {
+    width: 150px;
+    height: auto;
+    top: 40%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================================
+   4. PULAU DARAB
+   Saiz pulau: 200px
+========================================================= */
+
+#lock-darab {
+    width: 150px;
+    height: auto;
+    top: 60%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================================
+   5. PULAU BAHAGI
+   Saiz pulau: 110px
+========================================================= */
+
+#lock-bahagi {
+    width: 150px;
+    height: auto;
+    top: 30%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================================
+   6. PULAU PECAHAN
+   Saiz pulau: 110px
+========================================================= */
+
+#lock-pecahan {
+    width: 150px;
+    height: auto;
+    top: 40%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================================
+   7. PULAU MASA
+   Saiz pulau: 110px
+========================================================= */
+
+#lock-masa {
+    width: 150px;
+    height: auto;
+    top: 30%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================================
+   8. PULAU WANG
+   Saiz pulau: 110px
+========================================================= */
+
+#lock-wang {
+   width: 150px;
+    height: auto;
+    top: 30%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
 
 /* =========================================
    KOTAK MISI
