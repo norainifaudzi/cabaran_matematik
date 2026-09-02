@@ -1,0 +1,2341 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Misteri 15 Objek</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+
+<style>
+
+/* =====================================================
+   📜 ARAHAN MISI 7
+===================================================== */
+
+#missionInstruction{
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:min(600px,90%);
+
+    padding:32px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,30,55,.98),
+            rgba(40,50,80,.98)
+        );
+
+    border:5px solid gold;
+
+    color:white;
+
+    text-align:center;
+
+    z-index:500;
+
+    box-shadow:
+        0 0 30px gold,
+        0 0 80px rgba(255,170,0,.6);
+
+    animation:instructionAppear .5s ease;
+}
+
+
+@keyframes instructionAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.6);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+
+    }
+
+}
+
+
+#missionInstruction h1{
+
+    color:gold;
+
+    font-size:30px;
+
+    margin-bottom:20px;
+
+}
+
+
+#missionInstruction p{
+
+    font-size:19px;
+
+    line-height:1.6;
+
+    margin:12px 0;
+
+}
+
+
+.missionInstructionList{
+
+    margin:20px 0;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+
+    text-align:left;
+
+}
+
+
+.missionInstructionList div{
+
+    margin:10px 0;
+
+    font-size:18px;
+
+}
+
+
+.startMissionBtn{
+
+    margin-top:15px;
+
+    border:none;
+
+    padding:15px 32px;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #35d66f,
+            #14a84e
+        );
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:0 5px 0 #087634;
+
+    transition:.2s;
+}
+
+
+.startMissionBtn:hover{
+
+    transform:
+        translateY(-3px)
+        scale(1.04);
+
+}
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Verdana,sans-serif;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+
+    height:100vh;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        180deg,
+        #8fd8ff 0%,
+        #bdeeff 40%,
+        #ffe4b5 100%
+    );
+
+}
+
+
+/* =====================================================
+   CLASSROOM
+===================================================== */
+
+#classroom{
+
+    position:relative;
+
+    width:100%;
+    height:100vh;
+
+    overflow:hidden;
+
+    background-image:
+        url("../images/classroom.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+}
+
+
+/* =====================================================
+   🔎 15 OBJEK TERSEMBUNYI
+===================================================== */
+
+.hiddenObject{
+
+    position:absolute;
+
+    width:48px;
+    height:48px;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    z-index:5;
+
+    background:transparent;
+
+    border-radius:12px;
+
+    transition:
+        transform .25s ease,
+        opacity .4s ease;
+
+}
+
+
+/* GAMBAR OBJEK SEBENAR */
+.objectImage{ 
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+
+    transition: transform .25s ease;
+}
+
+
+/* =====================================================
+   🖱️ HOVER OBJEK
+===================================================== */
+
+.hiddenObject:hover{
+    transform:scale(1.25);
+    z-index:30;
+}
+
+.hiddenObject:hover .objectImage{
+    transform:scale(1.05);
+}
+
+.hiddenObject:hover .objectEmoji{
+
+    transform:rotate(-5deg);
+
+    filter:
+        drop-shadow(
+            0 3px 3px rgba(0,0,0,.7)
+        )
+        drop-shadow(
+            0 0 7px rgba(255,215,0,.9)
+        );
+
+}
+
+
+/* =====================================================
+   ✨ OBJEK SUDAH DITEMUI
+===================================================== */
+
+.hiddenObject.found{
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:scale(1.7);
+
+}
+
+
+/* =====================================================
+   STATUS PANEL
+===================================================== */
+
+#panel{
+
+    position:absolute;
+
+    top:20px;
+    left:20px;
+
+    width:280px;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    background:
+        rgba(0,0,0,.65);
+
+    border:3px solid gold;
+
+    color:white;
+
+    backdrop-filter:blur(6px);
+
+    box-shadow:
+        0 0 20px gold,
+        inset 0 0 15px
+        rgba(255,255,255,.15);
+
+    z-index:50;
+
+    animation:
+        panelGlow 2s infinite alternate;
+
+}
+
+#objectListPanel{
+    margin-top:15px;
+    padding-top:12px;
+    border-top:2px solid rgba(255,255,255,.25);
+}
+
+#objectListPanel h3{
+    text-align:center;
+    font-size:16px;
+    color:#ffe58a;
+    margin-bottom:10px;
+}
+
+#foundList{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+}
+
+.objectStatus{
+    padding:7px 5px;
+    border-radius:8px;
+    background:rgba(255,255,255,.08);
+    font-size:12px;
+    color:white;
+    transition:.3s;
+}
+
+.objectStatus.found{
+    background:rgba(76,255,102,.20);
+    color:#4cff66;
+    font-weight:bold;
+}
+
+/* =====================================================
+   PANEL GLOW
+===================================================== */
+
+@keyframes panelGlow{
+
+    from{
+
+        box-shadow:
+            0 0 15px gold;
+
+    }
+
+    to{
+
+        box-shadow:
+            0 0 35px gold,
+            0 0 60px orange;
+
+    }
+
+}
+
+
+/* =====================================================
+   PANEL TITLE
+===================================================== */
+
+#panel h2{
+
+    text-align:center;
+
+    margin-bottom:12px;
+
+    font-size:20px;
+
+    color:gold;
+
+}
+
+
+/* =====================================================
+   SCORE ROW
+===================================================== */
+
+.scoreRow{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin:14px 0;
+
+    font-size:19px;
+
+    font-weight:bold;
+
+    padding-bottom:8px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.2);
+
+}
+
+
+.scoreRow span:last-child{
+
+    color:#4cff66;
+
+    font-size:23px;
+
+}
+
+
+/* =====================================================
+   QUESTION BOX
+===================================================== */
+
+#questionBox{
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:min(600px,90%);
+
+    padding:30px;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,30,55,.97),
+            rgba(40,50,80,.97)
+        );
+
+    border:4px solid gold;
+
+    color:white;
+
+    box-shadow:
+        0 0 25px gold,
+        0 0 60px rgba(255,170,0,.5);
+
+    z-index:100;
+
+    display:none;
+
+    text-align:center;
+
+    animation:
+        questionAppear .3s ease;
+
+}
+
+
+@keyframes questionAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.8);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   QUESTION TITLE
+===================================================== */
+
+#questionBox h2{
+
+    color:gold;
+
+    font-size:27px;
+
+    margin-bottom:20px;
+
+}
+
+
+/* =====================================================
+   QUESTION
+===================================================== */
+
+#question{
+
+    font-size:21px;
+
+    line-height:1.5;
+
+    font-weight:bold;
+
+    margin-bottom:22px;
+
+}
+
+
+/* =====================================================
+   ANSWERS
+===================================================== */
+
+#answers{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:12px;
+
+}
+
+
+/* =====================================================
+   ANSWER BUTTON
+===================================================== */
+
+.answerBtn{
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #dff5ff
+        );
+
+    color:#17324d;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 4px 0 #9ab8c8;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+
+}
+
+
+.answerBtn:hover{
+
+    transform:
+        translateY(-3px)
+        scale(1.03);
+
+    box-shadow:
+        0 7px 0 #799aaa;
+
+    background:#fff3a6;
+
+}
+
+
+.answerBtn:disabled{
+
+    cursor:not-allowed;
+
+    opacity:.7;
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+#message{
+
+    margin-top:18px;
+
+    min-height:25px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:#ffe58a;
+
+}
+
+
+/* =====================================================
+   SUCCESS / FAIL BOX
+===================================================== */
+
+#successBox{
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:min(520px,90%);
+
+    padding:35px;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #e9f9ff
+        );
+
+    border:5px solid gold;
+
+    text-align:center;
+
+    z-index:200;
+
+    box-shadow:
+        0 0 30px gold,
+        0 0 80px
+        rgba(255,180,0,.7);
+
+    animation:
+        successAppear .5s ease;
+
+}
+
+
+@keyframes successAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.5)
+            rotate(-3deg);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1)
+            rotate(0deg);
+
+    }
+
+}
+
+
+/* =====================================================
+   TROPHY
+===================================================== */
+
+.trophy{
+
+    font-size:70px;
+
+    margin-bottom:10px;
+
+}
+
+
+/* =====================================================
+   SUCCESS TITLE
+===================================================== */
+
+#successBox h1{
+
+    font-size:34px;
+
+    color:#f4a000;
+
+    margin-bottom:15px;
+
+}
+
+
+#successBox p{
+
+    font-size:20px;
+
+    line-height:1.6;
+
+    color:#26384a;
+
+}
+
+
+/* =====================================================
+   FINAL SCORE
+===================================================== */
+
+.finalScore{
+
+    margin:20px 0;
+
+    padding:14px;
+
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff3a6,
+            #ffe08a
+        );
+
+    border:2px solid #f5b400;
+
+    font-size:21px;
+
+    font-weight:bold;
+
+    color:#694c00;
+
+}
+
+
+/* =====================================================
+   SUCCESS BUTTON
+===================================================== */
+
+#successBox button{
+
+    border:none;
+
+    padding:15px 28px;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #35d66f,
+            #14a84e
+        );
+
+    color:white;
+
+    font-size:19px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 0 #087634;
+
+    transition:
+        transform .2s ease;
+
+}
+
+
+#successBox button:hover{
+
+    transform:
+        translateY(-3px)
+        scale(1.04);
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+    #panel{
+
+        width:230px;
+
+        padding:14px;
+
+        top:10px;
+        left:10px;
+
+    }
+
+    #panel h2{
+
+        font-size:20px;
+
+    }
+
+    .scoreRow{
+
+        font-size:15px;
+
+        margin:9px 0;
+
+    }
+
+    .scoreRow span:last-child{
+
+        font-size:19px;
+
+    }
+
+    #questionBox{
+
+        padding:22px;
+
+    }
+
+    #answers{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    #question{
+
+        font-size:18px;
+
+    }
+
+}
+
+
+/* =====================================================
+   HIDDEN
+===================================================== */
+
+.hidden{
+
+    display:none !important;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     📜 ARAHAN MISI 7
+===================================================== -->
+
+<div id="missionInstruction">
+
+    <h1>
+        🔎 MISI 7: BARANG TERSEMBUNYI
+    </h1>
+
+    <p>
+        🕵️ Cari barang yang tersembunyi.
+    </p>
+
+    <div class="missionInstructionList">
+
+        <div>
+            🖱️ Klik barang yang dijumpai.
+        </div>
+
+        <div>
+            ⏰ Jawab soalan Masa dengan betul.
+        </div>
+
+        <div>
+            🏆 Dapatkan <strong>15 jawapan betul</strong>
+            daripada <strong>20 soalan</strong>.
+        </div>
+
+    </div>
+
+    <p>
+        🚀 Bersedia? Jom mula!
+    </p>
+
+    <button
+        class="startMissionBtn"
+        onclick="startMission()">
+
+        🚀 MULA MISI
+
+    </button>
+
+</div>
+
+<!-- =====================================================
+     CLASSROOM
+===================================================== -->
+
+<div id="classroom">
+
+
+<!-- =================================================
+     🔎 15 OBJEK TERSEMBUNYI
+================================================== -->
+
+<div id="object1" class="hiddenObject">
+    <img src="../images/pensel.png" class="objectImage">
+</div>
+
+<div id="object2" class="hiddenObject">
+    <img src="../images/buku1.png" class="objectImage">
+</div>
+
+<div id="object3" class="hiddenObject">
+    <img src="../images/pembaris.png" class="objectImage">
+</div>
+
+<div id="object4" class="hiddenObject">
+    <img src="../images/beg1.png" class="objectImage">
+</div>
+
+<div id="object5" class="hiddenObject">
+    <img src="../images/krayon.png" class="objectImage">
+</div>
+
+<div id="object6" class="hiddenObject">
+    <img src="../images/gunting1.png" class="objectImage">
+</div>
+
+<div id="object7" class="hiddenObject">
+    <img src="../images/pisang.png" class="objectImage">
+</div>
+
+<div id="object8" class="hiddenObject">
+    <img src="../images/burger.png" class="objectImage">
+</div>
+
+<div id="object9" class="hiddenObject">
+    <img src="../images/botol.png" class="objectImage">
+</div>
+
+<div id="object10" class="hiddenObject">
+    <img src="../images/fly.png" class="objectImage">
+</div>
+
+<div id="object11" class="hiddenObject">
+    <img src="../images/klip.png" class="objectImage">
+</div>
+
+<div id="object12" class="hiddenObject">
+    <img src="../images/pen.png" class="objectImage">
+</div>
+
+<div id="object13" class="hiddenObject">
+    <img src="../images/bola.png" class="objectImage">
+</div>
+
+<div id="object14" class="hiddenObject">
+    <img src="../images/topi.png" class="objectImage">
+</div>
+
+<div id="object15" class="hiddenObject">
+    <img src="../images/pencil_case.png" class="objectImage">
+</div>
+
+
+
+    <!-- =================================================
+         STATUS PANEL
+    ================================================== -->
+
+    <div id="panel">
+
+
+        <h2>
+            🔎 MISTERI OBJEK
+        </h2>
+
+
+        <div
+            style="
+            text-align:center;
+            font-size:15px;
+            margin:-5px 0 14px;
+            color:#ffe58a;
+            font-weight:bold;
+            ">
+
+            Cari 15 objek tersembunyi 🔍
+
+        </div>
+
+
+      <div class="scoreRow">
+
+    <span>
+        ✅ Betul
+    </span>
+
+    <span id="correct">
+        0
+    </span>
+
+</div>
+
+
+<div class="scoreRow">
+
+    <span>
+        ❌ Salah
+    </span>
+
+    <span id="wrong">
+        0
+    </span>
+
+</div>
+
+
+<div class="scoreRow">
+
+    <span>
+        ⭐ Skor
+    </span>
+
+    <span>
+        <span id="score">0</span>/15
+    </span>
+
+</div>
+
+<div id="objectListPanel">
+
+    <h3>🔎 OBJEK PERLU DICARI</h3>
+
+    <div id="foundList"></div>
+
+</div>
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     QUESTION BOX
+===================================================== -->
+
+<div id="questionBox">
+
+
+    <h2>
+        🔎 OBJEK DITEMUI!
+    </h2>
+
+
+    <div id="question"></div>
+
+
+    <div id="answers"></div>
+
+
+    <div id="message"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   GAME VARIABLES
+===================================================== */
+
+let attempts = 0;          // Jumlah semua percubaan
+let correct = 0;            // Jumlah jawapan betul
+let wrong = 0;              // Jumlah jawapan salah
+let foundCount = 0;         // Jumlah objek yang berjaya ditemui
+
+let currentObject = null; 
+let currentQuestion = null;
+
+/* Soalan yang belum digunakan */
+let availableQuestions = [];
+
+const TOTAL_OBJECTS = 15;
+const MAX_ATTEMPTS = 20;    // 15 wajib + 5 percubaan tambahan
+
+
+/* =====================================================
+   SOALAN
+===================================================== */
+
+let questions = [
+
+    /* =========================
+       1
+    ========================= */
+    {
+        q:"Jam menunjukkan 3:00 petang. Dalam format 24 jam ialah?",
+        a:["03:00","15:00","12:00","30:00"],
+        c:1
+    },
+
+    /* =========================
+       2
+    ========================= */
+    {
+        q:"1 jam bersamaan berapa minit?",
+        a:["30 minit","45 minit","60 minit","100 minit"],
+        c:2
+    },
+
+    /* =========================
+       3
+    ========================= */
+    {
+        q:"Jika sekarang pukul 8:30 pagi, 2 jam kemudian ialah?",
+        a:["9:30 pagi","10:30 pagi","11:30 pagi","12:30 tengah hari"],
+        c:1
+    },
+
+    /* =========================
+       4
+    ========================= */
+    {
+        q:"Suku jam bersamaan berapa minit?",
+        a:["10 minit","15 minit","20 minit","30 minit"],
+        c:1
+    },
+
+    /* =========================
+       5
+    ========================= */
+    {
+        q:"1 hari bersamaan berapa jam?",
+        a:["12 jam","18 jam","24 jam","48 jam"],
+        c:2
+    },
+
+    /* =========================
+       6
+    ========================= */
+    {
+        q:"Setengah jam bersamaan berapa minit?",
+        a:["15 minit","20 minit","30 minit","60 minit"],
+        c:2
+    },
+
+    /* =========================
+       7
+    ========================= */
+    {
+        q:"2 jam bersamaan berapa minit?",
+        a:["60 minit","90 minit","120 minit","180 minit"],
+        c:2
+    },
+
+    /* =========================
+       8
+    ========================= */
+    {
+        q:"Pukul 7 malam dalam format 24 jam ialah?",
+        a:["07:00","17:00","19:00","21:00"],
+        c:2
+    },
+
+    /* =========================
+       9
+    ========================= */
+    {
+        q:"30 minit selepas pukul 9:00 pagi ialah?",
+        a:["9:15 pagi","9:30 pagi","10:00 pagi","10:30 pagi"],
+        c:1
+    },
+
+    /* =========================
+       10
+    ========================= */
+    {
+        q:"15 minit sebelum pukul 5:00 petang ialah?",
+        a:["4:15 petang","4:30 petang","4:45 petang","5:15 petang"],
+        c:2
+    },
+
+    /* =========================
+       11
+    ========================= */
+    {
+        q:"Jam menunjukkan 12:00 tengah hari. Dalam format 24 jam ialah?",
+        a:["00:00","12:00","24:00","11:00"],
+        c:1
+    },
+
+    /* =========================
+       12
+    ========================= */
+    {
+        q:"Jam menunjukkan 6:00 pagi. Dalam format 24 jam ialah?",
+        a:["06:00","18:00","16:00","12:00"],
+        c:0
+    },
+
+    /* =========================
+       13
+    ========================= */
+    {
+        q:"45 minit selepas pukul 2:15 petang ialah?",
+        a:["2:45 petang","3:00 petang","3:15 petang","3:30 petang"],
+        c:1
+    },
+
+    /* =========================
+       14
+    ========================= */
+    {
+        q:"3 jam bersamaan berapa minit?",
+        a:["120 minit","150 minit","180 minit","240 minit"],
+        c:2
+    },
+
+    /* =========================
+       15
+    ========================= */
+    {
+        q:"90 minit bersamaan?",
+        a:["1 jam","1 jam 30 minit","2 jam","2 jam 30 minit"],
+        c:1
+    },
+
+    /* =========================
+       16
+    ========================= */
+    {
+        q:"Pukul 9 malam dalam format 24 jam ialah?",
+        a:["09:00","19:00","21:00","23:00"],
+        c:2
+    },
+
+    /* =========================
+       17
+    ========================= */
+    {
+        q:"20 minit selepas pukul 10:10 pagi ialah?",
+        a:["10:20 pagi","10:30 pagi","10:40 pagi","11:00 pagi"],
+        c:1
+    },
+
+    /* =========================
+       18
+    ========================= */
+    {
+        q:"20 minit sebelum pukul 4:00 petang ialah?",
+        a:["3:20 petang","3:30 petang","3:40 petang","3:50 petang"],
+        c:2
+    },
+
+    /* =========================
+       19
+    ========================= */
+    {
+        q:"2 jam 30 minit bersamaan berapa minit?",
+        a:["120 minit","130 minit","150 minit","180 minit"],
+        c:2
+    },
+
+    /* =========================
+       20
+    ========================= */
+    {
+        q:"120 minit bersamaan?",
+        a:["1 jam","1 jam 30 minit","2 jam","2 jam 30 minit"],
+        c:2
+    },
+
+    /* =========================
+       21
+    ========================= */
+    {
+        q:"Jika sekarang pukul 11:00 pagi, 1 jam kemudian ialah?",
+        a:["11:30 pagi","12:00 tengah hari","1:00 petang","2:00 petang"],
+        c:1
+    },
+
+    /* =========================
+       22
+    ========================= */
+    {
+        q:"Jika sekarang pukul 2:30 petang, 1 jam 30 minit kemudian ialah?",
+        a:["3:00 petang","3:30 petang","4:00 petang","4:30 petang"],
+        c:2
+    },
+
+    /* =========================
+       23
+    ========================= */
+    {
+        q:"15 minit selepas pukul 7:45 pagi ialah?",
+        a:["8:00 pagi","8:15 pagi","8:30 pagi","7:55 pagi"],
+        c:0
+    },
+
+    /* =========================
+       24
+    ========================= */
+    {
+        q:"30 minit sebelum pukul 12:00 tengah hari ialah?",
+        a:["10:30 pagi","11:00 pagi","11:30 pagi","11:45 pagi"],
+        c:2
+    },
+
+    /* =========================
+       25
+    ========================= */
+    {
+        q:"4 jam bersamaan berapa minit?",
+        a:["180 minit","200 minit","220 minit","240 minit"],
+        c:3
+    },
+
+    /* =========================
+       26
+    ========================= */
+    {
+        q:"Pukul 8 malam dalam format 24 jam ialah?",
+        a:["08:00","18:00","20:00","22:00"],
+        c:2
+    },
+
+    /* =========================
+       27
+    ========================= */
+    {
+        q:"Jika kelas bermula pada pukul 8:00 pagi dan berlangsung selama 2 jam, kelas tamat pada pukul?",
+        a:["9:00 pagi","10:00 pagi","11:00 pagi","12:00 tengah hari"],
+        c:1
+    },
+
+    /* =========================
+       28
+    ========================= */
+    {
+        q:"Satu suku jam selepas pukul 6:30 petang ialah?",
+        a:["6:35 petang","6:40 petang","7:45 petang","7:00 malam"],
+        c:2
+    },
+
+    /* =========================
+       29
+    ========================= */
+    {
+        q:"Satu setengah jam selepas pukul 1:00 petang ialah?",
+        a:["1:30 petang","2:00 petang","2:30 petang","3:00 petang"],
+        c:2
+    },
+
+    /* =========================
+       30
+    ========================= */
+    {
+       
+    q:"210 minit bersamaan?",
+    a:["2 jam","2 jam 30 minit","3 jam","3 jam 30 minit"],
+    c:3
+
+    }
+
+];
+
+
+/* =====================================================
+   SHUFFLE SOALAN
+===================================================== */
+
+function shuffle(array){
+
+    for(
+        let i=array.length-1;
+        i>0;
+        i--
+    ){
+
+        const j =
+            Math.floor(
+                Math.random()*(i+1)
+            );
+
+
+        [
+            array[i],
+            array[j]
+        ] =
+        [
+            array[j],
+            array[i]
+        ];
+
+    }
+
+}
+
+shuffle(questions);
+/* Semua 30 soalan tersedia pada permulaan */
+availableQuestions = questions.map(function(question, index){
+    return index;
+});
+
+
+/* =====================================================
+   SENARAI 15 OBJEK
+===================================================== */
+const objectList = [
+    { id:"object1", name:"Pensel" },
+    { id:"object2", name:"Buku" },
+    { id:"object3", name:"Pembaris" },
+    { id:"object4", name:"Beg" },
+    { id:"object5", name:"Krayon" },
+    { id:"object6", name:"Gunting" },
+    { id:"object7", name:"Pisang" },
+    { id:"object8", name:"Burger" },
+    { id:"object9", name:"Botol Air" },
+    { id:"object10", name:"Kapal terbang kertas" },
+    { id:"object11", name:"Klip" },
+    { id:"object12", name:"Pen" },
+    { id:"object13", name:"Bola" },
+    { id:"object14", name:"Topi" },
+    { id:"object15", name:"Kotak Pensel" }
+];
+
+function createObjectList(){
+
+    const list =
+        document.getElementById("foundList");
+
+    list.innerHTML = "";
+
+    objectList.forEach(function(item,index){
+
+        const div =
+            document.createElement("div");
+
+        div.className = "objectStatus";
+
+        div.id = "status-" + item.id;
+
+        div.innerHTML =
+            "❓ " + (index + 1) + ". " + item.name;
+
+        list.appendChild(div);
+
+    });
+
+}
+
+createObjectList();
+
+/* =====================================================
+   📍 POSISI 15 OBJEK
+===================================================== */
+
+/* =====================================================
+   🎯 TETAPAN 15 OBJEK
+   EDIT SAIZ & KEDUDUKAN DI SINI SAHAJA
+===================================================== */
+
+const objectSettings = [
+
+    /* ==============================
+       OBJECT 1 - PENSEL
+    ============================== */
+    {
+        id: "object1",
+        left: "38%",
+        top: "68%",
+        width: "90px",
+        height: "90px"
+    },
+
+    /* ==============================
+       OBJECT 2 - BUKU
+    ============================== */
+    {
+        id: "object2",
+        left: "42%",
+        top: "45%",
+        width: "120px",
+        height: "120px"
+    },
+
+    /* ==============================
+       OBJECT 3 - PEMBARIS
+    ============================== */
+    {
+        id: "object3",
+        left: "27%",
+        top: "55%",
+        width: "65px",
+        height: "65px"
+    },
+
+    /* ==============================
+       OBJECT 4 - BEG
+    ============================== */
+    {
+        id: "object4",
+        left: "31%",
+        top: "59%",
+        width: "110px",
+        height: "110px"
+    },
+
+    /* ==============================
+       OBJECT 5 - KRAYON
+    ============================== */
+    {
+        id: "object5",
+        left: "43%",
+        top: "40%",
+        width: "70px",
+        height: "70px"
+    },
+
+    /* ==============================
+       OBJECT 6 - GUNTING
+    ============================== */
+    {
+        id: "object6",
+        left: "77%",
+        top: "83%",
+        width: "100px",
+        height: "100px"
+    },
+
+    /* ==============================
+       OBJECT 7 - PISANG
+    ============================== */
+    {
+        id: "object7",
+        left: "20%",
+        top: "58%",
+        width: "85px",
+        height: "85px"
+    },
+
+    /* ==============================
+       OBJECT 8 - BURGER
+    ============================== */
+    {
+        id: "object8",
+        left: "74%",
+        top: "67%",
+        width: "85px",
+        height: "85px"
+    },
+
+    /* ==============================
+       OBJECT 9 - BOTOL AIR
+    ============================== */
+    {
+        id: "object9",
+        left: "22%",
+        top: "43%",
+        width: "100px",
+        height: "100px"
+    },
+
+    /* ==============================
+       OBJECT 10 - AEROPLANE
+    ============================== */
+    {
+        id: "object10",
+        left: "22%",
+        top: "3%",
+        width: "90px",
+        height: "90px"
+    },
+
+    /* ==============================
+       OBJECT 11 - PAPERCLIP
+    ============================== */
+    {
+        id: "object11",
+        left: "95%",
+        top: "53%",
+        width: "63px",
+        height: "63px"
+    },
+
+    /* ==============================
+       OBJECT 12 - PEN
+    ============================== */
+    {
+        id: "object12",
+        left: "85%",
+        top: "49%",
+        width: "70px",
+        height: "70px"
+    },
+
+    /* ==============================
+       OBJECT 13 - BOLA
+    ============================== */
+    {
+        id: "object13",
+        left: "63%",
+        top: "61%",
+        width: "95px",
+        height: "95px"
+    },
+
+    /* ==============================
+       OBJECT 14 - TOPI
+    ============================== */
+    {
+        id: "object14",
+        left: "88.5%",
+        top: "37%",
+        width: "100px",
+        height: "100px"
+    },
+
+    /* ==============================
+       OBJECT 15 - PENCIL CASE
+    ============================== */
+    {
+        id: "object15",
+        left: "55%",
+        top: "65%",
+        width: "110px",
+        height: "110px"
+    }
+
+];
+
+/* =====================================================
+   📍 LETAKKAN OBJEK MENGIKUT TETAPAN
+===================================================== */
+
+objectSettings.forEach(function(setting){
+
+    const object = document.getElementById(setting.id);
+
+    if(object){
+
+        object.style.left = setting.left;
+        object.style.top = setting.top;
+
+        object.style.width = setting.width;
+        object.style.height = setting.height;
+
+    }
+
+});
+
+
+
+/* =====================================================
+   🔎 BUKA SOALAN
+===================================================== */
+
+function openQuestion(objectId){
+
+    /* Jangan buka objek lain ketika soalan sedang aktif */
+    if(currentObject !== null || currentQuestion !== null){
+        return;
+    }
+
+    /* Jangan teruskan jika 20 percubaan sudah digunakan */
+    if(attempts >= MAX_ATTEMPTS){
+        return;
+    }
+
+    const object = document.getElementById(objectId);
+
+    if(!object){
+        return;
+    }
+
+    /* Objek yang sudah ditemui tidak boleh diklik lagi */
+    if(object.classList.contains("found")){
+        return;
+    }
+
+    /*
+       Pilih soalan secara rawak daripada soalan yang BELUM digunakan.
+       Soalan yang sudah digunakan akan dibuang daripada availableQuestions.
+       Jadi, jika pelajar salah, soalan yang sama TIDAK akan keluar lagi.
+    */
+    if(availableQuestions.length === 0){
+        return;
+    }
+
+    const questionIndex = Math.floor(
+        Math.random() * availableQuestions.length
+    );
+
+    const actualQuestionIndex = availableQuestions.splice(
+        questionIndex,
+        1
+    )[0];
+
+    currentObject = objectId;
+    currentQuestion = questions[actualQuestionIndex];
+
+    const box = document.getElementById("questionBox");
+    const q = document.getElementById("question");
+    const ans = document.getElementById("answers");
+    const msg = document.getElementById("message");
+
+    q.textContent = currentQuestion.q;
+    ans.innerHTML = "";
+    msg.innerHTML = "";
+
+    currentQuestion.a.forEach(function(item,index){
+
+        const btn = document.createElement("button");
+
+        btn.className = "answerBtn";
+        btn.textContent = item;
+
+        btn.onclick = function(){
+            checkAnswer(index);
+        };
+
+        ans.appendChild(btn);
+    });
+
+    box.style.display = "block";
+}
+
+/* =====================================================
+   ✅ SEMAK JAWAPAN
+===================================================== */
+
+function checkAnswer(answer){
+
+    /* Pastikan soalan dan objek sedang aktif */
+    if(
+        currentObject === null ||
+        currentQuestion === null
+    ){
+        return;
+    }
+
+    /* =================================================
+       KIRA PERCUBAAN
+    ================================================= */
+
+    attempts++;
+
+
+    /* =================================================
+       AMBIL SEMUA BUTANG JAWAPAN
+    ================================================= */
+
+    const buttons =
+        document.querySelectorAll(".answerBtn");
+
+
+    /* Matikan semua butang */
+    buttons.forEach(function(btn){
+
+        btn.disabled = true;
+
+    });
+
+
+    /* =================================================
+       JAWAPAN BETUL
+    ================================================= */
+
+    if(answer === currentQuestion.c){
+
+        correct++;
+
+
+        /* Kemaskini Betul */
+        document.getElementById("correct")
+            .textContent = correct;
+
+
+        /* Kemaskini Skor */
+        document.getElementById("score")
+            .textContent = correct;
+
+
+        /* Warna jawapan betul */
+        buttons[answer].style.background =
+            "#4cff66";
+
+
+        document.getElementById("message")
+            .innerHTML =
+            "🎉 BETUL! Anda Hebat⭐";
+
+
+        /* =============================================
+           TANDA OBJEK SEBAGAI DITEMUI
+        ============================================= */
+
+        const object =
+            document.getElementById(currentObject);
+
+
+        if(object){
+
+            object.classList.add("found");
+
+        }
+
+
+        /* =============================================
+           TAMBAH JUMLAH OBJEK DITEMUI
+        ============================================= */
+
+        foundCount++;
+
+
+        /* =============================================
+           TANDA DALAM SENARAI
+        ============================================= */
+
+        const status =
+            document.getElementById(
+                "status-" + currentObject
+            );
+
+
+        if(status){
+
+            status.classList.add("found");
+
+
+            const item =
+                objectList.find(
+                    obj => obj.id === currentObject
+                );
+
+
+            if(item){
+
+                const index =
+                    objectList.indexOf(item);
+
+
+                status.innerHTML =
+                    "✅ " +
+                    (index + 1) +
+                    ". " +
+                    item.name;
+
+            }
+
+        }
+
+    }
+
+
+    /* =================================================
+       ❌ JAWAPAN SALAH
+    ================================================= */
+
+    else{
+
+        wrong++;
+
+
+        /* Kemaskini Salah */
+        document.getElementById("wrong")
+            .textContent = wrong;
+
+
+        /* Warna jawapan yang dipilih */
+        buttons[answer].style.background =
+            "#ff6b6b";
+
+
+        /* Tunjukkan jawapan sebenar */
+        buttons[currentQuestion.c].style.background =
+            "#4cff66";
+
+
+        document.getElementById("message")
+            .innerHTML =
+            "❌ SALAH! Jangan putus asa, cuba lagi.";
+    }
+
+
+    /* =================================================
+       TUTUP SOALAN
+    ================================================= */
+
+    setTimeout(function(){
+
+        document.getElementById("questionBox")
+            .style.display = "none";
+
+
+        document.getElementById("message")
+            .innerHTML = "";
+
+
+        /* Reset soalan semasa */
+        currentObject = null;
+        currentQuestion = null;
+
+
+        /* =============================================
+           SEMAK TAMAT GAME
+        ============================================= */
+
+        if(foundCount >= TOTAL_OBJECTS){
+
+            finishGame();
+
+        }
+
+        else if(attempts >= MAX_ATTEMPTS){
+
+            finishGame();
+
+        }
+
+    },1500);
+
+}
+
+/* =====================================================
+   🏆 TAMAT MISI 7 + 🔑 DAPAT 1 KUNCI
+===================================================== */
+
+function finishGame(){
+
+    /*
+       MISI 7 BERJAYA
+       Semua 15 objek mesti ditemui
+    */
+
+    if(foundCount >= TOTAL_OBJECTS){
+
+         /* =============================================
+       ⏱️ HENTIKAN TIMER MISI
+    ============================================= */
+    if(typeof stopTimer === "function"){
+        stopTimer();
+    }
+
+        /* =============================================
+           🔑 BERIKAN 1 KUNCI SAHAJA UNTUK MISI 7
+        ============================================= */
+
+        let keys = parseInt(
+            localStorage.getItem("keys") || "0"
+        );
+
+        /*
+           Jika Misi 7 belum pernah beri kunci,
+           tambah 1 sahaja.
+        */
+
+        if(localStorage.getItem("keyMisi7Diberi") !== "true"){
+
+            if(keys < 8){
+
+                keys++;
+
+                localStorage.setItem(
+                    "keys",
+                    keys
+                );
+
+            }
+
+            /*
+               Tandakan kunci Misi 7 sudah diberi
+            */
+
+            localStorage.setItem(
+                "keyMisi7Diberi",
+                "true"
+            );
+
+            console.log(
+                "🔑 Kunci Misi 7 diberikan: +1"
+            );
+
+        }
+        else{
+
+            console.log(
+                "🔑 Kunci Misi 7 sudah pernah diberikan."
+            );
+
+        }
+
+
+        /* =============================================
+           SIMPAN MISI 7 SELESAI
+        ============================================= */
+
+        localStorage.setItem(
+            "misi7Selesai",
+            "true"
+        );
+
+
+        /* =============================================
+           AKTIFKAN MISI 8
+        ============================================= */
+
+        localStorage.setItem(
+            "misiWangAktif",
+            "true"
+        );
+
+
+        /* =============================================
+           PAPAR BERJAYA
+        ============================================= */
+
+        showSuccess();
+
+    }
+
+    else{
+
+        /* Gagal → TIADA KUNCI */
+
+        showFail();
+
+    }
+
+}
+
+
+/* =====================================================
+   ❌ GAGAL
+===================================================== */
+
+function showFail(){
+
+
+    let box =
+        document.createElement(
+            "div"
+        );
+
+
+    box.id =
+        "successBox";
+
+
+    box.innerHTML = `
+
+
+        <div class="trophy">
+            🔎
+        </div>
+
+
+        <h1
+            style="color:#e63946">
+
+            MISI GAGAL!
+
+        </h1>
+
+
+        <p>
+
+            Anda gagal, Cuba lagi
+
+        </p>
+
+
+        <div class="finalScore">
+
+            ⭐ Skor anda :
+            ${correct}/15
+
+        </div>
+
+
+        <button
+            onclick="location.reload()">
+
+            🔄 ULANG SEMULA
+
+        </button>
+
+    `;
+
+
+    document.body.appendChild(
+        box
+    );
+
+}
+
+
+
+/* =====================================================
+   🔎 KLIK 15 OBJEK
+===================================================== */
+
+objectList.forEach(function(item){
+
+    const object = document.getElementById(item.id);
+
+    if(object){
+
+        object.addEventListener(
+            "click",
+            function(){
+
+                openQuestion(item.id);
+
+            }
+        );
+
+    }
+
+});
+
+/* =====================================================
+   🎉 PAPAR MISI BERJAYA
+===================================================== */
+
+function showSuccess(){
+
+    /* Jangan cipta kotak berjaya lebih daripada sekali */
+    if(document.getElementById("successBox")){
+        return;
+    }
+
+    let box = document.createElement("div");
+
+    box.id = "successBox";
+
+    box.innerHTML = `
+
+        <div class="trophy">
+            🏆🔎
+        </div>
+
+        <h1>
+            TAHNIAH!!!
+        </h1>
+
+        <p>
+            Anda berjaya mendapat
+            <strong>${correct}/15</strong>.
+
+            <br>
+
+            <strong>
+                MISI BERJAYA!
+            </strong>
+        </p>
+
+        <div class="finalScore">
+            🔎 15 OBJEK TELAH DITEMUI!
+        </div>
+
+        <button onclick="goExit()">
+            🚪 MISI SETERUSNYA
+        </button>
+
+    `;
+
+    document.body.appendChild(box);
+}
+
+
+/* =====================================================
+   🚪 MISI SETERUSNYA
+===================================================== */
+
+function goExit(){
+
+
+    let box =
+        document.getElementById(
+            "successBox"
+        );
+
+
+    box.style.transform =
+        "translate(-50%,-50%) scale(0.8)";
+
+
+    box.style.opacity =
+        "0";
+
+
+    setTimeout(
+        function(){
+
+
+            window.location.href =
+                "../tahap1.html";
+
+
+        },
+        500
+    );
+
+}
+/* =====================================================
+   🚀 MULA MISI 7
+===================================================== */
+
+function startMission(){
+
+    console.log("🟢 MULA MISI 7 DITEKAN");
+
+    /* =============================================
+       ⏱️ MULAKAN TIMER
+    ============================================= */
+
+    if(typeof window.startTimer === "function"){
+
+        window.startTimer();
+
+        console.log("⏱️ TIMER MULA!");
+
+    }
+    else{
+
+        console.error(
+            "❌ startTimer tidak dijumpai!"
+        );
+
+    }
+
+
+    /* =============================================
+       TUTUP ARAHAN MISI
+    ============================================= */
+
+    const instruction =
+        document.getElementById(
+            "missionInstruction"
+        );
+
+    instruction.style.opacity = "0";
+
+    instruction.style.transform =
+        "translate(-50%,-50%) scale(.8)";
+
+
+    setTimeout(function(){
+
+        instruction.style.display =
+            "none";
+
+    },400);
+
+}
+
+</script>
+
+<script type="module" src="../timer.js"></script>
+</body>
+
+</html>

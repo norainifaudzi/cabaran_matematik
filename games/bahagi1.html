@@ -1,0 +1,2552 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<title>Fishing Math Adventure</title>
+<script type="module" src="../timer.js"></script>
+<style>
+
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:"Comic Sans MS",sans-serif;
+    background:#87CEEB;
+}
+
+canvas{
+    display:block;
+    width:100%;
+    height:100%;
+}
+
+/* =========================
+   TAJUK
+========================= */
+
+#title{
+    position:absolute;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+
+    z-index:1000;
+
+    font-family:"Comic Sans MS",cursive;
+    font-size:48px;
+    font-weight:900;
+
+    color:#fff;
+
+    text-shadow:
+        0 5px 0 #1565c0,
+        0 7px 8px rgba(0,0,0,0.45);
+
+    background:linear-gradient(
+        180deg,
+        #42a5f5 0%,
+        #1976d2 55%,
+        #0d47a1 100%
+    );
+
+    padding:8px 35px 12px;
+
+    border:5px solid white;
+    border-radius:30px;
+
+    box-shadow:
+        0 6px 0 #0d47a1,
+        0 10px 20px rgba(0,0,0,0.35);
+
+    letter-spacing:2px;
+    white-space:nowrap;
+}
+
+
+/* =========================
+   SCORE BOX
+========================= */
+
+#info{
+
+    position:absolute;
+
+    top:20px;
+    left:20px;
+
+    z-index:1000;
+
+    min-width:210px;
+
+    padding:12px 22px;
+
+    text-align:center;
+
+    font-family:"Comic Sans MS",cursive;
+
+    font-size:25px;
+
+    font-weight:900;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            180deg,
+            #42a5f5 0%,
+            #1976d2 55%,
+            #0d47a1 100%
+        );
+
+    border:4px solid white;
+
+    border-radius:25px;
+
+    box-shadow:
+        0 5px 0 #0d47a1,
+        0 8px 15px rgba(0,0,0,0.35);
+
+    text-shadow:
+        2px 3px 0 #0d47a1;
+
+    box-sizing:border-box;
+
+    animation:scoreFloat 2s ease-in-out infinite;
+}
+
+
+@keyframes scoreFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-3px);
+    }
+
+}
+
+
+/* =========================
+   SOALAN
+========================= */
+
+#question{
+    position:absolute;
+
+    top:120px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    z-index:1000;
+
+    min-width:360px;
+
+    padding:14px 35px 18px;
+
+    text-align:center;
+
+    font-family:"Comic Sans MS",cursive;
+
+    font-size:34px;
+    font-weight:900;
+
+    color:#ffffff;
+
+    background:linear-gradient(
+        180deg,
+        #42a5f5 0%,
+        #2196f3 55%,
+        #1565c0 100%
+    );
+
+    border:5px solid #ffffff;
+
+    border-radius:28px;
+
+    box-shadow:
+        0 6px 0 #0d47a1,
+        0 10px 18px rgba(0,0,0,0.35);
+
+    text-shadow:
+        2px 3px 0 #0d47a1;
+
+    box-sizing:border-box;
+
+    animation:questionFloat 2s ease-in-out infinite;
+}
+
+
+@keyframes questionFloat{
+
+    0%,100%{
+        transform:translateX(-50%) translateY(0);
+    }
+
+    50%{
+        transform:translateX(-50%) translateY(-3px);
+    }
+
+}
+
+/* =========================
+   📜 ARAHAN MISI BAHAGI
+========================= */
+
+#missionInstruction{
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:460px;
+
+    padding:30px 35px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #e3f2fd
+        );
+
+    border:5px solid #1976d2;
+
+    border-radius:30px;
+
+    box-shadow:
+        0 8px 0 #0d47a1,
+        0 15px 30px rgba(0,0,0,0.35);
+
+    text-align:center;
+
+    z-index:10000;
+
+    font-family:"Comic Sans MS",cursive;
+
+    box-sizing:border-box;
+}
+
+
+#missionInstruction h2{
+
+    margin:0 0 20px 0;
+
+    color:#1565c0;
+
+    font-size:32px;
+
+    font-weight:900;
+
+    text-shadow:
+        2px 2px 0 #bbdefb;
+}
+
+
+#missionInstruction p{
+
+    margin:12px 0;
+
+    font-size:20px;
+
+    line-height:1.4;
+
+    color:#333;
+
+}
+
+
+#missionInstruction p b{
+
+    color:#1565c0;
+
+}
+
+
+#missionInstruction button{
+
+    position:static;
+
+    transform:none;
+
+    margin-top:15px;
+
+    padding:13px 30px;
+
+    font-family:"Comic Sans MS",cursive;
+
+    font-size:22px;
+
+    font-weight:900;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            180deg,
+            #42a5f5,
+            #1565c0
+        );
+
+    border:3px solid white;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 5px 0 #0d47a1,
+        0 7px 12px rgba(0,0,0,0.25);
+
+    cursor:pointer;
+}
+
+
+#missionInstruction button:hover{
+
+    transform:translateY(-3px);
+
+}
+
+/* =========================
+   MESEJ JAWAPAN
+========================= */
+
+#message{
+
+    position:absolute;
+
+    bottom:25px;
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        translateY(20px);
+
+    z-index:500;
+
+    width:auto;
+    min-width:0;
+    max-width:380px;
+
+    padding:10px 22px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    font-family:"Comic Sans MS",cursive;
+
+    font-size:24px;
+    font-weight:900;
+
+    color:white;
+
+    border:4px solid white;
+
+    box-shadow:
+        0 5px 0 rgba(0,0,0,0.25),
+        0 8px 18px rgba(0,0,0,0.30);
+
+    opacity:0;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+
+    pointer-events:none;
+
+    white-space:nowrap;
+}
+
+
+#message.correct{
+
+    background:
+        linear-gradient(
+            180deg,
+            #66bb6a,
+            #2e7d32
+        );
+
+    opacity:1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+
+    text-shadow:
+        2px 3px 0 #1b5e20;
+}
+
+
+/* =========================
+   SALAH
+========================= */
+
+#message.wrong{
+
+    background:
+        linear-gradient(
+            180deg,
+            #ef5350,
+            #c62828
+        );
+
+    opacity:1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+
+    text-shadow:
+        2px 3px 0 #8e0000;
+}
+
+/* =========================
+   🎉 BOX MISI BERJAYA
+========================= */
+
+#winBox{
+
+    display:none;
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:420px;
+
+    padding:35px 30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #f1fff3
+        );
+
+    border:5px solid #66bb6a;
+
+    border-radius:25px;
+
+    box-shadow:
+        0 8px 0 #2e7d32,
+        0 12px 30px rgba(0,0,0,0.35);
+
+    text-align:center;
+
+    z-index:9999;
+
+    font-family:"Comic Sans MS",cursive;
+
+    box-sizing:border-box;
+}
+
+
+#winBox h2{
+
+    margin:0 0 20px 0;
+
+    color:#2e7d32;
+
+    font-size:32px;
+
+    font-weight:900;
+
+    text-shadow:
+        2px 2px 0 #c8e6c9;
+}
+
+
+#winText{
+
+    margin:0 0 25px 0;
+
+    font-size:22px;
+
+    line-height:1.5;
+
+    color:#333;
+}
+
+
+#winText b{
+
+    color:#2e7d32;
+}
+
+/* =========================
+   😢 BOX MISI GAGAL
+========================= */
+
+#retryBox{
+
+    display:none;
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:420px;
+
+    padding:35px 30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #fff5f5
+        );
+
+    border:5px solid #ef5350;
+
+    border-radius:25px;
+
+    box-shadow:
+        0 8px 0 #c62828,
+        0 12px 30px rgba(0,0,0,0.35);
+
+    text-align:center;
+
+    z-index:99999;
+
+    font-family:"Comic Sans MS",cursive;
+
+    box-sizing:border-box;
+
+}
+
+
+/* TAJUK */
+
+#retryBox h2{
+
+    margin:0 0 20px 0;
+
+    color:#c62828;
+
+    font-size:32px;
+
+    font-weight:900;
+
+    text-shadow:
+        2px 2px 0 #ffcdd2;
+
+}
+
+
+/* TEKS */
+
+#retryText{
+
+    margin:0 0 25px 0;
+
+    font-size:22px;
+
+    line-height:1.5;
+
+    color:#333;
+
+}
+
+
+#retryText b{
+
+    color:#c62828;
+
+}
+
+
+/* BUTTON CUBA LAGI */
+
+#retryBox button{
+
+    position:static;
+
+    transform:none;
+
+    padding:13px 28px;
+
+    font-family:"Comic Sans MS",cursive;
+
+    font-size:21px;
+
+    font-weight:900;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ef5350,
+            #c62828
+        );
+
+    border:3px solid white;
+
+    border-radius:18px;
+
+    box-shadow:
+        0 5px 0 #8e0000,
+        0 7px 12px rgba(0,0,0,0.25);
+
+    cursor:pointer;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+
+}
+
+
+#retryBox button:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+#retryBox button:active{
+
+    transform:translateY(2px);
+
+    box-shadow:
+        0 2px 0 #8e0000;
+
+}
+
+.nextMissionBtn{
+
+    position:static;
+
+    transform:none;
+
+    padding:13px 28px;
+
+    font-family:"Comic Sans MS",cursive;
+
+    font-size:21px;
+
+    font-weight:900;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            180deg,
+            #66bb6a,
+            #2e7d32
+        );
+
+    border:3px solid white;
+
+    border-radius:18px;
+
+    box-shadow:
+        0 5px 0 #1b5e20,
+        0 7px 12px rgba(0,0,0,0.25);
+
+    cursor:pointer;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.nextMissionBtn:hover{
+
+    transform:
+        translateY(-3px);
+
+}
+
+
+.nextMissionBtn:active{
+
+    transform:
+        translateY(2px);
+
+    box-shadow:
+        0 2px 0 #1b5e20;
+}
+
+
+/* =========================
+   ANIMASI
+========================= */
+
+@keyframes messagePop{
+
+    0%{
+        transform:
+            translateX(-50%)
+            scale(0.7);
+    }
+
+    70%{
+        transform:
+            translateX(-50%)
+            scale(1.08);
+    }
+
+    100%{
+        transform:
+            translateX(-50%)
+            scale(1);
+    }
+
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+button{
+
+    position:absolute;
+
+    top:150px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:15px 30px;
+
+    font-size:25px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:#ff9800;
+
+    color:white;
+
+    cursor:pointer;
+
+    z-index:100;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- =========================
+     📜 ARAHAN MISI BAHAGI
+========================= -->
+
+<div id="missionInstruction">
+
+    <h2>🏝️ MISI 5: PULAU BAHAGI 🏝️</h2>
+
+    <p>
+        🎣 Selamat datang ke <b>Pulau Bahagi!</b>
+    </p>
+
+    <p>
+        Tangkap ikan yang mempunyai
+        <b>jawapan yang betul</b>
+        bagi setiap soalan bahagi.
+    </p>
+
+    <p>
+        🎯 Kumpulkan <b>15 jawapan betul</b>
+        untuk melengkapkan MISI.
+    </p>
+
+    <p>
+        🌟 Berhati-hati dan pilih ikan
+        dengan jawapan yang tepat!
+    </p>
+
+    <button onclick="startMission()">
+        🚀 MULA MISI
+    </button>
+
+</div>
+
+<!-- =========================
+     AUDIO SEAGULL
+========================= -->
+
+<audio id="birdSound" loop>
+    <source src="../sounds/seagull.mp3" type="audio/mpeg">
+</audio>
+
+
+<!-- =========================
+     TAJUK
+========================= -->
+
+<div id="title">
+    🎣 <span>PANCING</span> & <span>MENANG!</span> 🐟
+</div>
+
+
+<!-- =========================
+     SCORE
+========================= -->
+
+<div id="info">
+    ⭐ Betul: 0/15
+</div>
+
+<div id="question"></div>
+
+<div id="message"></div>
+
+
+<!-- =========================
+     CANVAS
+========================= -->
+
+<canvas id="game"></canvas>
+
+<!-- =========================
+     WIN BOX
+========================= -->
+
+<div id="winBox">
+
+    <h2>
+        🎉 TAHNIAH! 🎉
+    </h2>
+
+    <p id="winText">
+
+        🏆 <b>Anda berjaya mendapat 15/15!</b>
+        <br><br>
+
+        🌟 <b>MISI BERJAYA!</b> 🌟
+        <br><br>
+
+        🚀 <b>Bersedia untuk misi seterusnya!</b> 🎯
+
+    </p>
+
+    <button
+        onclick="nextMission()"
+        class="nextMissionBtn">
+
+        🚀 MISI SETERUSNYA
+
+    </button>
+
+</div>
+
+
+<!-- =========================
+     RETRY BOX
+========================= -->
+
+<div id="retryBox">
+
+    <h2>
+        😢 Cuba Lagi!
+    </h2>
+
+    <p id="retryText">
+
+        Anda belum mencapai
+        15 jawapan betul.
+
+    </p>
+
+    <button
+        onclick="retryMission()">
+
+        🔄 CUBA LAGI
+
+    </button>
+
+</div>
+
+<script>
+
+
+// =====================================================
+// CANVAS
+// =====================================================
+
+const canvas = document.getElementById("game");
+
+const ctx = canvas.getContext("2d");
+
+
+canvas.width = window.innerWidth;
+
+canvas.height = window.innerHeight;
+
+
+
+// =====================================================
+// VARIABLE PERMAINAN
+// =====================================================
+
+let score = 0;
+let count = 0;
+let questionCount = 0;
+
+const TARGET_CORRECT = 15;
+const MAX_QUESTIONS = 20;
+
+let fishes = [];
+
+let splashes = [];
+
+let playing = true;
+
+let fishing = false;
+
+let targetFish = null;
+let answer = 0;
+
+
+
+// =====================================================
+// 🔊 AUDIO SEAGULL
+// =====================================================
+
+const birdSound =
+    document.getElementById("birdSound");
+
+birdSound.volume = 0.30;
+
+let soundStarted = false;
+
+
+
+function startBackgroundSound(){
+
+    if(soundStarted) return;
+
+    birdSound.play()
+
+        .then(function(){
+
+            soundStarted = true;
+
+            console.log("🔊 Seagull dimainkan");
+
+        })
+
+        .catch(function(error){
+
+            console.log(
+                "Audio belum boleh dimainkan:",
+                error
+            );
+
+        });
+
+}
+
+
+
+// =====================================================
+// MULA AUDIO SELEPAS KLIK PERTAMA
+// =====================================================
+
+document.addEventListener(
+    "click",
+    function(){
+
+        startBackgroundSound();
+
+    },
+    {once:false}
+);
+
+
+
+// =====================================================
+// SAMPAN
+// =====================================================
+
+let boat = {
+
+    x: canvas.width / 2,
+
+    // 🛶 SAMPAN DI BAHAGIAN ATAS
+    y: canvas.height * 0.38,
+
+    float: 0
+
+};
+
+
+// =====================================================
+// BUDAK LELAKI MEMANCING
+// =====================================================
+
+const fishingBoyImg = new Image();
+
+
+fishingBoyImg.src =
+    "../images/budaklelakimancing.png";
+
+
+fishingBoyImg.onload = function(){
+
+    console.log("BUDAK OK");
+
+};
+
+
+fishingBoyImg.onerror = function(){
+
+    console.log("BUDAK GAGAL");
+
+};
+
+
+
+function drawFishingBoy(){
+
+    let y =
+        boat.y +
+        boat.float;
+
+    if(
+        fishingBoyImg.complete &&
+        fishingBoyImg.naturalWidth > 0
+    ){
+
+        ctx.drawImage(
+            fishingBoyImg,
+            boat.x - 180,
+            y - 70,
+            450,
+            260
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// IKAN
+// =====================================================
+
+const fishImages = [];
+
+
+
+for(let i = 1; i <= 8; i++){
+
+    const img = new Image();
+
+    img.src =
+        "../images/fish" + i + ".png";
+
+    fishImages.push(img);
+
+}
+
+
+
+// =====================================================
+// SAMPAN BERGOYANG
+// =====================================================
+
+function moveBoat(){
+
+    boat.float =
+        Math.sin(
+            Date.now() * 0.003
+        ) * 8;
+
+}
+
+
+
+// =====================================================
+// SOALAN
+// =====================================================
+
+function newQuestion(){
+
+    // Pembahagi
+    let b =
+        Math.floor(
+            Math.random() * 9
+        ) + 2;
+
+
+    // Jawapan
+    let answerValue =
+        Math.floor(
+            Math.random() * 10
+        ) + 1;
+
+
+    // Nombor boleh dibahagi tepat
+    let a =
+        b * answerValue;
+
+
+    answer =
+        answerValue;
+
+
+    document.getElementById(
+        "question"
+    ).innerHTML =
+        "🎯 " +
+        a +
+        " ÷ " +
+        b +
+        " = ?";
+
+
+    createFish();
+
+}
+
+
+
+// =====================================================
+// KESAN AIR
+// =====================================================
+
+function createSplash(x,y){
+
+    for(let i = 0; i < 20; i++){
+
+        splashes.push({
+
+            x:x,
+
+            y:y,
+
+            dx:
+                (Math.random()-0.5) * 8,
+
+            dy:
+                -Math.random() * 6,
+
+            size:
+                3 + Math.random() * 4,
+
+            life:40
+
+        });
+
+    }
+
+}
+
+
+
+function drawSplash(){
+
+    for(
+        let i = splashes.length - 1;
+        i >= 0;
+        i--
+    ){
+
+        let p =
+            splashes[i];
+
+
+        p.x += p.dx;
+
+        p.y += p.dy;
+
+        p.dy += 0.2;
+
+        p.life--;
+
+
+        ctx.beginPath();
+
+
+        ctx.arc(
+
+            p.x,
+
+            p.y,
+
+            p.size,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+
+        ctx.fillStyle =
+            "rgba(255,255,255," +
+            (p.life / 40) +
+            ")";
+
+
+        ctx.fill();
+
+
+        if(p.life <= 0){
+
+            splashes.splice(i,1);
+
+        }
+
+    }
+
+}
+
+
+
+// =====================================================
+// CIPTA IKAN
+// =====================================================
+
+function createFish(){
+
+    fishes = [];
+
+
+    let arr = [answer];
+
+
+    while(arr.length < 5){
+
+        let n =
+            Math.floor(
+                Math.random() * 10
+            ) + 1;
+
+
+        if(!arr.includes(n)){
+
+            arr.push(n);
+
+        }
+
+    }
+
+
+    arr.sort(
+        () =>
+            Math.random() - 0.5
+    );
+
+
+    for(let i = 0; i < 5; i++){
+
+        fishes.push({
+
+            x:
+                120 +
+                i *
+                (
+                    (canvas.width - 240) / 4
+                ),
+
+
+            y:
+                canvas.height * 0.70 +
+                Math.random() * 120,
+
+
+            speed:
+                0.5 +
+                Math.random() * 1.2,
+
+
+            dir:
+                Math.random() < 0.5
+                ? 1
+                : -1,
+
+
+            phase:
+                Math.random() *
+                Math.PI * 2,
+
+
+            wave:
+                0.15 +
+                Math.random() * 0.35,
+
+
+            num:
+                arr[i],
+
+
+            image:
+                fishImages[
+                    Math.floor(
+                        Math.random() *
+                        fishImages.length
+                    )
+                ]
+
+        });
+
+    }
+
+}
+
+
+
+// =====================================================
+// UPDATE SCORE
+// =====================================================
+
+function updateInfo(){
+
+    document.getElementById("info").innerHTML =
+        "⭐ Betul: " +
+        count +
+        "/" +
+        TARGET_CORRECT;
+
+}
+
+
+
+// =====================================================
+// KLIK IKAN
+// =====================================================
+
+canvas.addEventListener(
+    "click",
+    function(e){
+
+        if(
+            !playing ||
+            fishing
+        ) return;
+
+
+        // Pastikan audio cuba dimainkan
+        startBackgroundSound();
+
+
+        let x =
+            e.clientX;
+
+        let y =
+            e.clientY;
+
+
+        for(let fish of fishes){
+
+            if(
+
+                x > fish.x - 50 &&
+
+                x < fish.x + 50 &&
+
+                y > fish.y - 40 &&
+
+                y < fish.y + 40
+
+            ){
+
+                createSplash(
+                    fish.x,
+                    fish.y
+                );
+
+
+                targetFish =
+                    fish;
+
+
+                fishing = true;
+
+
+                break;
+
+            }
+
+        }
+
+    }
+);
+
+// =====================================================
+// 🎉 MESSAGE JAWAPAN
+// =====================================================
+
+function showAnswerMessage(type, text){
+
+    const message =
+        document.getElementById("message");
+
+    message.className = type;
+
+    message.innerHTML = text;
+
+    message.style.animation = "none";
+
+    void message.offsetWidth;
+
+    message.style.animation =
+        "messagePop 0.4s ease";
+
+    setTimeout(function(){
+
+        message.className = "";
+
+        message.innerHTML = "";
+
+    },1500);
+}
+
+// =====================================================
+// TARIK IKAN KE SAMPAN
+// =====================================================
+function fishingMove(){
+
+    if(!fishing || !targetFish) return;
+
+
+    // =====================================================
+    // TARIK IKAN KE SAMPAN
+    // =====================================================
+
+    targetFish.x +=
+        (boat.x - targetFish.x) * 0.08;
+
+    targetFish.y +=
+        ((boat.y + 20) - targetFish.y) * 0.08;
+
+
+    // =====================================================
+    // IKAN SAMPAI KE SAMPAN
+    // =====================================================
+
+    if(
+
+        Math.abs(
+            targetFish.x - boat.x
+        ) < 15 &&
+
+        Math.abs(
+            targetFish.y -
+            (boat.y + 20)
+        ) < 15
+
+    ){
+
+        // =================================================
+        // TAMBAH JUMLAH SOALAN
+        // =================================================
+
+        questionCount++;
+
+
+        // =================================================
+        // JAWAPAN BETUL
+        // =================================================
+
+      if(targetFish.num == answer){
+
+    count++;
+
+    score += 10;
+
+    showAnswerMessage(
+        "correct",
+        "✅ Betul, Anda Hebat! 🎉"
+    );
+
+
+            // =============================================
+            // CUKUP 15 BETUL
+            // =============================================
+
+            if(count >= TARGET_CORRECT){
+
+                playing = false;
+
+                birdSound.pause();
+
+                document.getElementById("question").innerHTML =
+                    "🏆 MISI BERJAYA!";
+
+                // Sembunyikan message bawah
+                const message = document.getElementById("message");
+
+                message.className = "";
+                message.innerHTML = "";
+                message.style.display = "none";
+
+                document.getElementById("winBox").style.display =
+                 "block";
+
+                // =========================================
+// ⏹️ HENTIKAN TIMER APABILA MISI BERJAYA
+// =========================================
+
+if (window.mathAdventureTimer) {
+
+    window.mathAdventureTimer.stopTimer();
+
+}
+
+                updateInfo();
+
+                return;
+            }
+
+        }
+
+
+        // =================================================
+        // JAWAPAN SALAH
+        // =================================================
+       else{
+
+    showAnswerMessage(
+        "wrong",
+        "❌ Salah, Cuba Lagi! 💪"
+    );
+
+}
+
+
+        // =================================================
+        // BUANG IKAN YANG DIPANCING
+        // =================================================
+
+        fishes =
+            fishes.filter(
+                f => f !== targetFish
+            );
+
+
+        fishing = false;
+
+        targetFish = null;
+
+
+        updateInfo();
+
+
+        // =================================================
+        // MAKSIMUM 20 SOALAN
+        // =================================================
+
+        if(questionCount >= MAX_QUESTIONS){
+
+            // Jika sudah 20 soalan tetapi
+            // belum mendapat 15 betul
+
+            if(count < TARGET_CORRECT){
+
+                playing = false;
+
+                birdSound.pause();
+
+                document.getElementById("question").innerHTML =
+                    "😢 MISI BELUM BERJAYA";
+
+                document.getElementById("message").className = "";
+                document.getElementById("message").innerHTML = "";
+
+                showRetryBox();
+
+                return;
+            }
+
+        }
+
+
+        // =================================================
+        // SOALAN SETERUSNYA
+        // =================================================
+
+        setTimeout(
+            newQuestion,
+            700
+        );
+
+    }
+
+}
+
+// =====================================================
+// 🐟 LUKIS IKAN + NOMBOR + BUBBLE
+// =====================================================
+
+function drawFish(){
+
+    for(let f of fishes){
+
+        // =================================================
+        // GERAKAN IKAN
+        // =================================================
+
+        if(f !== targetFish){
+
+            // Gerakan kiri dan kanan
+            f.x += f.speed * f.dir;
+
+            // Gerakan naik turun seperti berenang
+            f.y += Math.sin(
+                Date.now() * 0.0025 + f.phase
+            ) * 0.8;
+
+            // Pusing hujung kanan
+            if(f.x > canvas.width - 80){
+                f.dir = -1;
+            }
+
+            // Pusing hujung kiri
+            if(f.x < 80){
+                f.dir = 1;
+            }
+        }
+
+
+        // =================================================
+        // SIMPAN TRANSFORM
+        // =================================================
+
+        ctx.save();
+
+        ctx.translate(
+            f.x,
+            f.y
+        );
+
+
+        // Pusing ikan mengikut arah
+        if(f.dir === -1){
+
+            ctx.scale(
+                -1,
+                1
+            );
+
+        }
+
+
+        // =================================================
+        // 🐟 GAMBAR IKAN
+        // =================================================
+
+        if(
+            f.image &&
+            f.image.complete &&
+            f.image.naturalWidth > 0
+        ){
+
+            ctx.drawImage(
+                f.image,
+                -85,
+                -55,
+                170,
+                110
+            );
+
+        }
+
+
+        // =================================================
+        // 🔵 BULATAN NOMBOR
+        // =================================================
+
+        ctx.beginPath();
+
+        ctx.arc(
+            0,
+            0,
+            19,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle = "white";
+
+        ctx.fill();
+
+        ctx.lineWidth = 3;
+
+        ctx.strokeStyle = "#1976d2";
+
+        ctx.stroke();
+
+
+        // =================================================
+        // 🔢 NOMBOR JAWAPAN
+        // =================================================
+
+        ctx.fillStyle = "#1976d2";
+
+        ctx.font = "bold 26px Arial";
+
+        ctx.textAlign = "center";
+
+        ctx.textBaseline = "middle";
+
+        ctx.fillText(
+            f.num,
+            0,
+            1
+        );
+
+
+        // =================================================
+        // RESET TRANSFORM
+        // =================================================
+
+        ctx.restore();
+
+// =================================================
+// 🔢 NOMBOR JAWAPAN
+// =================================================
+
+ctx.beginPath();
+
+ctx.arc(
+    f.x,
+    f.y,
+    19,
+    0,
+    Math.PI * 2
+);
+
+ctx.fillStyle = "white";
+ctx.fill();
+
+ctx.lineWidth = 3;
+ctx.strokeStyle = "#1976d2";
+ctx.stroke();
+
+
+// Nombor sentiasa menghadap normal
+ctx.fillStyle = "#1976d2";
+
+ctx.font = "bold 26px Arial";
+
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+ctx.fillText(
+    f.num,
+    f.x,
+    f.y + 1
+);
+
+        // =================================================
+        // 🫧 BUBBLE DARI IKAN
+        // =================================================
+
+        if(
+            Math.random() < 0.025 &&
+            bubbles.length < 70
+        ){
+
+            let size;
+
+            let type = Math.random();
+
+
+            // Bubble kecil
+            if(type < 0.55){
+
+                size =
+                    2 +
+                    Math.random() * 2;
+
+            }
+
+            // Bubble sederhana
+            else if(type < 0.85){
+
+                size =
+                    4 +
+                    Math.random() * 3;
+
+            }
+
+            // Bubble besar
+            else{
+
+                size =
+                    7 +
+                    Math.random() * 5;
+
+            }
+
+
+            bubbles.push({
+
+                x:
+                    f.x +
+                    (Math.random() - 0.5) * 55,
+
+                y:
+                    f.y -
+                    25 -
+                    Math.random() * 20,
+
+                size:size,
+
+                speed:
+                    0.35 +
+                    Math.random() * 0.65,
+
+                wobble:
+                    Math.random() *
+                    Math.PI * 2,
+
+                alpha:
+                    0.3 +
+                    Math.random() * 0.4
+
+            });
+
+        }
+
+    }
+
+}
+
+// =====================================================
+// BACKGROUND
+// =====================================================
+
+const backgroundImg =
+    new Image();
+
+
+backgroundImg.src =
+    "../images/mancing.png";
+
+
+backgroundImg.onload =
+    function(){
+
+        console.log(
+            "BACKGROUND OK"
+        );
+
+    };
+
+
+backgroundImg.onerror =
+    function(){
+
+        console.log(
+            "BACKGROUND GAGAL"
+        );
+
+    };
+
+
+
+function background(){
+
+    if(
+        backgroundImg.complete &&
+        backgroundImg.naturalWidth > 0
+    ){
+
+        ctx.drawImage(
+
+            backgroundImg,
+
+            0,
+
+            0,
+
+            canvas.width,
+
+            canvas.height
+
+        );
+
+    }
+
+    else{
+
+        ctx.fillStyle =
+            "#87CEEB";
+
+
+        ctx.fillRect(
+
+            0,
+
+            0,
+
+            canvas.width,
+
+            canvas.height
+
+        );
+
+    }
+
+}
+
+
+
+function showRetryBox(){
+
+    const retryBox =
+        document.getElementById("retryBox");
+
+    const retryText =
+        document.getElementById("retryText");
+
+    retryText.innerHTML =
+
+        "Anda mendapat <b>" +
+        count +
+        "/" +
+        TARGET_CORRECT +
+        "</b> jawapan betul." +
+
+        "<br><br>" +
+
+        "😢 <b>Misi Belum Berjaya!</b>" +
+
+        "<br><br>" +
+
+        "Jangan putus asa. Jom cuba lagi! 💪";
+
+    retryBox.style.display = "block";
+
+}
+
+// =====================================================
+// 🔄 RETRY MISSION
+// =====================================================
+
+function retryMission(){
+
+// =========================================
+// 🔄 RESET TIMER & MULA SEMULA
+// =========================================
+
+if (window.mathAdventureTimer) {
+
+    window.mathAdventureTimer.resetTimer();
+
+    window.mathAdventureTimer.startTimer();
+
+}
+
+
+    score = 0;
+    count = 0;
+    questionCount = 0;
+    answer = 0;
+
+    fishes = [];
+    splashes = [];
+
+    fishing = false;
+    targetFish = null;
+
+    playing = true;
+
+
+    // ==========================================
+    // TUTUP RETRY BOX
+    // ==========================================
+
+    document.getElementById("retryBox").style.display =
+        "none";
+
+
+    // ==========================================
+    // KOSONGKAN MESSAGE
+    // ==========================================
+
+    const message =
+        document.getElementById("message");
+
+    message.className = "";
+    message.innerHTML = "";
+    message.style.display = "block";
+
+
+    // ==========================================
+    // KEMBALIKAN TAJUK SOALAN
+    // ==========================================
+
+    document.getElementById("question").innerHTML =
+        "";
+
+
+    // ==========================================
+    // UPDATE SKOR
+    // ==========================================
+
+    updateInfo();
+
+
+    // ==========================================
+    // SOALAN BARU
+    // ==========================================
+
+    newQuestion();
+
+}
+
+function nextMission(){
+
+    // Kunci Pulau Bahagi
+    localStorage.setItem(
+        "kunciBahagi",
+        "true"
+    );
+
+
+    // Aktifkan Misi Pecahan
+    localStorage.setItem(
+        "misiPecahanAktif",
+        "true"
+    );
+
+
+    // Tambah jumlah kunci
+    let keys =
+        parseInt(
+            localStorage.getItem(
+                "keys"
+            ) || "0"
+        );
+
+
+    if(
+        !localStorage.getItem(
+            "kunciBahagiDiberi"
+        )
+    ){
+
+        keys++;
+
+
+        localStorage.setItem(
+            "keys",
+            keys
+        );
+
+
+        localStorage.setItem(
+            "kunciBahagiDiberi",
+            "true"
+        );
+
+    }
+
+
+    window.location.href =
+        "../tahap1.html";
+
+}
+
+
+
+// =====================================================
+// KESAN AIR
+// =====================================================
+
+function drawWaterEffects(){
+
+    let waterY =
+        canvas.height * 0.60;
+
+
+    for(
+        let i = 0;
+        i < 25;
+        i++
+    ){
+
+        let x =
+            (
+                i * 137 +
+                Date.now() * 0.03
+            ) %
+            canvas.width;
+
+
+        let y =
+            waterY +
+            Math.sin(
+                Date.now() *
+                0.002 +
+                i
+            ) *
+            15;
+
+
+        ctx.beginPath();
+
+
+        ctx.ellipse(
+
+            x,
+
+            y,
+
+            18,
+
+            4,
+
+            0,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+
+        ctx.fillStyle =
+            "rgba(255,255,255,0.18)";
+
+
+        ctx.fill();
+
+    }
+
+}
+
+// =====================================================
+// ✨ CAHAYA BERKILAU DI PERMUKAAN AIR
+// =====================================================
+
+function drawWaterShimmer(){
+
+    ctx.save();
+
+    let waterY = canvas.height * 0.58;
+
+    for(let i = 0; i < 30; i++){
+
+        let x =
+            (
+                i * 97 +
+                Date.now() * 0.04
+            ) % canvas.width;
+
+        let y =
+            waterY +
+            Math.sin(
+                Date.now() * 0.002 + i
+            ) * 8;
+
+        let size =
+            8 +
+            Math.sin(
+                Date.now() * 0.003 + i
+            ) * 4;
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            x,
+            y,
+            size,
+            2,
+            0,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            "rgba(255,255,255,0.35)";
+
+        ctx.fill();
+
+    }
+
+    ctx.restore();
+}
+
+
+// =====================================================
+// 🫧 BUBBLE AIR
+// =====================================================
+
+let bubbles = [];
+
+for(let i = 0; i < 55; i++){
+
+    let size;
+
+let type = Math.random();
+
+if(type < 0.50){
+
+    // 🫧 Bubble sangat kecil
+    size = 2 + Math.random() * 2;
+
+}
+else if(type < 0.80){
+
+    // 🫧 Bubble kecil
+    size = 4 + Math.random() * 3;
+
+}
+else if(type < 0.95){
+
+    // 🫧 Bubble sederhana
+    size = 7 + Math.random() * 4;
+
+}
+else{
+
+    // 🫧 Bubble besar
+    size = 11 + Math.random() * 6;
+
+}
+
+    bubbles.push({
+
+        x:
+            Math.random() *
+            canvas.width,
+
+        y:
+            canvas.height * 0.52 +
+            Math.random() *
+            canvas.height * 0.38,
+
+        size:size,
+
+        speed:
+            0.25 +
+            Math.random() * 0.65,
+
+        wobble:
+            Math.random() *
+            Math.PI * 2,
+
+        alpha:
+            0.25 +
+            Math.random() * 0.35
+
+    });
+
+}
+
+
+function drawBubbles(){
+
+    for(let b of bubbles){
+
+        // Gerakan naik
+        b.y -= b.speed;
+
+        // Gerakan sedikit ke kiri dan kanan
+        b.x +=
+            Math.sin(
+                Date.now() * 0.0015 +
+                b.wobble
+            ) * 0.25;
+
+
+        // Muncul semula dari bawah
+        if(
+            b.y <
+            canvas.height * 0.52
+        ){
+
+            b.y =
+                canvas.height * 0.86;
+
+            b.x =
+                Math.random() *
+                canvas.width;
+
+        }
+
+
+        // =================================================
+        // 🫧 BUBBLE
+        // =================================================
+
+        ctx.save();
+
+        ctx.globalAlpha =
+            b.alpha;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            b.x,
+            b.y,
+            b.size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,0.9)";
+
+        ctx.lineWidth =
+            b.size > 6 ? 2 : 1.5;
+
+        ctx.stroke();
+
+
+    // ✨ Kilauan bubble
+if(b.size > 6){
+
+    ctx.beginPath();
+
+    ctx.arc(
+        b.x - b.size * 0.32,
+        b.y - b.size * 0.32,
+        Math.max(1.2, b.size * 0.20),
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fillStyle =
+        "rgba(255,255,255,0.85)";
+
+    ctx.fill();
+
+}
+        ctx.restore();
+
+    }
+
+}
+
+
+
+// =====================================================
+// GAME LOOP
+// =====================================================
+
+function loop(){
+
+    ctx.clearRect(
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+    );
+
+background();
+
+drawWaterEffects();
+
+drawWaterShimmer();
+
+drawUnderwaterLight();
+
+drawBubbles();
+
+moveBoat();
+
+
+
+    if(playing){
+
+        fishingMove();
+
+        drawFish();
+
+        drawSplash();
+
+    }
+
+
+
+    // Budak + sampan
+    drawFishingBoy();
+
+
+    requestAnimationFrame(
+        loop
+    );
+
+}
+
+
+// =====================================================
+// 🚀 MULA MISI BAHAGI
+// =====================================================
+
+function startMission(){
+
+    // Tutup arahan misi
+    document.getElementById(
+        "missionInstruction"
+    ).style.display = "none";
+
+
+    // Mula timer
+   if(window.mathAdventureTimer){
+
+    window.mathAdventureTimer.startTimer();
+
+}
+
+    // Mula soalan
+    playing = true;
+
+    newQuestion();
+
+}
+
+// =====================================================
+// MULA PERMAINAN
+// =====================================================
+
+playing = false;
+
+score = 0;
+
+count = 0;
+
+questionCount = 0;
+
+updateInfo();
+
+// =====================================================
+// ☀️ CAHAYA BAWAH LAUT
+// =====================================================
+
+function drawUnderwaterLight(){
+
+    ctx.save();
+
+    let waterTop =
+        canvas.height * 0.58;
+
+    let time =
+        Date.now() * 0.0008;
+
+
+    for(let i = 0; i < 7; i++){
+
+        let x =
+            (i * 180) +
+            Math.sin(time + i) * 40;
+
+
+        let width =
+            80 +
+            Math.sin(
+                time * 1.3 + i
+            ) * 30;
+
+
+        let gradient =
+            ctx.createLinearGradient(
+                x,
+                waterTop,
+                x + width,
+                canvas.height
+            );
+
+
+        gradient.addColorStop(
+            0,
+            "rgba(255,255,220,0.18)"
+        );
+
+
+        gradient.addColorStop(
+            0.35,
+            "rgba(180,240,255,0.08)"
+        );
+
+
+        gradient.addColorStop(
+            1,
+            "rgba(100,220,255,0)"
+        );
+
+
+        ctx.fillStyle =
+            gradient;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            waterTop
+        );
+
+        ctx.lineTo(
+            x + width,
+            waterTop
+        );
+
+        ctx.lineTo(
+            x + width + 70,
+            canvas.height
+        );
+
+        ctx.lineTo(
+            x - 70,
+            canvas.height
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+
+    }
+
+    ctx.restore();
+
+}
+
+loop();
+
+
+
+// =====================================================
+// RESIZE
+// =====================================================
+
+window.onresize =
+    function(){
+
+        canvas.width =
+            window.innerWidth;
+
+        canvas.height =
+            window.innerHeight;
+
+
+        boat.x =
+            canvas.width / 2;
+
+        boat.y =
+    canvas.height * 0.38;
+    }
+
+</script>
+</body>
+</html>

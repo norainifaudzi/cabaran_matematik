@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Seek & Spot Math</title>
+  <style>
+    body { 
+    margin: 0;
+    padding: 0;
+
+    font-family: "Comic Sans MS", cursive; 
+    text-align: center;
+
+    background: url('../images/backgrounddarab.png') 
+                no-repeat center center fixed;
+
+    background-size: cover;
+
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+ /* ==============================
+       TAJUK CARI JAWAPAN TERSEMBUNYI
+       ============================== */
+
+    .gameTitle {
+      display: inline-block;
+      margin: 12px auto 5px;
+      padding: 12px 30px;
+
+      font-family: "Comic Sans MS", cursive;
+      font-size: clamp(24px, 3.2vw, 36px);
+      font-weight: bold;
+
+      color: #ffffff;
+
+      background: linear-gradient(
+        180deg,
+        #ffb703 0%,
+        #fb8500 100%
+      );
+
+      border: 5px solid #ffffff;
+      border-radius: 25px;
+
+      text-shadow:
+        3px 3px 0 #7a3e00,
+        5px 5px 0 rgba(0,0,0,0.25);
+
+      box-shadow:
+        0 7px 0 #b85c00,
+        0 10px 20px rgba(0,0,0,0.3);
+
+      letter-spacing: 1px;
+
+      animation: titleBounce 2s ease-in-out infinite;
+    }
+
+
+    @keyframes titleBounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+
+    /* ==============================
+       SOALAN
+       ============================== */
+
+.question {
+  display: inline-block;
+
+  margin: 8px auto 10px;
+  padding: 8px 30px;
+
+  font-family: "Comic Sans MS", cursive;
+  font-size: clamp(26px, 3.2vw, 40px);
+  font-weight: bold;
+
+  color: #ffffff;
+
+  background: linear-gradient(
+    180deg,
+    #2196f3 0%,
+    #1565c0 100%
+  );
+
+  border: 4px solid #ffffff;
+  border-radius: 20px;
+
+  text-shadow:
+    3px 3px 0 #083b75;
+
+  box-shadow:
+    0 6px 0 #0d47a1,
+    0 8px 15px rgba(0,0,0,0.3);
+
+  letter-spacing: 1px;
+
+  min-width: 280px;
+
+  animation: questionPop 0.4s ease-out;
+}
+
+.scoreBoard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  margin: 5px auto 8px;
+  padding: 7px 15px;
+
+  width: fit-content;
+  max-width: 90vw;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  border: 3px solid #ff9800;
+  border-radius: 15px;
+
+  box-shadow:
+    0 4px 0 #c76b00,
+    0 6px 12px rgba(0,0,0,0.25);
+
+  font-family: "Comic Sans MS", cursive;
+  font-size: clamp(15px, 1.8vw, 21px);
+  font-weight: bold;
+
+  color: #333;
+}
+
+.scoreBoard span {
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.scoreBoard b {
+  color: #1565c0;
+}
+
+@keyframes questionPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+#gameArea {
+  position: relative;
+
+  width: 95vw;
+
+  height: calc(100vh - 220px);
+
+  margin: 0 auto;
+
+  background: transparent;
+  border: none;
+
+  overflow: visible;
+}
+    .spot {
+      position: absolute;
+      font-size: 22px;
+      font-weight: bold;
+      color: black;
+      cursor: pointer;
+      background: rgba(255,255,255,0.35);
+      padding: 5px 10px;
+      border-radius: 6px;
+      transition: opacity 0.5s ease;
+    }
+    /* =========================================
+   🌈 MESSAGE BOX CERIA
+========================================= */
+
+#messageBox{
+    display:none;
+
+    position:fixed;
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:460px;
+    max-width:85vw;
+
+    padding:32px 30px 35px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #fffdf2 100%
+        );
+
+    border:6px solid #ffbd35;
+
+    border-radius:32px;
+
+    text-align:center;
+
+    z-index:9999;
+
+    box-shadow:
+        0 10px 0 #d88916,
+        0 18px 35px rgba(0,0,0,0.30);
+
+    animation:messagePop 0.5s
+        cubic-bezier(.17,.67,.36,1.3);
+}
+
+
+/* =========================================
+   🎉 ANIMASI POP
+========================================= */
+
+@keyframes messagePop{
+
+    0%{
+        opacity:0;
+        transform:
+            translate(-50%,-50%)
+            scale(0.5)
+            rotate(-5deg);
+    }
+
+    70%{
+        opacity:1;
+        transform:
+            translate(-50%,-50%)
+            scale(1.08)
+            rotate(2deg);
+    }
+
+    100%{
+        opacity:1;
+        transform:
+            translate(-50%,-50%)
+            scale(1)
+            rotate(0deg);
+    }
+}
+
+
+/* =========================================
+   🏆 TAJUK MESSAGE
+========================================= */
+
+#messageText{
+
+    margin:5px 0 25px;
+
+    font-family:
+        "Comic Sans MS",
+        cursive;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    line-height:1.6;
+
+    color:#444;
+
+    white-space:pre-line;
+
+    text-shadow:
+        1px 1px 0 #ffffff;
+}
+
+
+/* =========================================
+   🌟 HIASAN BINTANG
+========================================= */
+
+#messageBox::before{
+
+    content:"⭐";
+
+    position:absolute;
+
+    top:-28px;
+    left:25px;
+
+    font-size:48px;
+
+    animation:starFloat 1.5s
+        ease-in-out infinite;
+}
+
+
+#messageBox::after{
+
+    content:"🌟";
+
+    position:absolute;
+
+    right:25px;
+    bottom:-25px;
+
+    font-size:45px;
+
+    animation:starFloat 1.8s
+        ease-in-out infinite;
+}
+
+
+@keyframes starFloat{
+
+    0%,100%{
+        transform:
+            translateY(0)
+            rotate(-8deg);
+    }
+
+    50%{
+        transform:
+            translateY(-8px)
+            rotate(8deg);
+    }
+}
+
+
+/* =========================================
+   🎮 BUTTON
+========================================= */
+
+#nextBtn,
+#retryBtn{
+
+    min-width:220px;
+
+    padding:14px 25px;
+
+    margin-top:5px;
+
+    border:none;
+
+    border-radius:18px;
+
+    font-family:
+        "Comic Sans MS",
+        cursive;
+
+    font-size:21px;
+
+    font-weight:bold;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+}
+
+
+/* =========================================
+   🟢 BUTTON MISI SETERUSNYA
+========================================= */
+
+#nextBtn{
+
+    background:
+        linear-gradient(
+            180deg,
+            #63e66a 0%,
+            #2dbb45 100%
+        );
+
+    box-shadow:
+        0 6px 0 #208c32,
+        0 9px 15px rgba(0,0,0,.20);
+}
+
+
+#nextBtn:hover{
+
+    transform:
+        translateY(-4px)
+        scale(1.05);
+
+    box-shadow:
+        0 10px 0 #208c32,
+        0 14px 20px rgba(0,0,0,.25);
+}
+
+
+#nextBtn:active{
+
+    transform:
+        translateY(3px);
+
+    box-shadow:
+        0 3px 0 #208c32;
+}
+
+
+/* =========================================
+   🟠 BUTTON CUBA LAGI
+========================================= */
+
+#retryBtn{
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffc83d 0%,
+            #f39c12 100%
+        );
+
+    box-shadow:
+        0 6px 0 #c77700,
+        0 9px 15px rgba(0,0,0,.20);
+}
+
+
+#retryBtn:hover{
+
+    transform:
+        translateY(-4px)
+        scale(1.05);
+
+    box-shadow:
+        0 10px 0 #c77700,
+        0 14px 20px rgba(0,0,0,.25);
+}
+
+
+/* =========================================
+   🎊 HIASAN TAMBAHAN
+========================================= */
+
+#messageBox{
+
+    overflow:visible;
+}
+
+
+/* Bulatan hiasan */
+
+#messageBox span{
+    display:inline-block;
+}
+
+/* =========================================
+   🚀 KOTAK ARAHAN MULA MISI
+========================================= */
+
+#startBox{
+    position:fixed;
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:480px;
+    max-width:85vw;
+
+    padding:30px;
+
+    background:#ffffff;
+
+    border:6px solid #ffbd35;
+    border-radius:30px;
+
+    box-shadow:
+        0 10px 0 #d88916,
+        0 18px 35px rgba(0,0,0,.30);
+
+    z-index:10000;
+
+    text-align:left;
+}
+
+#startBox h2{
+    margin:0 0 18px;
+
+    font-size:28px;
+    font-weight:bold;
+
+    color:#ff8c00;
+
+    text-align:left;
+}
+
+#startBox p{
+    margin:10px 0;
+
+    font-size:20px;
+    font-weight:bold;
+
+    line-height:1.6;
+
+    color:#333;
+}
+
+#startMissionBtn{
+    display:block;
+
+    margin:22px auto 0;
+
+    padding:14px 30px;
+
+    border:none;
+    border-radius:20px;
+
+    background:linear-gradient(
+        180deg,
+        #63e66a 0%,
+        #2dbb45 100%
+    );
+
+    color:white;
+
+    font-family:"Comic Sans MS",cursive;
+
+    font-size:21px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 6px 0 #208c32,
+        0 9px 15px rgba(0,0,0,.20);
+}
+
+#startMissionBtn:hover{
+    transform:scale(1.05);
+}
+
+  </style>
+</head>
+
+<body>
+
+<!-- =========================================
+     🚀 ARAHAN MULA MISI DARAB
+========================================= -->
+
+<div id="startBox">
+
+    <h2>MISI 4: CARI JAWAPAN TERSEMBUNYI</h2>
+
+    <p>🧠 Jawab soalan Darab.</p>
+    
+    <p>🔎 Cari jawapan yang tersembunyi.</p>
+
+    <p>🖱️ Klik jawapan tersebut.</p>
+
+    <p>✅ Jawab betul untuk mendapatkan mata.</p>
+
+    <p>🏆 Dapatkan 15 jawapan betul untuk menyelesaikan MISI ini.</p>
+
+    <button id="startMissionBtn">
+        🚀 JOM! MULA MISI
+    </button>
+
+</div>
+
+  <h1 class="gameTitle">
+    🔍 CARI JAWAPAN TERSEMBUNYI! 🎯
+  </h1>
+
+  <div class="question" id="question"></div>
+  
+ <div class="scoreBoard">
+  🏆 SKOR: <b id="score">0/15</b>
+</div>
+
+<div id="gameArea"></div>
+  <div id="gameArea"></div>
+
+  <div id="messageBox">
+    <p id="messageText"></p>
+
+    <button id="nextBtn" style="display:none;">
+      NEXT ➡️
+    </button>
+
+    <button id="retryBtn" style="display:none;">
+      Cuba Lagi 🔄
+    </button>
+  </div>
+
+
+  <script>
+  let current = 0;
+  let correctCount = 0;
+  let attempts = 0;
+
+  const totalQuestions = 15;
+  const maxAttempts = 20;
+
+    const allQuestions = [
+      {ans:1, q:"1 × 1 = ?"}, {ans:2, q:"1 × 2 = ?"}, {ans:3, q:"1 × 3 = ?"},
+      {ans:4, q:"2 × 2 = ?"}, {ans:5, q:"1 × 5 = ?"}, {ans:6, q:"2 × 3 = ?"},
+      {ans:7, q:"1 × 7 = ?"}, {ans:8, q:"2 × 4 = ?"}, {ans:9, q:"3 × 3 = ?"},
+      {ans:10, q:"2 × 5 = ?"}, {ans:11, q:"1 × 11 = ?"}, {ans:12, q:"3 × 4 = ?"},
+      {ans:13, q:"1 × 13 = ?"}, {ans:14, q:"2 × 7 = ?"}, {ans:15, q:"3 × 5 = ?"},
+      {ans:16, q:"2 × 8 = ?"}, {ans:17, q:"1 × 17 = ?"}, {ans:18, q:"3 × 6 = ?"},
+      {ans:19, q:"1 × 19 = ?"}, {ans:20, q:"4 × 5 = ?"}, {ans:21, q:"3 × 7 = ?"},
+      {ans:22, q:"2 × 11 = ?"}, {ans:23, q:"1 × 23 = ?"}, {ans:24, q:"4 × 6 = ?"},
+      {ans:25, q:"5 × 5 = ?"}, {ans:26, q:"2 × 13 = ?"}, {ans:27, q:"3 × 9 = ?"},
+      {ans:28, q:"4 × 7 = ?"}, {ans:29, q:"1 × 29 = ?"}, {ans:30, q:"5 × 6 = ?"},
+      {ans:31, q:"1 × 31 = ?"}, {ans:32, q:"4 × 8 = ?"}, {ans:33, q:"3 × 11 = ?"},
+      {ans:34, q:"2 × 17 = ?"}, {ans:35, q:"5 × 7 = ?"}, {ans:36, q:"6 × 6 = ?"},
+      {ans:37, q:"1 × 37 = ?"}, {ans:38, q:"2 × 19 = ?"}, {ans:39, q:"3 × 13 = ?"},
+      {ans:40, q:"5 × 8 = ?"}, {ans:41, q:"1 × 41 = ?"}, {ans:42, q:"6 × 7 = ?"},
+      {ans:43, q:"1 × 43 = ?"}, {ans:44, q:"4 × 11 = ?"}, {ans:45, q:"5 × 9 = ?"},
+      {ans:46, q:"2 × 23 = ?"}, {ans:47, q:"1 × 47 = ?"}, {ans:48, q:"6 × 8 = ?"},
+      {ans:49, q:"7 × 7 = ?"}, {ans:50, q:"5 × 10 = ?"}
+    ];
+
+    const selectedAnswers = [];
+    while (selectedAnswers.length < 20) {
+      let rand = Math.floor(Math.random() * allQuestions.length);
+      if (!selectedAnswers.includes(allQuestions[rand].ans)) {
+        selectedAnswers.push(allQuestions[rand].ans);
+      }
+    }
+
+    const questions = allQuestions.filter(q => selectedAnswers.includes(q.ans)).slice(0, totalQuestions);
+
+    let spots = [];
+    function setupAnswers() {
+      let gameArea = document.getElementById("gameArea");
+      gameArea.innerHTML = "";
+      spots = [];
+
+      for (let i = 0; i < selectedAnswers.length; i++) {
+        let spot = document.createElement("div");
+        spot.className = "spot";
+        spot.innerText = selectedAnswers[i];
+
+        let valid = false;
+        let top, left;
+
+        while (!valid) {
+        const areaWidth = gameArea.clientWidth;
+        const areaHeight = gameArea.clientHeight;
+
+        top = Math.floor(Math.random() * (areaHeight - 50));
+        left = Math.floor(Math.random() * (areaWidth - 80));
+          valid = true;
+
+          for (let j = 0; j < spots.length; j++) {
+            let other = spots[j];
+            let otherTop = parseInt(other.style.top);
+            let otherLeft = parseInt(other.style.left);
+
+            // semak jarak minimum 60px supaya tidak bertindih
+            if (Math.abs(top - otherTop) < 60 && Math.abs(left - otherLeft) < 60) {
+              valid = false;
+              break;
+            }
+          }
+        }
+
+        spot.style.top = top + "px";
+        spot.style.left = left + "px";
+        gameArea.appendChild(spot);
+        spots.push(spot);
+      }
+    }
+
+    function generateQuestion() {
+  document.getElementById("messageBox").style.display = "none";
+
+  let q = questions[current];
+  document.getElementById("question").innerText = q.q;
+
+  spots.forEach((spot) => {
+    spot.onclick = () => {
+
+      // Elak spot yang sudah hilang daripada diklik lagi
+      if (spot.style.display === "none") return;
+
+      // Setiap klik jawapan dikira sebagai 1 percubaan
+      attempts++;
+
+      if (parseInt(spot.innerText) === q.ans) {
+
+        // Jawapan betul
+        correctCount++;
+
+        // Kemas kini skor
+        document.getElementById("score").innerText =
+          correctCount + "/15";
+
+        spot.style.opacity = "0";
+
+        setTimeout(() => {
+          spot.style.display = "none";
+        }, 500);
+
+        // Jika sudah 15 betul → MENANG TERUS
+        if (correctCount === 15) {
+          endGame();
+          return;
+        }
+
+        // Pergi ke soalan seterusnya
+        nextStep();
+
+      } else {
+
+        // Jawapan salah
+        showMessage("Oppss!!! Salah ❌", false);
+
+        // Jika sudah 20 percubaan → GAGAL
+        if (attempts >= maxAttempts) {
+          setTimeout(() => {
+            endGame();
+          }, 1000);
+        }
+      }
+    };
+  });
+}
+
+    function nextStep() {
+  current++;
+
+  if (current < questions.length) {
+    generateQuestion();
+  } else {
+    // Sepatutnya hanya berlaku jika semua soalan telah selesai
+    if (correctCount === 15) {
+      endGame();
+    }
+  }
+}
+
+    function showMessage(text, end=false) {
+      document.getElementById("messageBox").style.display = "block";
+      document.getElementById("messageText").innerText = text;
+
+      if (!end) {
+        setTimeout(() => {
+          document.getElementById("messageBox").style.display = "none";
+          generateQuestion();
+        }, 1000);
+      }
+    }
+
+function endGame() {
+
+  document.getElementById("messageBox").style.display = "block";
+
+  // =========================
+  // MENANG - 15 BETUL
+  // =========================
+  if (correctCount === 15) {
+
+   document.getElementById("messageText").innerText =
+  "🎉 TAHNIAH! 🎉\n\n" +
+  "Hebat! Anda berjaya menjawab 15 soalan dengan betul! 🥳\n\n" +
+  "🏆 Misi berjaya diselesaikan!\n\n" +
+  "✨ Bersedia untuk misi seterusnya?";
+
+    // Paparkan NEXT sahaja
+    document.getElementById("nextBtn").style.display = "inline-block";
+    document.getElementById("retryBtn").style.display = "none";
+
+    // Beri key sekali sahaja
+    if (!localStorage.getItem("darabKeyGiven")) {
+
+      localStorage.setItem("darabKeyGiven", "true");
+
+      let keys = parseInt(
+        localStorage.getItem("keys") || "0",
+        10
+      );
+
+      localStorage.setItem("keys", keys + 1);
+
+      // Aktifkan misi seterusnya
+      localStorage.setItem("misiBahagiAktif", "true");
+    }
+
+  }
+
+  // =========================
+  // GAGAL - 20 PERCUBAAN
+  // =========================
+  else {
+
+    document.getElementById("messageText").innerText =
+      "❌ MISI GAGAL!\nSkor: " +
+      correctCount +
+      "/15\n\nJangan putus asa. Cuba lagi!";
+
+    // Paparkan Cuba Lagi sahaja
+    document.getElementById("retryBtn").style.display = "inline-block";
+    document.getElementById("nextBtn").style.display = "none";
+  }
+}
+
+// Butang NEXT → ke tahap1.html
+document.getElementById("nextBtn").onclick = () => {
+  window.location.href = "../tahap1.html";
+};
+
+// Butang Cuba Lagi → ulang kuiz Darab
+document.getElementById("retryBtn").onclick = () => {
+  window.location.href = "darab1.html";
+};
+
+   // =========================================
+// 🚀 MULA MISI SELEPAS TEKAN BUTANG
+// =========================================
+
+document
+.getElementById("startMissionBtn")
+.addEventListener("click", function(){
+
+    // Tutup kotak arahan
+    document
+        .getElementById("startBox")
+        .style.display = "none";
+
+    // Sediakan jawapan
+    setupAnswers();
+
+    // Mula soalan
+    generateQuestion();
+
+    // Mula timer
+    if(window.mathAdventureTimer){
+
+        window.mathAdventureTimer.startTimer();
+
+    }
+
+});
+  </script>
+
+<script type="module" src="../timer.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

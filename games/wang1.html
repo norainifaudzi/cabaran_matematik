@@ -1,0 +1,3878 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>MISI SHOPPING BIJAK</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    font-family:'Comic Sans MS', Arial, sans-serif;
+}
+
+
+/* =====================================================
+   GAME
+===================================================== */
+
+#game{
+    width:100vw;
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+
+    background-image:url("../images/minimarket.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+/* =========================================
+   SIGN BOARD - MISI SHOPPING BIJAK
+========================================= */
+
+#title{
+    position:absolute;
+
+    top:35px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    min-width:520px;
+
+    padding:16px 35px;
+
+    text-align:center;
+
+    font-family:Arial, sans-serif;
+
+    font-size:42px;
+    font-weight:900;
+
+    color:#222222;
+
+    background:linear-gradient(
+        180deg,
+        #ffe66d 0%,
+        #ffc928 100%
+    );
+
+    border:6px solid #ffffff;
+
+    border-radius:22px;
+
+    outline:5px solid #e0a800;
+
+    box-shadow:
+        0 7px 0 #b8860b,
+        0 12px 18px rgba(0,0,0,0.35);
+
+    text-shadow:
+        2px 2px 0 rgba(255,255,255,0.5);
+
+    z-index:100;
+
+    box-sizing:border-box;
+}
+
+/* =====================================================
+   SKOR BOARD
+===================================================== */
+
+#scoreBoard{
+    position:absolute;
+
+    right:15px;
+    top:90px;
+
+    min-width:210px;
+
+    padding:12px 20px;
+
+    background:linear-gradient(
+        180deg,
+        #fff4a8,
+        #ffd43b
+    );
+
+    border:5px solid #e0a800;
+
+    border-radius:18px;
+
+    color:#704800;
+
+    font-family:Arial, sans-serif;
+
+    font-size:24px;
+
+    font-weight:900;
+
+    text-align:center;
+
+    box-shadow:
+        0 5px 0 #b8860b,
+        0 8px 15px rgba(0,0,0,.3);
+
+    z-index:70;
+}
+
+#correctScore{
+    color:#d35400;
+    font-size:28px;
+}
+
+/* =====================================================
+   TIMER - PALING ATAS
+===================================================== */
+
+#timer{
+    position:absolute;
+
+    right:15px;
+    top:15px;
+
+    min-width:210px;
+
+    padding:12px 20px;
+
+    background:linear-gradient(
+        180deg,
+        #d9f5ff,
+        #72c7f5
+    );
+
+    border:5px solid #248dcc;
+
+    border-radius:18px;
+
+    color:#07547d;
+
+    font-family:Arial, sans-serif;
+
+    font-size:24px;
+
+    font-weight:900;
+
+    text-align:center;
+
+    box-shadow:
+        0 5px 0 #176b9c,
+        0 8px 15px rgba(0,0,0,.3);
+
+    z-index:80;
+}
+
+/* =====================================================
+   RAK UTAMA - LEBIH LEBAR & TINGGI
+===================================================== */
+
+#mainRack{
+    position:absolute;
+
+    left:50%;
+    top:72%;
+
+    transform:translate(-50%,-50%);
+
+    width:1600px;
+
+    z-index:10;
+
+    pointer-events:none;
+}
+
+#mainRack img{
+    width:100%;
+    height:auto;
+
+    display:block;
+}
+
+/* =====================================================
+   SHOPPING LIST
+===================================================== */
+
+#shoppingList{
+    position:absolute;
+    left:15px;
+    top:85px;
+    width:210px;
+    background:white;
+    border:5px solid #4ba8e8;
+    border-radius:20px;
+    padding:10px;
+    box-shadow:0 7px 15px rgba(0,0,0,.3);
+    z-index:60;
+}
+
+
+#shoppingList h2{
+
+    text-align:center;
+
+    color:#1671aa;
+
+    font-size:20px;
+
+    margin-bottom:8px;
+}
+
+
+#listItems{
+
+    list-style:none;
+}
+
+
+#listItems li{
+
+    padding:5px 7px;
+
+    margin:3px 0;
+
+    background:#eef9ff;
+
+    border-radius:9px;
+
+    font-size:15px;
+
+    font-weight:bold;
+}
+
+
+#listItems li.done{
+
+    background:#c9f5c5;
+
+    color:#218b28;
+
+    text-decoration:line-through;
+}
+
+
+/* =====================================================
+   DOMPET
+===================================================== */
+
+#wallet{
+
+    position:absolute;
+
+    right:15px;
+    top:190px;
+
+    width:245px;
+
+    background:#fff;
+
+    border:
+    5px solid #47b878;
+
+    border-radius:20px;
+
+    padding:13px;
+
+    box-shadow:
+    0 7px 15px rgba(0,0,0,.3);
+
+    z-index:60;
+
+    text-align:center;
+}
+
+
+#walletTitle{
+
+    font-size:20px;
+
+    color:#218c53;
+
+    font-weight:bold;
+}
+
+
+#money{
+
+    margin-top:5px;
+
+    background:#e1f8e8;
+
+    color:#168340;
+
+    border-radius:15px;
+
+    padding:5px;
+
+    font-size:28px;
+
+    font-weight:bold;
+}
+
+
+#totalSpent{
+
+    margin-top:4px;
+
+    font-size:15px;
+
+    color:#555;
+}
+
+
+
+/* =====================================================
+   PRODUK
+===================================================== */
+/* BUANG LABEL DAN HARGA PRODUK */
+
+.productName,
+.productPrice{
+    display:none;
+}
+
+.product{
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    background:transparent;
+    border:none;
+    border-radius:0;
+
+    padding:0;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    z-index:20;
+
+    transition:
+        transform .2s,
+        opacity .4s;
+
+    box-shadow:none;
+
+    pointer-events:auto;
+}
+
+
+/* GAMBAR PRODUK */
+
+#chocolate img{
+    width:150px;
+    height:150px;
+    object-fit:contain;
+}
+
+#book img{
+    width:170px;
+    height:170px;
+    object-fit:contain;
+}
+
+.product img{
+    width:120px;
+    height:120px;
+
+    object-fit:contain;
+
+    display:block;
+}
+
+#biscuit img{
+    width:170px;
+    height:170px;
+    object-fit:contain;
+}
+
+#pencil img{
+    width:100px;
+    height:100px;
+    object-fit:contain;
+}
+
+#bag img{
+    width:170px;
+    height:170px;
+    object-fit:contain;
+}
+
+/* HOVER */
+
+.product:hover{
+    transform:
+        scale(1.08)
+        translateY(-5px);
+}
+
+
+/* GAMBAR PRODUK */
+
+.product img{
+    width:120px;
+    height:120px;
+
+    object-fit:contain;
+
+    display:block;
+    margin:auto;
+}
+
+
+/* NAMA PRODUK */
+
+.productName{
+    font-size:13px;
+    font-weight:bold;
+    display:block;
+}
+
+
+/* HARGA PRODUK */
+
+.productPrice{
+    background:#42b883;
+
+    color:white;
+
+    border-radius:8px;
+
+    padding:1px 6px;
+
+    font-size:13px;
+
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   KAWASAN PRODUK - IKUT RUANG DALAM RAK
+===================================================== */
+
+#itemsArea{
+    position:absolute;
+
+    left:51%;
+    top:62%;
+
+    transform:translate(-50%,-50%);
+
+    width:700px;
+    height:600px;
+
+    z-index:20;
+
+    pointer-events:none;
+}
+
+.product{
+    pointer-events:auto;
+}
+
+/* KESAN BILA MOUSE ATAS PRODUK */
+
+.product:hover{
+    transform:
+        scale(1.08)
+        translateY(-5px);
+}
+
+/* =====================================================
+   PRODUK ATAS RAK
+   5 PRODUK × 4 TINGKAT
+===================================================== */
+
+/* =====================================================
+   ALIGNMENT BARANG - RAPAT SEDIKIT
+===================================================== */
+
+/* ===== TINGKAT 1 ===== */
+
+#milk{
+    left:20px;
+    top:0.1px;
+}
+
+#bread{
+    left:110px;
+    top:-15px;
+}
+
+#bread img{
+    width:160px;
+    height:160px;
+    object-fit:contain;
+}
+
+#apple{
+    left:250px;
+    top:2px;
+}
+
+#juice{
+    left:355px;
+    top:-25px;
+}
+
+#juice img{
+    width:160px;
+    height:170px;
+    object-fit:contain;
+}
+
+#biscuit{
+    left:485px;
+    top:-30px;
+}
+
+
+/* ===== TINGKAT 2 ===== */
+
+#soap{
+    left:20px;
+    top:143px;
+}
+
+#pencil{
+    left:135px;
+    top:140px;
+}
+
+#pencil img{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+}
+
+#book{
+    left:215px;
+    top:100px;
+}
+
+#ball{
+    left:365px;
+    top:115px;
+}
+
+#ball img{
+    width:150px;
+    height:150px;
+    object-fit:contain;
+}
+
+#chocolate{
+    left:490px;
+    top:110px;
+    
+}
+
+
+/* ===== TINGKAT 3 ===== */
+
+#banana{
+    left:20px;
+    top:270px;
+}
+
+#banana img{
+    width:130px;
+    height:130px;
+    object-fit:contain;
+}
+
+#water{
+    left:135px;
+    top:250px;
+}
+
+#egg{
+    left:250px;
+    top:255px;
+}
+
+#egg img{
+    width:150px;
+    height:150px;
+    object-fit:contain;
+}
+
+
+#cake{
+    left:365px;
+    top:250px;
+}
+
+#cake img{
+    width:150px;
+    height:150px;
+    object-fit:contain;
+}
+
+
+#tissue{
+    left:485px;
+    top:250px;
+
+    width:80px;
+    height:80px;
+}
+
+
+/* ===== TINGKAT 4 ===== */
+
+#shampoo{
+    left:20px;
+    top:400px;
+}
+
+#shampoo img{
+    width:150px;
+    height:150px;
+    object-fit:contain;
+}
+
+
+#crayon{
+    left:135px;
+    top:410px;
+}
+
+#ruler{
+    left:250px;
+    top:410px;
+}
+
+#bag{
+    left:350px;
+    top:370px;
+}
+
+#toothpaste{
+    left:485px;
+    top:410px;
+}
+
+/* =====================================================
+   TROLLEY BOX
+===================================================== */
+
+#trolleyBox{
+    position:absolute;
+
+    right:60px;
+    top:90%;
+
+    transform:translateY(-50%);
+
+    width:560px;
+    height:560px;
+
+    z-index:50;
+}
+
+
+/* =====================================================
+   RUANG SIMPANAN BARANG DALAM TROLLEY
+===================================================== */
+
+#trolleyStorage{
+
+    position:absolute;
+
+    left:35%;
+    top:25%;
+
+    width:43%;
+    height:30%;
+
+    /*
+       RUANG TRANSPARENT
+       Hanya untuk menentukan kawasan barang
+    */
+
+    background:rgba(255,255,255,0.08);
+
+    border:none;
+
+    border-radius:15px;
+/* JANGAN POTONG BARANG */
+    overflow:visible;
+
+    z-index:10;
+
+    pointer-events:none;
+}
+
+
+/* =====================================================
+   BARANG DALAM TROLLEY
+===================================================== */
+
+#trolleyItems{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:flex-end;
+
+    justify-content:center;
+
+    align-content:flex-end;
+
+    padding:5px;
+
+    overflow:visible;
+
+    pointer-events:none;
+}
+
+
+/* =====================================================
+   SETIAP BARANG DALAM TROLLEY
+===================================================== */
+
+.trolleyItem{
+
+    width:65px;
+    height:65px;
+
+    flex:0 0 65px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+
+    margin:-18px -12px;
+
+    z-index:15;
+
+    overflow:visible;
+}
+
+
+.trolleyItem img{
+
+    width:65px;
+    height:65px;
+
+    object-fit:contain;
+
+    display:block;
+
+    position:relative;
+
+    z-index:16;
+}
+
+/* =====================================================
+   ROTASI BARANG
+===================================================== */
+
+.trolleyItem:nth-child(1) img{
+    transform:rotate(-8deg);
+}
+
+.trolleyItem:nth-child(2) img{
+    transform:rotate(7deg);
+}
+
+.trolleyItem:nth-child(3) img{
+    transform:rotate(-5deg);
+}
+
+.trolleyItem:nth-child(4) img{
+    transform:rotate(9deg);
+}
+
+.trolleyItem:nth-child(5) img{
+    transform:rotate(-7deg);
+}
+
+.trolleyItem:nth-child(6) img{
+    transform:rotate(5deg);
+}
+
+.trolleyItem:nth-child(7) img{
+    transform:rotate(-10deg);
+}
+
+.trolleyItem:nth-child(8) img{
+    transform:rotate(6deg);
+}
+
+.trolleyItem:nth-child(9) img{
+    transform:rotate(-4deg);
+}
+
+.trolleyItem:nth-child(10) img{
+    transform:rotate(8deg);
+}
+
+.trolleyItem:nth-child(11) img{
+    transform:rotate(-6deg);
+}
+
+.trolleyItem:nth-child(12) img{
+    transform:rotate(5deg);
+}
+
+.trolleyItem:nth-child(13) img{
+    transform:rotate(-9deg);
+}
+
+.trolleyItem:nth-child(14) img{
+    transform:rotate(7deg);
+}
+
+.trolleyItem:nth-child(15) img{
+    transform:rotate(-5deg);
+}
+
+
+/* =====================================================
+   TROLLEY IMAGE
+   MESTI DI ATAS BARANG
+===================================================== */
+
+#trolleyImage{
+
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    z-index:30;
+
+    pointer-events:none;
+}
+
+
+/* =====================================================
+   SOALAN
+===================================================== */
+
+#questionBox{
+
+    display:none;
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+    translate(-50%,-50%);
+
+    width:500px;
+
+    background:white;
+
+    border:
+    6px solid #f4c542;
+
+    border-radius:25px;
+
+    padding:20px;
+
+    text-align:center;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.4);
+
+    z-index:100;
+}
+
+
+#questionTitle{
+
+    font-size:22px;
+
+    color:#d88900;
+
+    font-weight:bold;
+}
+
+
+#targetItem{
+
+    font-size:20px;
+
+    margin:5px;
+}
+
+
+#question{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    margin:10px 0;
+}
+
+
+#answers{
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:10px;
+}
+
+
+#answers button{
+
+    padding:10px;
+
+    background:#4ca7e8;
+
+    border:none;
+
+    border-radius:14px;
+
+    color:white;
+
+    font-family:inherit;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 4px 0 #2676a8;
+}
+
+
+#answers button:hover{
+
+    background:#328fcf;
+}
+
+
+#questionMessage{
+
+    min-height:25px;
+
+    margin-top:8px;
+
+    font-weight:bold;
+
+    font-size:17px;
+}
+
+
+/* =====================================================
+   CASHIER / PEMBAYARAN
+===================================================== */
+
+#cashier{
+    display:none;
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:150;
+    align-items:center;
+    justify-content:center;
+}
+
+.cashierBox{
+    width:700px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border:7px solid #ef9b2e;
+    border-radius:30px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+.cashierBox h1{
+    color:#e18316;
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.cashierTotalBox{
+    background:#fff3d1;
+    border:4px solid #f4c542;
+    border-radius:18px;
+    padding:10px;
+    margin:10px 0 15px;
+}
+
+.cashierTotalBox p{
+    margin:4px;
+    font-size:20px;
+}
+
+#paymentMessage{
+    min-height:35px;
+    margin:12px 0;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* DOMPET WANG */
+
+#paymentWallet{
+    background:#e1f8e8;
+    border:5px solid #47b878;
+    border-radius:22px;
+    padding:15px;
+    margin-top:10px;
+}
+
+#paymentWallet h2{
+    color:#218c53;
+    margin-bottom:10px;
+}
+
+#moneyChoices{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+/* SETIAP KEPING WANG */
+
+.moneyNote{
+    width:180px;
+    height:75px;
+    border:4px solid #4cae68;
+    border-radius:15px;
+    background:linear-gradient(
+        135deg,
+        #d9f5df,
+        #a9e5b8
+    );
+    color:#176b38;
+    font-family:inherit;
+    font-size:25px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 5px 0 #32844b;
+    transition:.2s;
+}
+
+.moneyNote:hover{
+    transform:scale(1.05);
+}
+
+/* WANG YANG SUDAH DIPILIH */
+
+.moneyNote.selected{
+    background:#ffd95a;
+    border-color:#e09b00;
+    color:#704000;
+    transform:translateY(4px);
+    box-shadow:0 2px 0 #b87800;
+}
+
+#selectedMoney{
+    margin-top:12px;
+    font-size:22px;
+    font-weight:bold;
+    color:#1671aa;
+}
+
+.cashierBtn{
+    margin-top:12px;
+    padding:12px 30px;
+    border:none;
+    border-radius:15px;
+    background:#42b883;
+    color:white;
+    font-family:inherit;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.cashierBtn:hover{
+    background:#329b6d;
+}
+
+#resetMoneyBtn{
+    background:#e85d5d;
+}
+
+#resetMoneyBtn:hover{
+    background:#c94343;
+}
+
+
+/* =====================================================
+   TAMAT
+===================================================== */
+
+#finishScreen{
+
+    display:none;
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,.7);
+
+    z-index:200;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+
+.finishBox{
+
+    width:550px;
+
+    background:white;
+
+    border:
+    7px solid #ffcc33;
+
+    border-radius:30px;
+
+    padding:30px;
+
+    text-align:center;
+}
+
+
+.finishBox h1{
+
+    font-size:40px;
+
+    color:#e49a00;
+}
+
+
+.finishBox p{
+
+    font-size:22px;
+
+    margin:12px;
+}
+
+/* =====================================================
+   MISI GAGAL
+===================================================== */
+
+#failScreen{
+    display:none;
+    position:absolute;
+    inset:0;
+
+    background:rgba(0,0,0,.7);
+
+    z-index:200;
+
+    align-items:center;
+    justify-content:center;
+}
+
+/* =================================
+   TARGET - GLOW + BLINK
+================================= */
+
+.targetGlow{
+    animation: targetGlow 0.8s infinite alternate;
+}
+
+@keyframes targetGlow{
+
+    from{
+        filter:
+        drop-shadow(0 0 3px #ffd43b)
+        drop-shadow(0 0 6px #ffd43b);
+    }
+
+    to{
+        filter:
+        drop-shadow(0 0 8px #ff9f1c)
+        drop-shadow(0 0 18px #ffd43b)
+        drop-shadow(0 0 28px #ffd43b);
+    }
+}
+
+/* =================================
+   HILANGKAN LABEL BARANG
+================================= */
+
+.productName{
+    display:none !important;
+}
+
+/* =================================
+   HILANGKAN MAKLUMAT ATAS SOALAN
+================================= */
+
+#targetItem{
+    display:none !important;
+}
+
+
+/* =====================================================
+   ARAHAN MISI 8
+===================================================== */
+
+#instructionScreen{
+    position:absolute;
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+
+    z-index:300;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.instructionBox{
+    width:650px;
+
+    background:white;
+
+    border:7px solid #f4c542;
+
+    border-radius:30px;
+
+    padding:30px 35px;
+
+    text-align:center;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.5);
+}
+
+.instructionBox h1{
+    font-size:36px;
+
+    color:#e18316;
+
+    margin-bottom:20px;
+}
+
+.instructionText{
+    text-align:left;
+
+    font-size:22px;
+
+    line-height:1.7;
+
+    margin:10px auto 20px;
+
+    max-width:550px;
+}
+
+.startMissionBtn{
+    margin-top:10px;
+
+    padding:15px 40px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#42b883;
+
+    color:white;
+
+    font-family:inherit;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 0 #218c53;
+
+    transition:.2s;
+}
+
+.startMissionBtn:hover{
+    transform:scale(1.05);
+
+    background:#329b6d;
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+<audio id="pulauWangSound" loop preload="auto">
+    <source src="../sounds/pulauwang.mp3" type="audio/mpeg">
+</audio>
+
+<div id="game">
+
+
+<!-- =================================================
+     ARAHAN MISI 8
+================================================= -->
+
+<div id="instructionScreen">
+
+    <div class="instructionBox">
+
+        <h1>
+            🛒 MISI 8: SHOPPING TIME
+        </h1>
+
+        <div class="instructionText">
+
+            🛍️ <strong>Cari dan pilih barang yang betul.</strong>
+            <br>
+
+            🧠 <strong>Jawab soalan Wang.</strong>
+            <br>
+
+            💰 <strong>Gunakan wang dengan bijak!</strong>
+            <br>
+
+            🏆 <strong>Dapatkan 15 jawapan betul daripada 20 soalan.</strong>
+            <br>
+
+            🚀 <strong>Bersedia? Jom mula!</strong>
+
+        </div>
+
+        <button
+            class="startMissionBtn"
+            onclick="startMission8()">
+
+            🚀 JOM MULA
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================================
+     TAJUK
+================================================= -->
+<div id="title">
+    🛒 MISI SHOPPING BIJAK 💰
+</div>
+
+<!-- =================================================
+     RAK
+================================================= -->
+<div id="mainRack">
+    <img src="../images/rack.png" alt="Rak Mini Market">
+</div>
+
+<!-- =================================================
+     SKOR BOARD
+================================================= -->
+<div id="scoreBoard">
+    🏆 SKOR:
+    <span id="correctScore">0</span>/15
+</div>
+
+<!-- =================================================
+     SHOPPING LIST
+================================================= -->
+
+<div id="shoppingList">
+
+<h2>
+🧾 SENARAI BELIAN
+</h2>
+
+<ul id="listItems"></ul>
+
+</div>
+
+
+<!-- =================================================
+     DOMPET
+================================================= -->
+
+<div id="wallet">
+
+<div id="walletTitle">
+
+👛 DOMPET
+
+</div>
+
+<div id="money">
+
+RM50.00
+
+</div>
+
+<div id="totalSpent">
+
+Jumlah dibelanjakan:
+RM0.00
+
+</div>
+
+</div>
+
+
+<!-- =================================================
+     RAK
+================================================= -->
+
+<div class="rack"
+id="rack1"></div>
+
+<div class="rack"
+id="rack2"></div>
+
+<div class="rack"
+id="rack3"></div>
+
+
+<!-- =================================================
+     BARANG
+================================================= -->
+<div id="itemsArea">
+
+<div class="product"
+id="milk"
+onclick="selectProduct('milk')">
+
+<img src="../images/susu.png">
+
+<span class="productName">
+Susu
+</span>
+
+<span class="productPrice">
+RM2
+</span>
+
+</div>
+
+
+<div class="product"
+id="bread"
+onclick="selectProduct('bread')">
+
+<img src="../images/roti.png">
+
+<span class="productName">
+Roti
+</span>
+
+<span class="productPrice">
+RM3
+</span>
+
+</div>
+
+
+<div class="product"
+id="apple"
+onclick="selectProduct('apple')">
+
+<img src="../images/epal.png">
+
+<span class="productName">
+Epal
+</span>
+
+<span class="productPrice">
+RM2
+</span>
+
+</div>
+
+
+<div class="product"
+id="juice"
+onclick="selectProduct('juice')">
+
+<img src="../images/jus.png">
+
+<span class="productName">
+Jus
+</span>
+
+<span class="productPrice">
+RM3
+</span>
+
+</div>
+
+
+<div class="product"
+id="biscuit"
+onclick="selectProduct('biscuit')">
+
+<img src="../images/biskut.png">
+
+<span class="productName">
+Biskut
+</span>
+
+<span class="productPrice">
+RM2
+</span>
+
+</div>
+
+
+<div class="product"
+id="soap"
+onclick="selectProduct('soap')">
+
+<img src="../images/sabun.png">
+
+<span class="productName">
+Sabun
+</span>
+
+<span class="productPrice">
+RM3
+</span>
+
+</div>
+
+
+<div class="product"
+id="pencil"
+onclick="selectProduct('pencil')">
+
+<img src="../images/pensil2.png">
+
+<span class="productName">
+Pensel
+</span>
+
+<span class="productPrice">
+RM1
+</span>
+
+</div>
+
+
+<div class="product"
+id="book"
+onclick="selectProduct('book')">
+
+<img src="../images/buku.png">
+
+<span class="productName">
+Buku
+</span>
+
+<span class="productPrice">
+RM4
+</span>
+
+</div>
+
+
+<div class="product"
+id="ball"
+onclick="selectProduct('ball')">
+
+<img src="../images/bola.png">
+
+<span class="productName">
+Bola
+</span>
+
+<span class="productPrice">
+RM5
+</span>
+
+</div>
+
+
+<div class="product"
+id="chocolate"
+onclick="selectProduct('chocolate')">
+
+<img src="../images/coklat.png">
+
+<span class="productName">
+Coklat
+</span>
+
+<span class="productPrice">
+RM2
+</span>
+
+</div>
+
+
+<div class="product"
+id="banana"
+onclick="selectProduct('banana')">
+
+<img src="../images/pisang.png">
+
+<span class="productName">
+Pisang
+</span>
+
+<span class="productPrice">
+RM2
+</span>
+
+</div>
+
+
+<div class="product"
+id="water"
+onclick="selectProduct('water')">
+
+<img src="../images/air.png">
+
+<span class="productName">
+Air
+</span>
+
+<span class="productPrice">
+RM1
+</span>
+
+</div>
+
+
+<div class="product"
+id="egg"
+onclick="selectProduct('egg')">
+
+<img src="../images/telur.png">
+
+<span class="productName">
+Telur
+</span>
+
+<span class="productPrice">
+RM4
+</span>
+
+</div>
+
+
+<div class="product"
+id="cake"
+onclick="selectProduct('cake')">
+
+<img src="../images/kek.png">
+
+<span class="productName">
+Kek
+</span>
+
+<span class="productPrice">
+RM5
+</span>
+
+</div>
+
+
+<div class="product"
+id="tissue"
+onclick="selectProduct('tissue')">
+
+<img src="../images/tisu.png">
+
+<span class="productName">
+Tisu
+</span>
+
+<span class="productPrice">
+RM2
+</span>
+
+</div>
+
+
+<div class="product"
+id="shampoo"
+onclick="selectProduct('shampoo')">
+
+<img src="../images/syampu.png">
+
+<span class="productName">
+Syampu
+</span>
+
+<span class="productPrice">
+RM6
+</span>
+
+</div>
+
+
+<div class="product"
+id="crayon"
+onclick="selectProduct('crayon')">
+
+<img src="../images/krayon.png">
+
+<span class="productName">
+Krayon
+</span>
+
+<span class="productPrice">
+RM3
+</span>
+
+</div>
+
+
+<div class="product"
+id="ruler"
+onclick="selectProduct('ruler')">
+
+<img src="../images/pembaris.png">
+
+<span class="productName">
+Pembaris
+</span>
+
+<span class="productPrice">
+RM2
+</span>
+
+</div>
+
+
+<div class="product"
+id="bag"
+onclick="selectProduct('bag')">
+
+<img src="../images/begmarket.png">
+
+<span class="productName">
+Beg
+</span>
+
+<span class="productPrice">
+RM8
+</span>
+
+</div>
+
+
+<div class="product"
+id="toothpaste"
+onclick="selectProduct('toothpaste')">
+
+<img src="../images/ubatgigi.png">
+
+<span class="productName">
+Ubat Gigi
+</span>
+
+<span class="productPrice">
+RM4
+</span>
+
+</div>
+
+</div>
+<!-- =================================================
+     TROLLEY
+================================================= -->
+<div id="trolleyBox">
+
+    <!-- RUANG SIMPANAN BARANG -->
+    <div id="trolleyStorage">
+
+        <div id="trolleyItems">
+        </div>
+
+    </div>
+
+    <!-- GAMBAR TROLLEY -->
+    <img
+        id="trolleyImage"
+        src="../images/trolley.png"
+        alt="Trolley">
+
+</div>
+
+
+<!-- =================================================
+     SOALAN
+================================================= -->
+
+<div id="questionBox">
+
+<div id="questionTitle">
+
+💰 SOALAN WANG
+
+</div>
+
+<div id="targetItem">
+
+</div>
+
+<div id="question">
+
+</div>
+
+<div id="answers">
+
+</div>
+
+<div id="questionMessage">
+
+</div>
+
+</div>
+
+
+<!-- =================================================
+     CASHIER
+================================================= -->
+
+<!-- =================================================
+     CASHIER / PEMBAYARAN
+================================================= -->
+
+<div id="cashier">
+
+    <div class="cashierBox">
+
+        <h1>
+            🧑‍💼 KAUNTER BAYARAN
+        </h1>
+
+        <div class="cashierTotalBox">
+
+            <p>
+                🛒 Jumlah harga barang:
+                <strong id="cashierTotal">
+                    RM0.00
+                </strong>
+            </p>
+
+            <p>
+                💵 Wang dipilih:
+                <strong id="selectedMoney">
+                    RM0.00
+                </strong>
+            </p>
+
+        </div>
+
+        <div id="paymentMessage"></div>
+
+        <div id="paymentWallet">
+
+            <h2>
+                👛 PILIH WANG DALAM DOMPET
+            </h2>
+
+            <div id="moneyChoices">
+
+                <button
+                    class="moneyNote"
+                    data-value="50"
+                    onclick="selectMoney(this,50)">
+                    💵 RM50
+                </button>
+
+                <button
+                    class="moneyNote"
+                    data-value="50"
+                    onclick="selectMoney(this,50)">
+                    💵 RM50
+                </button>
+
+                <button
+                    class="moneyNote"
+                    data-value="20"
+                    onclick="selectMoney(this,20)">
+                    💵 RM20
+                </button>
+
+                <button
+                    class="moneyNote"
+                    data-value="20"
+                    onclick="selectMoney(this,20)">
+                    💵 RM20
+                </button>
+
+                <button
+                    class="moneyNote"
+                    data-value="10"
+                    onclick="selectMoney(this,10)">
+                    💵 RM10
+                </button>
+
+                <button
+                    class="moneyNote"
+                    data-value="10"
+                    onclick="selectMoney(this,10)">
+                    💵 RM10
+                </button>
+
+            </div>
+
+        </div>
+
+        <button
+            class="cashierBtn"
+            onclick="makePayment()">
+
+            💳 BAYAR
+
+        </button>
+
+        <button
+            class="cashierBtn"
+            id="resetMoneyBtn"
+            onclick="resetMoneySelection()">
+
+            🔄 PILIH SEMULA
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =================================================
+     TAMAT
+================================================= -->
+
+<div id="finishScreen">
+
+<div class="finishBox">
+
+<h1>
+🎉 TAHNIAH!
+</h1>
+
+<p>
+    🛒 Semua 15 barang telah berjaya dibeli!
+</p>
+
+<p>
+    💰 Pembayaran telah berjaya!
+</p>
+
+<p>
+    🏆 SKOR ANDA: <span id="finalScore">0/15</span>
+</p>
+
+<p>
+    🎉 MISI SHOPPING BIJAK BERJAYA!
+</p>
+
+<button
+class="cashierBtn"
+ onclick="goToNextLevel()">
+
+🔄 BERJAYA
+
+</button>
+
+</div>
+
+</div>
+
+<!-- =================================================
+     MISI GAGAL
+================================================= -->
+
+<div id="failScreen">
+
+    <div class="finishBox">
+
+       <h1 style="color:#e74c3c;">
+    😢 CUBA LAGI!
+</h1>
+
+<p>
+    Anda mendapat <strong id="failScore">0/15</strong> jawapan betul.
+</p>
+
+<p>
+    ❌ MISI belum berjaya.
+</p>
+
+<p>
+    💪 Jangan putus asa. Jom cuba lagi!
+</p>
+
+
+        <button
+            class="cashierBtn"
+            onclick="restartMission()">
+
+            🔄 CUBA LAGI
+
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+
+/* =====================================================
+   DATA PRODUK
+===================================================== */
+
+const products = {
+
+milk:{
+    name:"Susu",
+    image:"susu.png",
+    price:2
+},
+
+bread:{
+    name:"Roti",
+    image:"roti.png",
+    price:3
+},
+
+apple:{
+    name:"Epal",
+    image:"epal.png",
+    price:2
+},
+
+juice:{
+    name:"Jus",
+    image:"jus.png",
+    price:3
+},
+
+biscuit:{
+    name:"Biskut",
+    image:"biskut.png",
+    price:2
+},
+
+soap:{
+    name:"Sabun",
+    image:"sabun.png",
+    price:3
+},
+
+pencil:{
+    name:"Pensel",
+    image:"pensel.png",
+    price:1
+},
+
+book:{
+    name:"Buku",
+    image:"buku.png",
+    price:4
+},
+
+ball:{
+    name:"Bola",
+    image:"bola.png",
+    price:5
+},
+
+chocolate:{
+    name:"Coklat",
+    image:"coklat.png",
+    price:2
+},
+
+banana:{
+    name:"Pisang",
+    image:"pisang.png",
+    price:2
+},
+
+water:{
+    name:"Air",
+    image:"air.png",
+    price:1
+},
+
+egg:{
+    name:"Telur",
+    image:"telur.png",
+    price:4
+},
+
+cake:{
+    name:"Kek",
+    image:"kek.png",
+    price:5
+},
+
+tissue:{
+    name:"Tisu",
+    image:"tisu.png",
+    price:2
+},
+
+shampoo:{
+    name:"Syampu",
+    image:"syampu.png",
+    price:6
+},
+
+crayon:{
+    name:"Krayon",
+    image:"krayon.png",
+    price:3
+},
+
+ruler:{
+    name:"Pembaris",
+    image:"pembaris.png",
+    price:2
+},
+
+bag:{
+    name:"Beg",
+    image:"beg.png",
+    price:8
+},
+
+toothpaste:{
+    name:"Ubat Gigi",
+    image:"ubatgigi.png",
+    price:4
+}
+
+};
+
+
+/* =====================================================
+   5 SET SHOPPING LIST
+===================================================== */
+
+const shoppingSets = [
+
+[
+"milk",
+"bread",
+"apple",
+"juice",
+"biscuit",
+"soap",
+"pencil",
+"book",
+"ball",
+"chocolate",
+"banana",
+"water",
+"egg",
+"cake",
+"tissue"
+],
+
+[
+"bread",
+"milk",
+"apple",
+"pencil",
+"book",
+"juice",
+"soap",
+"banana",
+"water",
+"chocolate",
+"ruler",
+"crayon",
+"tissue",
+"egg",
+"toothpaste"
+],
+
+[
+"apple",
+"juice",
+"biscuit",
+"milk",
+"bread",
+"ball",
+"book",
+"soap",
+"shampoo",
+"pencil",
+"banana",
+"cake",
+"water",
+"bag",
+"tissue"
+],
+
+[
+"book",
+"pencil",
+"ruler",
+"crayon",
+"bag",
+"milk",
+"bread",
+"juice",
+"apple",
+"biscuit",
+"soap",
+"toothpaste",
+"water",
+"egg",
+"chocolate"
+],
+
+[
+
+"banana",
+"apple",
+"milk",
+"bread",
+"juice",
+"biscuit",
+"soap",
+"shampoo",
+"pencil",
+"book",
+"ball",
+"cake",
+"bag",
+"toothpaste",
+"water"
+]
+
+];
+
+
+/* =====================================================
+   BETULKAN PRODUK ORANGE YANG BELUM ADA
+===================================================== */
+
+products.orange = {
+    name:"Oren",
+    image:"oren.png",
+    price:2
+};
+
+
+/* =====================================================
+   PILIH SHOPPING SET
+===================================================== */
+
+let shoppingList =
+    shoppingSets[
+        Math.floor(
+            Math.random() * shoppingSets.length
+        )
+    ];
+
+/* =====================================================
+   BANK 30 SOALAN WANG
+   Semua soalan berbeza
+===================================================== */
+
+const questions = [
+
+    {
+        q: "Ali mempunyai RM10. Dia membeli pensel berharga RM2. Berapakah baki wang Ali?",
+        a: ["RM6", "RM7", "RM8", "RM9"],
+        c: "RM8"
+    },
+
+    {
+        q: "Siti mempunyai RM20. Dia membeli buku berharga RM4. Berapakah baki wang Siti?",
+        a: ["RM14", "RM15", "RM16", "RM17"],
+        c: "RM16"
+    },
+
+    {
+        q: "Harga sebatang pensel ialah RM1. Berapakah harga 3 batang pensel?",
+        a: ["RM2", "RM3", "RM4", "RM5"],
+        c: "RM3"
+    },
+
+    {
+        q: "Harga sebuah buku ialah RM4. Berapakah harga 2 buah buku?",
+        a: ["RM6", "RM7", "RM8", "RM9"],
+        c: "RM8"
+    },
+
+    {
+        q: "RM10 - RM3 = ?",
+        a: ["RM5", "RM6", "RM7", "RM8"],
+        c: "RM7"
+    },
+
+    {
+        q: "RM20 - RM5 = ?",
+        a: ["RM10", "RM12", "RM15", "RM18"],
+        c: "RM15"
+    },
+
+    {
+        q: "RM5 + RM3 = ?",
+        a: ["RM6", "RM7", "RM8", "RM9"],
+        c: "RM8"
+    },
+
+    {
+        q: "RM10 + RM5 = ?",
+        a: ["RM12", "RM13", "RM15", "RM20"],
+        c: "RM15"
+    },
+
+    {
+        q: "Harga sekotak susu ialah RM2 dan sebuku roti RM3. Berapakah jumlah harga kedua-duanya?",
+        a: ["RM4", "RM5", "RM6", "RM7"],
+        c: "RM5"
+    },
+
+    {
+        q: "Harga sebiji epal RM2 dan sekotak jus RM3. Berapakah jumlah harga kedua-duanya?",
+        a: ["RM4", "RM5", "RM6", "RM7"],
+        c: "RM5"
+    },
+
+    {
+        q: "RM10 dibayar untuk barang berharga RM6. Berapakah baki?",
+        a: ["RM2", "RM3", "RM4", "RM5"],
+        c: "RM4"
+    },
+
+    {
+        q: "RM20 dibayar untuk barang berharga RM8. Berapakah baki?",
+        a: ["RM10", "RM11", "RM12", "RM13"],
+        c: "RM12"
+    },
+
+    {
+        q: "Harga sebiji bola ialah RM5. Jika Ali membayar RM10, berapakah bakinya?",
+        a: ["RM3", "RM4", "RM5", "RM6"],
+        c: "RM5"
+    },
+
+    {
+        q: "Harga kek RM5 dan air RM1. Berapakah jumlah harga kedua-duanya?",
+        a: ["RM5", "RM6", "RM7", "RM8"],
+        c: "RM6"
+    },
+
+    {
+        q: "RM10 + RM10 = ?",
+        a: ["RM15", "RM18", "RM20", "RM25"],
+        c: "RM20"
+    },
+
+    {
+        q: "RM50 - RM20 = ?",
+        a: ["RM20", "RM25", "RM30", "RM35"],
+        c: "RM30"
+    },
+
+    {
+        q: "RM20 + RM5 = ?",
+        a: ["RM23", "RM24", "RM25", "RM26"],
+        c: "RM25"
+    },
+
+    {
+        q: "Harga sebuku sabun RM3. Jika membeli 2 buku sabun, berapakah jumlahnya?",
+        a: ["RM5", "RM6", "RM7", "RM8"],
+        c: "RM6"
+    },
+
+    {
+        q: "Harga pisang RM2. Jika membeli 3 biji pisang, berapakah jumlah harga?",
+        a: ["RM4", "RM5", "RM6", "RM7"],
+        c: "RM6"
+    },
+
+    {
+        q: "Harga sebuah beg ialah RM8. Jika membayar RM10, berapakah baki?",
+        a: ["RM1", "RM2", "RM3", "RM4"],
+        c: "RM2"
+    },
+
+    {
+        q: "Harga sebotol air ialah RM1 dan sekeping roti RM3. Berapakah jumlah harga?",
+        a: ["RM3", "RM4", "RM5", "RM6"],
+        c: "RM4"
+    },
+
+    {
+        q: "Harga sebatang krayon ialah RM3. Berapakah harga 2 batang krayon?",
+        a: ["RM5", "RM6", "RM7", "RM8"],
+        c: "RM6"
+    },
+
+    {
+        q: "Harga pembaris ialah RM2. Jika membeli 3 batang pembaris, berapakah jumlahnya?",
+        a: ["RM4", "RM5", "RM6", "RM7"],
+        c: "RM6"
+    },
+
+    {
+        q: "Harga ubat gigi RM4. Jika membayar RM10, berapakah baki?",
+        a: ["RM4", "RM5", "RM6", "RM7"],
+        c: "RM6"
+    },
+
+    {
+        q: "Harga syampu RM6. Jika membayar RM10, berapakah baki?",
+        a: ["RM2", "RM3", "RM4", "RM5"],
+        c: "RM4"
+    },
+
+    {
+        q: "Harga biskut RM2 dan coklat RM2. Berapakah jumlah harga?",
+        a: ["RM3", "RM4", "RM5", "RM6"],
+        c: "RM4"
+    },
+
+    {
+        q: "Harga susu RM2 dan epal RM2. Berapakah jumlah harga?",
+        a: ["RM3", "RM4", "RM5", "RM6"],
+        c: "RM4"
+    },
+
+    {
+        q: "RM30 - RM10 = ?",
+        a: ["RM10", "RM15", "RM20", "RM25"],
+        c: "RM20"
+    },
+
+    {
+        q: "RM40 - RM20 = ?",
+        a: ["RM10", "RM15", "RM20", "RM30"],
+        c: "RM20"
+    },
+
+    {
+        q: "RM5 + RM5 + RM5 = ?",
+        a: ["RM10", "RM12", "RM15", "RM20"],
+        c: "RM15"
+    }
+
+];
+
+/* =====================================================
+   PEMBOLEH UBAH GAME
+===================================================== */
+
+let walletMoney = 160;
+
+let totalSpent = 0;
+
+let currentIndex = 0;
+
+let currentTarget = null;
+
+/* Senarai index soalan yang sudah digunakan */
+let usedQuestions = [];
+
+/* SKOR */
+let correctCount = 0;
+
+/* JUMLAH SOALAN YANG SUDAH DIJAWAB */
+let questionCount = 0;
+
+/* SYARAT MISI */
+const MAX_CORRECT = 15;
+const MAX_QUESTIONS = 20;
+
+
+/* PEMBAYARAN */
+
+let selectedMoney = 0;
+
+let selectedNotes = [];
+
+let paymentComplete = false;
+
+
+/* =====================================================
+   PAPAR SHOPPING LIST
+===================================================== */
+
+function displayShoppingList(){
+
+    const list =
+        document.getElementById("listItems");
+
+    list.innerHTML = "";
+
+    shoppingList.forEach((id,index)=>{
+
+        const li =
+            document.createElement("li");
+
+        li.id = "list-" + index;
+
+        li.innerHTML =
+            "☐ " +
+            products[id].name +
+            " - RM" +
+            products[id].price.toFixed(2);
+
+        list.appendChild(li);
+
+    });
+
+}
+
+
+/* =====================================================
+   PAPAR DUIT
+===================================================== */
+
+function updateMoney(){
+
+    document.getElementById("money").textContent =
+        "RM" + walletMoney.toFixed(2);
+
+    document.getElementById("totalSpent").textContent =
+        "Jumlah belian: RM" +
+        totalSpent.toFixed(2);
+}
+
+
+/* =====================================================
+   UPDATE SKOR BOARD
+===================================================== */
+
+function updateScore(){
+
+    document.getElementById(
+        "correctScore"
+    ).textContent = correctCount;
+
+}
+
+
+/* =====================================================
+   PILIH BARANG
+===================================================== */
+
+function selectProduct(id){
+
+    console.log("Klik produk:", id);
+    console.log("Target:", currentTarget);
+
+    /* Pastikan murid klik barang yang sedang dicari */
+    if(id !== currentTarget){
+
+        alert(
+            "🔎 Cari barang yang bercahaya dalam senarai belian dahulu!"
+        );
+
+        return;
+    }
+
+    /* Barang betul → keluar soalan */
+    showQuestion();
+}
+
+
+/* =====================================================
+   PILIH SOALAN YANG BELUM PERNAH DIGUNAKAN
+===================================================== */
+
+function getQuestion(){
+
+    const available =
+        questions
+        .map((question,index) => ({
+            question: question,
+            index: index
+        }))
+        .filter(item =>
+            !usedQuestions.includes(item.index)
+        );
+
+    if(available.length === 0){
+
+        return null;
+    }
+
+    const selected =
+        available[
+            Math.floor(
+                Math.random() *
+                available.length
+            )
+        ];
+
+    usedQuestions.push(
+        selected.index
+    );
+
+    return selected.question;
+}
+
+/* =====================================================
+   PAPAR SOALAN
+===================================================== */
+
+function showQuestion(){
+
+    console.log("showQuestion() dipanggil");
+
+    /* Pastikan belum melebihi 20 soalan */
+    if(questionCount >= MAX_QUESTIONS){
+
+        failMission();
+        return;
+    }
+
+    /* Semak produk */
+    const item = products[currentTarget];
+
+    if(!item){
+
+        console.error(
+            "Produk tidak dijumpai:",
+            currentTarget
+        );
+
+        return;
+    }
+
+    /* Ambil soalan yang belum pernah digunakan */
+    const q = getQuestion();
+
+    if(!q){
+
+        console.error(
+            "Tiada soalan lagi."
+        );
+
+        failMission();
+        return;
+    }
+
+    /* Paparkan kotak soalan */
+    const questionBox =
+        document.getElementById("questionBox");
+
+    questionBox.style.display = "block";
+
+    /* Paparkan soalan */
+    document.getElementById(
+        "question"
+    ).textContent = q.q;
+
+    /* Paparkan status skor */
+    document.getElementById(
+        "questionMessage"
+    ).innerHTML =
+        "⭐ Betul: " +
+        correctCount +
+        "/" +
+        MAX_CORRECT +
+        " &nbsp; | &nbsp; " +
+        "📝 Soalan: " +
+        questionCount +
+        "/" +
+        MAX_QUESTIONS;
+
+    /* Kosongkan jawapan lama */
+    const answers =
+        document.getElementById("answers");
+
+    answers.innerHTML = "";
+
+    /* Bina butang jawapan */
+    q.a.forEach(answer => {
+
+        const button =
+            document.createElement("button");
+
+        button.textContent = answer;
+
+        button.onclick = function(){
+
+            checkAnswer(
+                answer,
+                q.c
+            );
+
+        };
+
+        answers.appendChild(button);
+
+    });
+
+    console.log(
+        "Soalan dipaparkan:",
+        q.q
+    );
+}
+
+/* =====================================================
+   SEMAK JAWAPAN
+===================================================== */
+
+function checkAnswer(
+    answer,
+    correct
+){
+
+    const message =
+        document.getElementById(
+            "questionMessage"
+        );
+
+
+    /* Tambah jumlah soalan */
+
+    questionCount++;
+
+
+    /* Matikan semua butang */
+
+    document.querySelectorAll(
+        "#answers button"
+    ).forEach(button=>{
+
+        button.disabled = true;
+
+    });
+
+
+    /* =================================================
+       JAWAPAN BETUL
+    ================================================= */
+
+    if(answer === correct){
+
+        correctCount++;
+
+
+        /* UPDATE SCORE BOARD */
+
+        updateScore();
+
+
+        message.innerHTML =
+            "🎉 <strong>BETUL!</strong><br>" +
+            "⭐ Skor: " +
+            correctCount +
+            "/" +
+            MAX_CORRECT +
+            " &nbsp; | &nbsp; " +
+            "Soalan: " +
+            questionCount +
+            "/" +
+            MAX_QUESTIONS;
+
+
+        message.style.color =
+            "#218c53";
+
+
+        /* =============================================
+           15 BETUL = BERJAYA
+        ============================================= */
+
+        if(correctCount >= MAX_CORRECT){
+
+            message.innerHTML =
+                "🎉 <strong>TAHNIAH!</strong><br>" +
+                "⭐ " +
+                correctCount +
+                "/" +
+                MAX_CORRECT +
+                " jawapan betul!<br>" +
+                "🏆 MISI BERJAYA!";
+
+
+            setTimeout(()=>{
+
+                buyProduct();
+
+            },1200);
+
+
+            return;
+        }
+
+
+        /* =============================================
+           BETUL TETAPI BELUM 15
+        ============================================= */
+
+        setTimeout(()=>{
+
+            buyProduct();
+
+        },900);
+
+    }
+
+
+    /* =================================================
+       JAWAPAN SALAH
+    ================================================= */
+
+    else{
+
+        message.innerHTML =
+            "❌ <strong>SALAH!</strong><br>" +
+            "Jangan risau! Cuba soalan lain.";
+
+
+        message.style.color =
+            "#d63031";
+
+
+        /* =============================================
+           SUDAH 20 SOALAN
+        ============================================= */
+
+        if(questionCount >= MAX_QUESTIONS){
+
+            setTimeout(()=>{
+
+                failMission();
+
+            },1200);
+
+
+            return;
+        }
+
+
+        /* =============================================
+           SOALAN BARU
+           SOALAN LAMA TIDAK AKAN DIULANG
+        ============================================= */
+
+        setTimeout(()=>{
+
+            showQuestion();
+
+        },1000);
+
+    }
+
+}
+
+
+/* =====================================================
+   BELI BARANG
+===================================================== */
+
+function buyProduct(){
+
+    const item =
+        products[currentTarget];
+
+
+    if(!item){
+
+        console.error(
+            "Produk tidak dijumpai:",
+            currentTarget
+        );
+
+        return;
+    }
+
+
+    /* Tambah harga */
+
+    totalSpent +=
+        item.price;
+
+
+    updateMoney();
+
+
+    /* =============================================
+       MASUK TROLLEY
+    ============================================= */
+
+   const trolley =
+    document.getElementById(
+        "trolleyItems"
+    );
+
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "trolleyItem";
+
+
+    div.innerHTML =
+        `<img src="../images/${item.image}">`;
+
+
+    trolley.appendChild(
+        div
+    );
+
+
+    /* =============================================
+       CHECKLIST
+    ============================================= */
+
+    const listItem =
+        document.getElementById(
+            "list-" + currentIndex
+        );
+
+
+    if(listItem){
+
+        listItem.classList.add(
+            "done"
+        );
+
+
+        listItem.innerHTML =
+            "☑ " +
+            item.name +
+            " - RM" +
+            item.price.toFixed(2);
+
+    }
+
+
+    /* =============================================
+       HILANGKAN PRODUK
+    ============================================= */
+
+    const product =
+        document.getElementById(
+            currentTarget
+        );
+
+
+    if(product){
+
+        product.style.opacity = "0";
+
+        product.style.pointerEvents =
+            "none";
+
+        product.classList.remove(
+            "targetGlow"
+        );
+
+    }
+
+
+    /* Tutup soalan */
+
+    document.getElementById(
+        "questionBox"
+    ).style.display =
+        "none";
+
+
+    /* Barang seterusnya */
+
+    currentIndex++;
+
+
+    /* =============================================
+       SEMUA 15 BARANG SUDAH DIBELI
+    ============================================= */
+
+    if(currentIndex >= shoppingList.length){
+
+        setTimeout(
+            openCashier,
+            800
+        );
+
+        return;
+    }
+
+
+    /* Barang seterusnya */
+
+    startNextProduct();
+
+}
+
+
+/* =====================================================
+   BARANG SETERUSNYA
+===================================================== */
+
+function startNextProduct(){
+
+    currentTarget =
+        shoppingList[currentIndex];
+
+
+    console.log(
+        "Target seterusnya:",
+        currentTarget
+    );
+
+
+    /* Buang glow lama */
+
+    document.querySelectorAll(
+        ".product"
+    ).forEach(product=>{
+
+        product.classList.remove(
+            "targetGlow"
+        );
+
+    });
+
+
+    /* Glow barang seterusnya */
+
+    const target =
+        document.getElementById(
+            currentTarget
+        );
+
+
+    if(!target){
+
+        console.error(
+            "Produk tidak dijumpai:",
+            currentTarget
+        );
+
+        return;
+    }
+
+
+    target.classList.add(
+        "targetGlow"
+    );
+
+}
+
+
+/* =====================================================
+   KAUNTER
+===================================================== */
+
+function openCashier(){
+
+    document.getElementById(
+        "cashierTotal"
+    ).textContent =
+        "RM" +
+        totalSpent.toFixed(2);
+
+
+    selectedMoney = 0;
+
+    selectedNotes = [];
+
+    paymentComplete = false;
+
+
+    document.getElementById(
+        "selectedMoney"
+    ).textContent =
+        "RM0.00";
+
+
+    document.getElementById(
+        "paymentMessage"
+    ).textContent =
+        "💰 Pilih wang yang mencukupi untuk membayar.";
+
+
+    document.querySelectorAll(
+        ".moneyNote"
+    ).forEach(note=>{
+
+        note.classList.remove(
+            "selected"
+        );
+
+    });
+
+
+    document.getElementById(
+        "cashier"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* =====================================================
+   PILIH WANG
+===================================================== */
+
+function selectMoney(
+    button,
+    value
+){
+
+    if(paymentComplete){
+
+        return;
+    }
+
+
+
+    /* =====================================================
+   TUKAR / PILIH SEMULA WANG
+===================================================== */
+
+function resetMoneySelection(){
+
+    selectedMoney = 0;
+    selectedNotes = [];
+
+    document.getElementById(
+        "selectedMoney"
+    ).textContent = "RM0.00";
+
+    document.querySelectorAll(
+        ".moneyNote"
+    ).forEach(note => {
+
+        note.classList.remove("selected");
+
+    });
+
+    const message =
+        document.getElementById("paymentMessage");
+
+    message.textContent =
+        "💰 Pilih wang yang mencukupi untuk membayar.";
+
+    message.style.color = "#176b38";
+
+    console.log(
+        "🔄 Pilihan wang telah direset."
+    );
+}
+
+    /* Buang pilihan */
+
+    if(button.classList.contains("selected")){
+
+        button.classList.remove(
+            "selected"
+        );
+
+
+        selectedMoney -=
+            value;
+
+
+        const index =
+            selectedNotes.indexOf(
+                button
+            );
+
+
+        if(index !== -1){
+
+            selectedNotes.splice(
+                index,
+                1
+            );
+
+        }
+
+    }
+
+
+    /* Pilih wang */
+
+    else{
+
+        button.classList.add(
+            "selected"
+        );
+
+
+        selectedMoney +=
+            value;
+
+
+        selectedNotes.push(
+            button
+        );
+
+    }
+
+
+    document.getElementById(
+        "selectedMoney"
+    ).textContent =
+        "RM" +
+        selectedMoney.toFixed(2);
+
+
+    document.getElementById(
+        "paymentMessage"
+    ).textContent = "";
+
+}
+
+/* =====================================================
+   TUKAR / PILIH SEMULA WANG
+===================================================== */
+
+function resetMoneySelection(){
+
+    /* Reset jumlah wang dipilih */
+    selectedMoney = 0;
+
+    /* Kosongkan senarai wang yang dipilih */
+    selectedNotes = [];
+
+    /* Paparkan semula RM0.00 */
+    document.getElementById(
+        "selectedMoney"
+    ).textContent = "RM0.00";
+
+    /* Buang tanda selected pada semua wang */
+    document.querySelectorAll(
+        ".moneyNote"
+    ).forEach(note => {
+
+        note.classList.remove("selected");
+
+    });
+
+    /* Reset mesej */
+    const message =
+        document.getElementById("paymentMessage");
+
+    message.textContent =
+        "💰 Pilih wang yang mencukupi untuk membayar.";
+
+    message.style.color = "#176b38";
+
+    console.log(
+        "🔄 Pilihan wang telah direset."
+    );
+}
+
+/* =====================================================
+   BAYAR
+===================================================== */
+
+function makePayment(){
+
+    if(paymentComplete){
+        return;
+    }
+
+    const message =
+        document.getElementById("paymentMessage");
+
+    /* Wang tidak cukup */
+
+    if(selectedMoney < totalSpent){
+
+        message.textContent =
+            "❌ Wang tidak cukup! Pilih wang yang mencukupi.";
+
+        message.style.color =
+            "#d63031";
+
+        return;
+    }
+
+    /* =================================================
+       KIRA BAKI BAYARAN
+    ================================================= */
+
+    const bakiBayaran =
+        selectedMoney - totalSpent;
+
+
+    /* =================================================
+       TOLAK JUMLAH BELIAN DARIPADA DOMPET
+       
+       Contoh:
+       Dompet = RM160
+       Belian = RM38
+       Dompet baharu = RM122
+    ================================================= */
+
+    walletMoney =
+        walletMoney - totalSpent;
+
+
+    /* Pastikan tidak menjadi negatif */
+
+    if(walletMoney < 0){
+        walletMoney = 0;
+    }
+
+
+    /* =================================================
+       UPDATE PAPARAN DOMPET
+    ================================================= */
+
+    updateMoney();
+
+
+    /* Bayaran selesai */
+
+    paymentComplete = true;
+
+
+    /* =================================================
+       PAPAR MESEJ BAYARAN
+    ================================================= */
+
+    if(bakiBayaran === 0){
+
+        message.innerHTML =
+            "🎉 BAYARAN TEPAT!<br>" +
+            "💰 Tiada baki.";
+
+    }
+
+    else{
+
+        message.innerHTML =
+            "🎉 BAYARAN BERJAYA!<br>" +
+            "💰 Baki wang diberi: RM" +
+            bakiBayaran.toFixed(2) +
+            "<br>" +
+            "👛 Baki dalam dompet: RM" +
+            walletMoney.toFixed(2);
+
+    }
+
+
+    message.style.color =
+        "#218c53";
+
+
+    /* =================================================
+       SELEPAS 1.8 SAAT → TAMAT MISI
+    ================================================= */
+
+    setTimeout(
+        finishMission,
+        1800
+    );
+
+}
+
+
+/* =====================================================
+   MISI GAGAL
+===================================================== */
+
+function failMission(){
+
+    /* Tutup kotak soalan */
+    document.getElementById(
+        "questionBox"
+    ).style.display = "none";
+
+
+    /* Tutup kaunter */
+    document.getElementById(
+        "cashier"
+    ).style.display = "none";
+
+
+    /* Paparkan skor */
+    document.getElementById(
+        "failScore"
+    ).textContent =
+        correctCount +
+        "/" +
+        MAX_CORRECT;
+
+
+    /* Paparkan skrin gagal */
+    document.getElementById(
+        "failScreen"
+    ).style.display =
+        "flex";
+
+}
+/* =====================================================
+   🔑 BERIKAN 1 KUNCI UNTUK MISI 8
+===================================================== */
+
+function giveMission8Key(){
+
+    let keys = parseInt(
+        localStorage.getItem("keys") || "0"
+    );
+
+    /* Pastikan Misi 8 belum pernah beri kunci */
+
+    if(localStorage.getItem("keyMisi8Diberi") !== "true"){
+
+        /* Maksimum 8 kunci */
+
+        if(keys < 8){
+
+            keys++;
+
+            localStorage.setItem(
+                "keys",
+                keys
+            );
+
+        }
+
+        /* Tandakan kunci Misi 8 sudah diberi */
+
+        localStorage.setItem(
+            "keyMisi8Diberi",
+            "true"
+        );
+
+        console.log(
+            "🔑 Kunci Misi 8 diberikan: +1"
+        );
+
+    }
+    else{
+
+        console.log(
+            "🔑 Kunci Misi 8 sudah pernah diberikan."
+        );
+
+    }
+
+}
+
+/* =====================================================
+   🏆 MISI BERJAYA
+===================================================== */
+
+function finishMission(){
+
+    /* Tutup kaunter */
+
+    document.getElementById(
+        "cashier"
+    ).style.display = "none";
+
+
+    /* Berikan kunci Misi 8 */
+
+    giveMission8Key();
+
+
+    /* Simpan status Misi 8 */
+
+    localStorage.setItem(
+        "misi8Selesai",
+        "true"
+    );
+
+
+    /* =========================================
+       HENTIKAN TIMER MISI 8
+    ========================================= */
+
+    if (typeof stopTimer === "function") {
+
+        stopTimer();
+
+    }
+
+
+    /* =========================================
+       SIMPAN REKOD NAMA + KELAS + MASA
+    ========================================= */
+
+    setTimeout(function(){
+
+        if (
+            typeof saveFinalParticipantRecord ===
+            "function"
+        ) {
+
+            saveFinalParticipantRecord();
+
+        }
+
+    }, 300);
+
+
+    /* Papar skor */
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        correctCount +
+        "/" +
+        MAX_CORRECT;
+
+
+    /* Papar skrin tamat */
+
+    document.getElementById(
+        "finishScreen"
+    ).style.display = "flex";
+
+}
+
+/* =====================================================
+   CUBA SEMULA MISI
+===================================================== */
+
+function restartMission(){
+
+    /* =================================================
+   RESET TIMER - CUBA LAGI
+================================================= */
+
+if (typeof resetTimerForRetry === "function") {
+
+    resetTimerForRetry();
+
+    console.log("⏱️ Timer direset kepada 00:00");
+
+}
+
+    /* =================================================
+       RESET SKOR
+    ================================================= */
+
+    correctCount = 0;
+    questionCount = 0;
+
+
+    /* =================================================
+       RESET BARANG
+    ================================================= */
+
+    currentIndex = 0;
+    currentTarget = null;
+
+
+    /* =================================================
+       RESET SOALAN
+    ================================================= */
+
+    usedQuestions = [];
+
+
+    /* =================================================
+       RESET WANG
+    ================================================= */
+
+    totalSpent = 0;
+    walletMoney = 160;
+
+
+    /* =================================================
+       RESET PEMBAYARAN
+    ================================================= */
+
+    selectedMoney = 0;
+    selectedNotes = [];
+    paymentComplete = false;
+
+
+    /* =================================================
+       RESET SCORE BOARD
+    ================================================= */
+
+    updateScore();
+
+
+    /* =================================================
+       RESET TROLLEY
+    ================================================= */
+
+    document.getElementById("trolley").innerHTML = "";
+
+
+    /* =================================================
+       PULIHKAN SEMUA BARANG
+    ================================================= */
+
+    document.querySelectorAll(".product").forEach(product => {
+
+        product.style.opacity = "1";
+
+        product.style.pointerEvents = "auto";
+
+        product.classList.remove("targetGlow");
+
+    });
+
+
+    /* =================================================
+       PAPAR SEMULA SENARAI
+    ================================================= */
+
+    displayShoppingList();
+
+
+    /* =================================================
+       UPDATE DUIT
+    ================================================= */
+
+    updateMoney();
+
+
+    /* =================================================
+       TUTUP SKRIN GAGAL
+    ================================================= */
+
+    document.getElementById(
+        "failScreen"
+    ).style.display = "none";
+
+
+    /* =================================================
+       TUTUP SKRIN BERJAYA
+    ================================================= */
+
+    document.getElementById(
+        "finishScreen"
+    ).style.display = "none";
+
+
+    /* =================================================
+       TUTUP SOALAN
+    ================================================= */
+
+    document.getElementById(
+        "questionBox"
+    ).style.display = "none";
+
+
+    /* =================================================
+       TUTUP KAUNTER
+    ================================================= */
+
+    document.getElementById(
+        "cashier"
+    ).style.display = "none";
+
+
+    /* =================================================
+       MULA SEMULA DENGAN BARANG PERTAMA
+    ================================================= */
+
+    startNextProduct();
+
+}
+
+
+/* =====================================================
+   MULA MISI 8
+===================================================== */
+
+function startMission8(){
+
+    /* =================================================
+       TUTUP KOTAK ARAHAN
+    ================================================= */
+
+    document.getElementById(
+        "instructionScreen"
+    ).style.display = "none";
+
+
+    /* =================================================
+       MULA TIMER HANYA APABILA
+       MURID TEKAN JOM MULA
+    ================================================= */
+
+    if (typeof startTimer === "function") {
+
+        startTimer();
+
+        console.log(
+            "⏱️ Timer Misi 8 bermula!"
+        );
+
+    } else {
+
+        console.error(
+            "❌ startTimer() tidak dijumpai!"
+        );
+
+    }
+
+
+    /* =================================================
+       MULAKAN BARANG PERTAMA
+    ================================================= */
+
+    currentIndex = 0;
+
+    currentTarget = null;
+
+    startNextProduct();
+
+
+    console.log(
+        "🚀 Misi 8 bermula!"
+    );
+
+}
+
+/* =====================================================
+   MUZIK PULAU WANG
+===================================================== */
+
+const pulauWangSound =
+    document.getElementById("pulauWangSound");
+
+pulauWangSound.volume = 0.30;
+
+
+/* =====================================================
+   MULA MUZIK SELEPAS KLIK
+===================================================== */
+
+function mulaMuzikPulauWang(){
+
+    pulauWangSound.play()
+        .then(() => {
+
+            console.log("🎵 Muzik Pulau Wang sedang dimainkan");
+
+        })
+        .catch(error => {
+
+            console.log("❌ Muzik gagal dimainkan:", error);
+
+        });
+
+}
+
+
+/* =====================================================
+   KLIK PERTAMA MURID
+===================================================== */
+
+document.addEventListener(
+    "click",
+    mulaMuzikPulauWang,
+    { once:true }
+);
+
+
+/* MULA SELEPAS KLIK */
+
+function startPulauWangMusic(){
+
+    pulauWangSound.play().catch(error => {
+        console.log("Audio tidak dapat dimainkan:", error);
+    });
+
+}
+
+/* =====================================================
+   START GAME
+===================================================== */
+
+displayShoppingList();
+
+updateMoney();
+
+updateScore();
+
+startNextProduct();
+
+/* =====================================================
+   NEXT - KE TAHAP 1
+===================================================== */
+
+function goToNextLevel(){
+
+    window.location.href = "../tahap1.html";
+
+}
+
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyCL_Qo_85H7syg9upgFV6oiqOp_MwJZL0k",
+    authDomain: "cabaran-matematik-sk-jabi.firebaseapp.com",
+    databaseURL: "https://cabaran-matematik-sk-jabi-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "cabaran-matematik-sk-jabi",
+    storageBucket: "cabaran-matematik-sk-jabi.firebasestorage.app",
+    messagingSenderId: "215473379431",
+    appId: "1:215473379431:web:4d76691fd5ca026a9b5cc2"
+};
+
+firebase.initializeApp(firebaseConfig);
+</script>
+
+<script type="module" src="../timer.js"></script>
+
+</body>
+
+</html>

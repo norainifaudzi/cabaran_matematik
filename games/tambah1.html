@@ -1,0 +1,1680 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<title>PULAU TAMBAH</title>
+<style>
+
+  /* =====================================================
+   KOTAK ARAHAN MULA MISI
+===================================================== */
+
+#startBox{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+
+    width:500px;
+
+    background:white;
+
+    color:#222;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    border:5px solid #ffca28;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+
+    z-index:1000;
+
+    text-align:left;
+}
+
+
+/* TAJUK */
+
+#startBox h2{
+    margin:0 0 18px;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#ff9800;
+
+    text-align:center;
+}
+
+
+/* ARAHAN */
+
+#startBox p{
+    margin:0 0 22px;
+
+    font-size:19px;
+
+    font-weight:bold;
+
+    line-height:1.7;
+
+    color:#222;
+
+    text-align:left;
+}
+
+
+/* BUTANG MULA */
+
+#startMissionBtn{
+    display:block;
+
+    margin:0 auto;
+
+    padding:13px 30px;
+
+    font-size:20px;
+
+    font-family:"Comic Sans MS", cursive;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        #4caf50,
+        #2196f3
+    );
+
+    border:none;
+
+    border-radius:25px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 10px rgba(0,0,0,.3);
+}
+
+#startMissionBtn:hover{
+    transform:scale(1.08);
+}
+
+  body { font-family:'Comic Sans MS',sans-serif; text-align:center; background:#87ceeb; margin:0; }
+ #gameCanvas {
+    display:block;
+    width:100vw;
+    height:100vh;
+    margin:0;
+}
+  
+/* =====================================================
+   🌟 MESSAGE BOX GAME
+===================================================== */
+
+#messageBox{
+    width: 460px;
+    max-width: 85vw;
+
+    padding: 28px 30px 30px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 9999;
+
+    background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #fffaf0 100%
+    );
+
+    border: 5px solid #ffbd35;
+    border-radius: 30px;
+
+    font-family: 'Comic Sans MS', sans-serif;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 0 #d98b18,
+        0 22px 35px rgba(0,0,0,0.30);
+
+    display: none;
+
+    animation: messagePop 0.45s cubic-bezier(.17,.67,.36,1.3);
+}
+
+
+/* =====================================================
+   ✨ ANIMASI MESSAGE BOX
+===================================================== */
+
+@keyframes messagePop{
+
+    0%{
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+
+    70%{
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+
+/* =====================================================
+   🏆 TAJUK
+===================================================== */
+
+#msgTitle{
+
+    margin: 0 0 15px;
+
+    font-family: 'Comic Sans MS', sans-serif;
+
+    font-size: 32px;
+    font-weight: bold;
+
+    color: #ff8c00;
+
+    text-shadow:
+        2px 2px 0 #ffe082;
+
+    line-height: 1.2;
+}
+
+
+/* =====================================================
+   📝 MESEJ
+===================================================== */
+
+#msgText{
+
+    margin: 10px 5px 25px;
+
+    font-family: 'Comic Sans MS', sans-serif;
+
+    font-size: 21px;
+    font-weight: bold;
+
+    color: #444;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   🎮 BUTTON
+===================================================== */
+
+#nextBtn{
+
+    min-width: 190px;
+
+    padding: 13px 30px;
+
+    font-family: 'Comic Sans MS', sans-serif;
+
+    font-size: 21px;
+    font-weight: bold;
+
+    color: white;
+
+    background: linear-gradient(
+        180deg,
+        #58d85a 0%,
+        #2eae42 100%
+    );
+
+    border: none;
+
+    border-radius: 18px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 0 #218c32,
+        0 9px 15px rgba(0,0,0,0.20);
+
+    transition: all 0.15s ease;
+}
+
+
+/* =====================================================
+   🖱️ HOVER
+===================================================== */
+
+#nextBtn:hover{
+
+    transform: translateY(-3px) scale(1.04);
+
+    box-shadow:
+        0 9px 0 #218c32,
+        0 13px 20px rgba(0,0,0,0.25);
+}
+
+
+/* =====================================================
+   👆 CLICK
+===================================================== */
+
+#nextBtn:active{
+
+    transform: translateY(3px);
+
+    box-shadow:
+        0 3px 0 #218c32,
+        0 5px 10px rgba(0,0,0,0.20);
+}
+
+
+/* =====================================================
+   ⭐ HIASAN MESSAGE BOX
+===================================================== */
+
+#messageBox::before{
+
+    content: "⭐";
+
+    position: absolute;
+
+    top: -22px;
+    left: 25px;
+
+    font-size: 38px;
+
+    animation: starFloat 1.5s ease-in-out infinite;
+}
+
+
+#messageBox::after{
+
+    content: "⭐";
+
+    position: absolute;
+
+    right: 25px;
+    bottom: -20px;
+
+    font-size: 34px;
+
+    animation: starFloat 1.8s ease-in-out infinite;
+}
+
+/* =====================================================
+   ❌ MESSAGE SALAH
+===================================================== */
+
+#wrongMessage{
+    position: fixed;
+
+    top: 35%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 10000;
+
+    background: linear-gradient(
+        180deg,
+        #ff6b6b 0%,
+        #e53935 100%
+    );
+
+    color: white;
+
+    padding: 18px 45px;
+
+    border: 5px solid #ffffff;
+
+    border-radius: 25px;
+
+    font-family: 'Comic Sans MS', sans-serif;
+
+    font-size: 36px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    box-shadow:
+        0 8px 0 #b71c1c,
+        0 12px 25px rgba(0,0,0,0.30);
+
+    display: none;
+
+    animation: salahPop 0.35s ease-out;
+}
+
+
+/* =====================================================
+   ❌ ANIMASI SALAH
+===================================================== */
+
+@keyframes salahPop{
+
+    0%{
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+
+    70%{
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes starFloat{
+
+    0%,100%{
+        transform: translateY(0) rotate(-8deg);
+    }
+
+    50%{
+        transform: translateY(-7px) rotate(8deg);
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     ARAHAN MULA MISI 2
+===================================================== -->
+
+<div id="startBox">
+
+    <h2>🐸 MISI 2: KATAK LOMPAT</h2>
+
+    <p>
+        🧠 Soalan Tambah akan muncul.<br>
+        👉 Pilih jawapan yang betul.<br>
+        🐸 Katak akan melompat ke jawapan kamu.<br><br>
+
+        🏆 Dapatkan 15 jawapan betul untuk menyelesaikan misi ini.<br><br>
+
+        🚀 Bersedia? Jom mula!
+    </p>
+
+    <button id="startMissionBtn">
+        🚀 MULA MISI
+    </button>
+
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<img id="butterfly"
+     src="../images/butterfly.gif"
+     style="
+       position:fixed;
+       width:80px;
+       height:80px;
+       left:0;
+       top:130px;
+       z-index:10;
+       pointer-events:none;
+     ">
+
+     <img id="butterfly2" 
+     src="../images/butterfly.gif"
+     style="
+       position:fixed;
+       width:70px;
+       height:70px;
+       left:0;
+       top:130px;
+       z-index:10;
+       pointer-events:none;
+     ">
+
+<div id="messageBox">
+  <h3 id="msgTitle"></h3>
+  <p id="msgText"></p>
+  <button id="nextBtn">NEXT</button>
+</div>
+
+<div id="wrongMessage">
+    ❌ SALAH!
+</div>
+
+<script>
+const canvas=document.getElementById("gameCanvas");
+const ctx=canvas.getContext("2d");
+
+const frogSound = new Audio("../sounds/katak.mp3");
+frogSound.volume = 0.4;
+
+const butterfly = document.getElementById("butterfly");
+const butterfly2 = document.getElementById("butterfly2");
+
+let butterflyCenterX = 180;
+let butterflyCenterY = 180;
+
+let butterflyAngle = 0;
+let butterflyAngle2 = Math.PI;
+
+const butterflyRadiusX = 85;
+const butterflyRadiusY = 45;
+
+function updateButterfly(){
+
+    // =========================
+    // 🦋 RAMA-RAMA 1 - KIRI
+    // =========================
+
+    butterflyAngle += 0.018;
+
+    const centerX = 400;
+    const centerY = 180;
+
+    const radiusX = 80;
+    const radiusY = 45;
+
+    const x =
+        centerX +
+        Math.cos(butterflyAngle) * radiusX;
+
+    const y =
+        centerY +
+        Math.sin(butterflyAngle) * radiusY;
+
+    const floatY =
+        Math.sin(butterflyAngle * 3) * 4;
+
+    butterfly.style.left = x + "px";
+    butterfly.style.top = (y + floatY) + "px";
+
+
+    // =========================
+    // 🦋 RAMA-RAMA 2 - KANAN
+    // =========================
+
+    butterflyAngle2 += 0.014;
+
+    const centerX2 = 1100;
+    const centerY2 = 190;
+
+    const radiusX2 = 65;
+    const radiusY2 = 40;
+
+    const x2 =
+        centerX2 +
+        Math.cos(butterflyAngle2) * radiusX2;
+
+    const y2 =
+        centerY2 +
+        Math.sin(butterflyAngle2) * radiusY2;
+
+    const floatY2 =
+        Math.sin(butterflyAngle2 * 2.5) * 4;
+
+    butterfly2.style.left = x2 + "px";
+    butterfly2.style.top = (y2 + floatY2) + "px";
+}
+
+const GAME_WIDTH = 1000;
+const GAME_HEIGHT = 600;
+
+function resizeCanvas(){
+    canvas.width = GAME_WIDTH;
+    canvas.height = GAME_HEIGHT;
+    
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+function drawBackgroundCover(img){
+
+    const canvasRatio = canvas.width / canvas.height;
+    const imgRatio = img.width / img.height;
+
+    let drawWidth, drawHeight, offsetX, offsetY;
+
+    if(imgRatio > canvasRatio){
+
+        drawHeight = canvas.height;
+        drawWidth = img.width * (canvas.height / img.height);
+
+        offsetX = (canvas.width - drawWidth) / 2;
+        offsetY = 0;
+
+    } else {
+
+        drawWidth = canvas.width;
+        drawHeight = img.height * (canvas.width / img.width);
+
+        offsetX = 0;
+        offsetY = (canvas.height - drawHeight) / 2;
+
+    }
+
+    ctx.drawImage(
+        img,
+        offsetX,
+        offsetY,
+        drawWidth,
+        drawHeight
+    );
+}
+
+let frogImg=new Image();
+frogImg.src="../images/frog.png";
+let bgImg=new Image();
+bgImg.src="../images/bg_tambah1.png";
+
+
+let lotusImg=new Image();
+lotusImg.src="../images/lotus.png";
+
+let flowerLotusImg=new Image();
+flowerLotusImg.src="../images/bungateratai.png";
+
+const startLotus = {
+    x: 430,
+    y: 250,
+    w: 180,
+    h: 130
+};
+
+const startX = startLotus.x + (startLotus.w - 120) / 2;
+const startY = startLotus.y - 200;
+
+const frogStartLotus = {
+    x: startX - 30,
+    y: startY + 30,
+    w: 200,
+    h: 150
+};
+
+const extraLotusLeft = {
+    x: 270,
+    y: 280,
+    w: 180,
+    h: 110
+};
+
+const extraLotusRight = {
+    x: 600,
+    y: 280,
+    w: 180,
+    h: 110
+};
+
+const decorationLotus1 = {
+    x: 130,
+    y: 150,
+    w: 130,
+    h: 80
+};
+
+const decorationLotus2 = {
+    x: 630,
+    y: 80,
+    w: 100,
+    h: 60
+};
+
+let frog={
+    x:startX,
+    y:startY,
+    w:180,
+    h:150,
+    vy:0,
+    vx:0,
+    onGround:true
+};
+
+let questions = [];
+
+let current = 0;
+let correct = 0;
+
+let targetPlatform = null;
+let landed = false;
+let platforms = [];
+
+
+// =========================================
+// 🎯 TETAPAN MISI
+// =========================================
+
+const targetCorrect = 15;        // Perlu 15 jawapan betul
+const firstRoundQuestions = 15;  // Soalan pertama
+const maxQuestions = 20;         // Maksimum 20 soalan
+
+// Kesan percikan dan riak apabila katak mendarat
+let splashes = [];
+let ripples = [];
+
+// Kesan animasi air
+let ambientRipples = [];
+let rippleTimer = 0;
+
+let waterShines = [];
+let shineTimer = 0;
+let lotusTime = 0;
+
+// Jana soalan yang unik
+while(questions.length < maxQuestions){
+
+    let a = Math.floor(Math.random() * 9) + 1;
+    let b = Math.floor(Math.random() * 9) + 1;
+
+    let questionText = `${a}+${b}=?`;
+
+    // Pastikan soalan tidak sama
+    if(!questions.some(q => q.q === questionText)){
+
+        questions.push({
+            q: questionText,
+            ans: a + b
+        });
+
+    }
+}
+
+// Susun soalan secara rawak
+questions.sort(() => Math.random() - 0.5);
+
+function makePlatforms(){
+  let q=questions[current];
+  let choices=[q.ans];
+  while(choices.length<3){
+    let wrong=q.ans+Math.floor(Math.random()*5)-2;
+    if(wrong>0 && !choices.includes(wrong)) choices.push(wrong);
+  }
+  choices.sort(()=>Math.random()-0.5);
+
+
+    platforms = [
+        // 🌸 Jawapan 1
+        {
+            x:250,
+            y:360,
+            w:180,
+            h:150,
+            ans:choices[0],
+            visible:true
+        },
+
+        // 🌸 Jawapan 2
+        {
+            x:425,
+            y:360,
+            w:180,
+            h:150,
+            ans:choices[1],
+            visible:true
+        },
+
+        // 🌸 Jawapan 3
+        {
+            x:640,
+            y:360,
+            w:180,
+            h:150,
+            ans:choices[2],
+            visible:true
+        }
+    ]; 
+}
+
+function drawSplash(){
+
+    ctx.fillStyle="cyan";
+
+    splashes.forEach(s=>{
+
+        ctx.beginPath();
+        ctx.arc(
+            s.x,
+            s.y,
+            s.size,
+            0,
+            Math.PI*2
+        );
+        ctx.fill();
+
+    });
+}
+function createSplash(x,y){
+
+    for(let i=0;i<15;i++){
+
+        splashes.push({
+            x:x,
+            y:y,
+            vx:(Math.random()-0.5)*6,
+            vy:-Math.random()*6-2,
+            size:Math.random()*5+3,
+            life:40
+        });
+
+    }
+}
+
+
+function createRipple(x,y){
+
+    ripples.push({
+        x:x,
+        y:y,
+        radius:10,
+        alpha:1
+    });
+
+}
+
+
+function updateEffects(){
+
+    splashes.forEach((s,index)=>{
+
+        s.x += s.vx;
+        s.y += s.vy;
+        s.vy +=0.3;
+        s.life--;
+
+        if(s.life<=0){
+            splashes.splice(index,1);
+        }
+
+    });
+
+
+    ripples.forEach((r,index)=>{
+
+        r.radius+=2;
+        r.alpha-=0.03;
+
+        if(r.alpha<=0){
+            ripples.splice(index,1);
+        }
+
+    });
+
+}
+
+
+function drawEffects(){
+
+    // percikan air
+    splashes.forEach(s=>{
+
+        ctx.fillStyle="cyan";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            s.x,
+            s.y,
+            s.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    });
+
+
+    // riak air
+    ripples.forEach(r=>{
+
+        ctx.strokeStyle="rgba(0,200,255,"+r.alpha+")";
+        ctx.lineWidth=3;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            r.x,
+            r.y,
+            r.radius,
+            0,
+            Math.PI*2
+        );
+
+        ctx.stroke();
+
+    });
+
+}
+
+function createAmbientRipple(){
+
+    const positions = [
+        {x:150, y:180},
+        {x:320, y:240},
+        {x:520, y:170},
+        {x:750, y:230},
+        {x:850, y:400},
+        {x:180, y:420}
+    ];
+
+    const pos = positions[
+        Math.floor(Math.random() * positions.length)
+    ];
+
+    ambientRipples.push({
+        x: pos.x,
+        y: pos.y,
+        radius: 3,
+        alpha: 0.45,
+        speed: 0.5
+    });
+}
+
+
+function updateAmbientRipples(){
+
+    rippleTimer++;
+
+    if(rippleTimer >= 50){
+
+        createAmbientRipple();
+
+        rippleTimer = 0;
+    }
+
+    ambientRipples.forEach((r,index)=>{
+
+        r.radius += r.speed;
+        r.alpha -= 0.006;
+
+        if(r.alpha <= 0){
+
+            ambientRipples.splice(index,1);
+
+        }
+
+    });
+}
+
+
+function drawAmbientRipples(){
+
+    ambientRipples.forEach(r=>{
+
+        ctx.beginPath();
+
+        ctx.strokeStyle =
+            "rgba(255,255,255," + r.alpha + ")";
+
+        ctx.lineWidth = 2;
+
+        ctx.ellipse(
+            r.x,
+            r.y,
+            r.radius * 2.5,
+            r.radius,
+            0,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.stroke();
+
+
+        ctx.beginPath();
+
+        ctx.strokeStyle =
+            "rgba(190,240,255," + (r.alpha * 0.6) + ")";
+
+        ctx.lineWidth = 2;
+
+        ctx.ellipse(
+            r.x,
+            r.y,
+            r.radius * 3.5,
+            r.radius * 1.4,
+            0,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.stroke();
+
+    });
+}
+
+function createWaterShine(){
+
+    const positions = [
+        {x:120, y:210},
+        {x:280, y:160},
+        {x:450, y:230},
+        {x:600, y:150},
+        {x:760, y:270},
+        {x:850, y:180},
+        {x:350, y:300},
+        {x:700, y:380}
+    ];
+
+    const pos = positions[
+        Math.floor(Math.random() * positions.length)
+    ];
+
+    waterShines.push({
+        x: pos.x,
+        y: pos.y,
+        size: 2,
+        alpha: 0,
+        life: 0
+    });
+}
+
+
+function updateWaterShines(){
+
+    shineTimer++;
+
+    if(shineTimer >= 25){
+
+        createWaterShine();
+
+        shineTimer = 0;
+    }
+
+    waterShines.forEach((s,index)=>{
+
+        s.life++;
+
+        // muncul perlahan
+        if(s.life < 20){
+
+            s.alpha += 0.04;
+        }
+
+        // kemudian hilang
+        if(s.life > 40){
+
+            s.alpha -= 0.04;
+        }
+
+        s.size += 0.05;
+
+        if(s.alpha <= 0 && s.life > 40){
+
+            waterShines.splice(index,1);
+        }
+
+    });
+}
+
+
+function drawWaterShines(){
+
+    waterShines.forEach(s=>{
+
+        ctx.save();
+
+        ctx.globalAlpha = s.alpha;
+
+        ctx.fillStyle = "white";
+
+        ctx.beginPath();
+
+        // bentuk kilauan ✨
+        ctx.moveTo(s.x, s.y - s.size * 3);
+        ctx.lineTo(s.x + s.size, s.y);
+        ctx.lineTo(s.x, s.y + s.size * 3);
+        ctx.lineTo(s.x - s.size, s.y);
+
+        ctx.closePath();
+
+        ctx.fill();
+
+        ctx.restore();
+
+    });
+}
+
+function draw(){ 
+
+    ctx.clearRect(0,0,canvas.width,canvas.height); 
+
+    // =========================
+    // BACKGROUND
+    // =========================
+    drawBackgroundCover(bgImg);
+    
+    drawAmbientRipples();
+    drawWaterShines();
+    
+    // =========================
+    // DAUN TAMBAHAN KIRI
+    // =========================
+    ctx.drawImage(
+        lotusImg,
+        extraLotusLeft.x,
+        extraLotusLeft.y,
+        extraLotusLeft.w,
+        extraLotusLeft.h
+    );
+
+
+    // =========================
+    // DAUN TAMBAHAN KANAN
+    // =========================
+    ctx.drawImage(
+        lotusImg,
+        extraLotusRight.x,
+        extraLotusRight.y,
+        extraLotusRight.w,
+        extraLotusRight.h
+    );
+
+    // =========================
+// DAUN TERATAI HIASAN 1
+// =========================
+ctx.save();
+
+const sway1 = Math.sin(lotusTime) * 3;
+const float1 = Math.cos(lotusTime * 0.8) * 2;
+
+ctx.translate(
+    decorationLotus1.x + decorationLotus1.w / 2 + sway1,
+    decorationLotus1.y + decorationLotus1.h / 2 + float1
+);
+
+ctx.rotate(Math.sin(lotusTime * 0.7) * 0.025);
+
+ctx.drawImage(
+    lotusImg,
+    -decorationLotus1.w / 2,
+    -decorationLotus1.h / 2,
+    decorationLotus1.w,
+    decorationLotus1.h
+);
+
+ctx.restore();
+
+// =========================
+// DAUN TERATAI HIASAN 2
+// =========================
+ctx.save();
+
+const sway2 = Math.sin(lotusTime * 0.8 + 2) * 2.5;
+const float2 = Math.cos(lotusTime * 0.6 + 1) * 1.5;
+
+ctx.translate(
+    decorationLotus2.x + decorationLotus2.w / 2 + sway2,
+    decorationLotus2.y + decorationLotus2.h / 2 + float2
+);
+
+ctx.rotate(Math.sin(lotusTime * 0.6 + 1) * 0.02);
+
+ctx.drawImage(
+    lotusImg,
+    -decorationLotus2.w / 2,
+    -decorationLotus2.h / 2,
+    decorationLotus2.w,
+    decorationLotus2.h
+);
+
+ctx.restore();
+
+    // =========================
+    // 3 DAUN JAWAPAN
+    // =========================
+    platforms.forEach(p => {
+
+        if(p.visible){
+
+    // 🌸 BUNGA TERATAI UNTUK JAWAPAN
+    ctx.drawImage(
+    flowerLotusImg,
+    p.x,
+    p.y,
+    p.w,
+    p.h
+    );
+
+     // Nombor jawapan
+    ctx.fillStyle = "black";
+    ctx.font = "bold 38px Comic Sans MS";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(
+    p.ans,
+    p.x + p.w / 2,
+    p.y + p.h / 2
+    );
+    }
+    });
+
+
+    // =========================
+    // DAUN TERATAI ASAL
+    // =========================
+    ctx.drawImage(
+        lotusImg,
+        startLotus.x,
+        startLotus.y,
+        startLotus.w,
+        startLotus.h
+    );
+
+
+    // =========================
+    // DAUN 2 DI BAWAH KATAK
+    // =========================
+    ctx.drawImage(
+        lotusImg,
+        frogStartLotus.x,
+        frogStartLotus.y,
+        frogStartLotus.w,
+        frogStartLotus.h
+    );
+
+
+    // =========================
+    // KATAK
+    // =========================
+    ctx.drawImage(
+        frogImg,
+        frog.x,
+        frog.y,
+        frog.w,
+        frog.h
+    );
+
+
+    // =========================
+    // KESAN AIR
+    // =========================
+    drawSplash();
+
+
+    // =========================
+    // KOTAK SOALAN CARTOON
+    // =========================
+
+    const questionX = canvas.width / 2 - 120;
+    const questionY = 480;
+    const questionW = 240;
+    const questionH = 70;
+
+    // Bayang
+    ctx.fillStyle = "rgba(0,0,0,0.25)";
+    ctx.beginPath();
+    ctx.roundRect(
+    questionX + 5,
+    questionY + 5,
+    questionW,
+    questionH,
+    20
+    );
+    ctx.fill();
+
+    // Kotak utama
+    ctx.fillStyle = "#fff7d6";
+    ctx.beginPath();
+    ctx.roundRect(
+    questionX,
+    questionY,
+    questionW,
+    questionH,
+    20
+    );
+    ctx.fill();
+
+    // Bingkai
+    ctx.strokeStyle = "#ffb300";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    // Soalan
+    ctx.fillStyle = "#174ea6";
+    ctx.font = "bold 30px Comic Sans MS";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(
+    questions[current].q,
+    canvas.width / 2,
+    questionY + questionH / 2
+    );
+
+// =========================
+// 🏆 SKOR - BADGE GAME
+// =========================
+
+// Bayang
+ctx.fillStyle = "rgba(0,0,0,0.25)";
+ctx.beginPath();
+ctx.roundRect(55, 55, 210, 65, 22);
+ctx.fill();
+
+// Badge utama
+ctx.fillStyle = "#ffffff";
+ctx.beginPath();
+ctx.roundRect(48, 47, 210, 65, 22);
+ctx.fill();
+
+// Bingkai
+ctx.strokeStyle = "#ffb300";
+ctx.lineWidth = 4;
+ctx.stroke();
+
+// Trofi
+ctx.font = "34px Arial";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillText("🏆", 82, 79);
+
+// Tajuk
+ctx.fillStyle = "#e67e22";
+ctx.font = "bold 18px Comic Sans MS";
+ctx.textAlign = "left";
+ctx.fillText("SKOR", 108, 67);
+
+// Markah
+ctx.fillStyle = "#1565c0";
+ctx.font = "bold 24px Comic Sans MS";
+ctx.fillText(
+    correct + " / " + targetCorrect,
+    108,
+    94
+);
+
+// Bintang hiasan
+ctx.font = "17px Arial";
+ctx.textAlign = "center";
+ctx.fillText("⭐", 240, 58);
+ctx.fillText("⭐", 240, 103);
+
+}
+
+function update(){
+    updateAmbientRipples();
+    updateEffects();
+    updateWaterShines();
+    updateButterfly();
+
+    lotusTime += 0.02;
+
+       if(targetPlatform && !landed){
+
+        frog.x += frog.vx;
+        frog.y += frog.vy;
+
+        // graviti
+        frog.vy += 2;
+
+        // Semak sampai ke platform
+       if(frog.y + frog.h >= targetPlatform.y){
+
+    frog.y = targetPlatform.y - frog.h;
+
+    frog.vy = 0;
+    frog.vx = 0;
+
+    frog.onGround = true;
+    landed = true;
+
+    createSplash(
+        targetPlatform.x + targetPlatform.w/2,
+        targetPlatform.y + targetPlatform.h
+    );
+
+    createRipple(
+        targetPlatform.x + targetPlatform.w/2,
+        targetPlatform.y + targetPlatform.h
+    );
+
+    checkAnswer(targetPlatform);
+}
+    }
+
+    draw();
+
+    requestAnimationFrame(update);
+}
+
+canvas.addEventListener("click", function(e){ 
+
+    // 🔒 BELUM TEKAN MULA MISI
+    if(!gameStarted){
+        return;
+    }
+
+    if(landed) return;
+
+    const rect = canvas.getBoundingClientRect();
+
+    // Kira skala antara canvas sebenar dan canvas yang dipaparkan
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    // Tukar kedudukan klik skrin kepada koordinat game
+    const mouseX = (e.clientX - rect.left) * scaleX;
+    const mouseY = (e.clientY - rect.top) * scaleY;
+
+    console.log("Klik:", mouseX, mouseY);
+
+    platforms.forEach(function(p){
+
+        if(
+            p.visible &&
+            mouseX >= p.x &&
+            mouseX <= p.x + p.w &&
+            mouseY >= p.y &&
+            mouseY <= p.y + p.h
+        ){
+
+            console.log("Platform dipilih:", p.ans);
+
+           targetPlatform = p;
+
+         const targetX = 
+    p.x + (p.w / 2) - (frog.w / 2) - 20;
+
+          frog.vx = 
+        (targetX - frog.x) / 30;
+
+        frog.vy = -16;
+        frog.onGround = false;
+
+        // 🐸 Bunyi katak melompat
+        frogSound.currentTime = 0;
+        frogSound.play().catch(()=>{});
+        }
+
+    });
+
+});
+
+function checkAnswer(p){
+
+    // =========================================
+    // SEMAK JAWAPAN
+    // =========================================
+
+    if(p.ans === questions[current].ans){
+
+        // ✅ JAWAPAN BETUL
+        correct++;
+
+        // Hilangkan bunga jawapan yang dipilih
+        p.visible = false;
+
+        setTimeout(() => {
+
+            current++;
+
+            // =====================================
+            // 🎉 SUDAH DAPAT 15 BETUL
+            // =====================================
+
+            if(correct >= targetCorrect){
+
+                endGame();
+                return;
+            }
+
+            // =====================================
+            // 🔢 SUDAH GUNA 20 SOALAN
+            // =====================================
+
+            if(current >= maxQuestions){
+
+                endGame();
+                return;
+            }
+
+            // =====================================
+            // 🐸 KATAK KEMBALI KE TEMPAT ASAL
+            // =====================================
+
+            frog.x = startX;
+            frog.y = startY;
+
+            frog.vy = 0;
+            frog.vx = 0;
+
+            frog.onGround = true;
+
+            landed = false;
+            targetPlatform = null;
+
+            // Jana pilihan jawapan baru
+            makePlatforms();
+
+        }, 1000);
+
+    }else{
+
+        // =========================================
+        // ❌ JAWAPAN SALAH
+        // =========================================
+
+        const wrongMessage =
+            document.getElementById("wrongMessage");
+
+        wrongMessage.style.display = "block";
+
+        // Katak kembali ke tempat asal
+        frog.x = startX;
+        frog.y = startY;
+
+        frog.vy = 0;
+        frog.vx = 0;
+
+        frog.onGround = true;
+
+        landed = false;
+        targetPlatform = null;
+
+        // =========================================
+        // TUKAR SOALAN SELEPAS SALAH
+        // =========================================
+
+        setTimeout(() => {
+
+            wrongMessage.style.display = "none";
+
+            current++;
+
+            // =====================================
+            // SUDAH GUNA 20 SOALAN
+            // =====================================
+
+            if(current >= maxQuestions){
+
+                endGame();
+                return;
+            }
+
+            // =====================================
+            // SOALAN SETERUSNYA
+            // =====================================
+
+            makePlatforms();
+
+        }, 1200);
+    }
+}
+
+
+function showBox(title, text, link, buttonText){
+
+    document.getElementById("msgTitle").innerText = title;
+
+    document.getElementById("msgText").innerHTML =
+        text.replace(/\n/g, "<br>");
+
+    document.getElementById("messageBox").style.display =
+        "block";
+
+    // Tukar tulisan button mengikut keadaan
+    document.getElementById("nextBtn").innerText =
+        buttonText;
+
+    document.getElementById("nextBtn").onclick =
+        function(){
+
+            window.location.href = link;
+
+        };
+}
+
+function endGame(){
+
+    let score = correct;
+
+
+    // =========================================
+    // 🎉 BERJAYA - 15 BETUL
+    // =========================================
+
+    if(score >= targetCorrect){
+
+        if(!localStorage.getItem("kunciTambah")){
+
+            localStorage.setItem(
+                "kunciTambah",
+                "true"
+            );
+
+            localStorage.setItem(
+                "misiTolakAktif",
+                "true"
+            );
+
+            let keys = parseInt(
+                localStorage.getItem("keys") || "0",
+                10
+            );
+
+            localStorage.setItem(
+                "keys",
+                keys + 1
+            );
+        }
+
+
+    showBox(
+    "🎉 TAHNIAH!",
+
+    "Anda berjaya mendapat " +
+    score +
+    " jawapan betul!\n\n" +
+
+    "🏆 Misi berjaya!\n\n" +
+
+    "Anda boleh teruskan MISI seterusnya.",
+
+    "../tahap1.html",
+
+    "NEXT MISI"
+);
+
+    }
+    // =========================================
+    // 😢 GAGAL - SELEPAS 20 SOALAN
+    // =========================================
+
+    else{
+
+ showBox(
+    "😢 MISI GAGAL",
+
+    "Anda mendapat " +
+    score +
+    " / 15 jawapan betul.\n\n" +
+
+    "💪 Jangan putus asa!\n" +
+    "Ulang semula dan cuba lagi!",
+
+    "tambah1.html",
+
+    "CUBA LAGI"
+);
+    }
+}
+
+// =========================
+// LOAD IMAGE
+// =========================
+
+let loaded = 0;
+let gameStarted = false;
+
+function imageLoaded(){
+
+    loaded++;
+
+    if(loaded === 4){
+
+        makePlatforms();
+
+        // Game boleh berjalan untuk animasi/background,
+        // tetapi gameStarted kekal FALSE sehingga
+        // pelajar tekan MULA MISI.
+        update();
+    }
+}
+
+frogImg.onload = imageLoaded; 
+bgImg.onload = imageLoaded; 
+lotusImg.onload = imageLoaded;
+flowerLotusImg.onload = imageLoaded;
+
+document.getElementById("startMissionBtn").addEventListener("click", function(){
+
+    console.log("MULA MISI 2 ditekan");
+
+    // =========================================
+    // 🚀 AKTIFKAN MISI
+    // =========================================
+    gameStarted = true;
+
+    // Tutup kotak arahan
+    document.getElementById("startBox").style.display = "none";
+
+    // Jika ada fungsi mula game
+    if(typeof startGame === "function"){
+        startGame();
+    }
+
+    // =========================================
+    // ⏱️ MULA TIMER SELEPAS TEKAN MULA
+    // =========================================
+    if(window.mathAdventureTimer){
+        window.mathAdventureTimer.startTimer();
+    }
+
+});
+
+</script>
+
+<script type="module" src="../timer.js"></script>
+
+</body>
+</html>

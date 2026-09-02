@@ -1,0 +1,2657 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+<meta charset="UTF-8">
+<title>Misi Bersihkan Bilik</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    font-family:"Comic Sans MS", cursive, sans-serif;
+    background:
+        linear-gradient(rgba(80,140,180,.15),rgba(80,140,180,.15)),
+        #bde7ff;
+    text-align:center;
+}
+
+#room{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+
+    background-image:url('../images/bilik.png');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+
+/* =====================================================
+   TAJUK
+===================================================== */
+
+#gameTitle{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:linear-gradient(
+        135deg,
+        #ff9800,
+        #f44336
+    );
+
+    color:white;
+    padding:12px 35px;
+    border-radius:30px;
+
+    font-size:28px;
+    font-weight:bold;
+
+    border:4px solid white;
+
+    box-shadow:
+        0 5px 12px rgba(0,0,0,.35);
+
+    z-index:100;
+}
+
+
+/* =====================================================
+   KOTAK SKOR
+===================================================== */
+
+#statusBox{
+    position:absolute;
+    top:90px;
+    right:25px;
+
+    width:210px;
+
+    background:rgba(0,0,0,.72);
+    color:white;
+
+    padding:12px;
+    border-radius:18px;
+    border:3px solid #ffd54f;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.4);
+
+    z-index:100;
+
+    font-size:20px;
+    text-align:left;
+}
+
+#statusTitle{
+    text-align:center;
+    color:#ffd54f;
+    font-size:22px;
+    margin-bottom:6px;
+}
+
+#scoreDisplay{
+    text-align:center;
+    font-size:25px;
+    font-weight:bold;
+    color:white;
+    margin-top:8px;
+}
+
+#score{
+    font-size:25px;
+    color:#ffd54f;
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   SAIZ SETIAP BARANG
+===================================================== */
+
+.item img{
+    width:90px;
+    height:auto;
+    display:block;
+    object-fit:contain;
+
+    transition:
+        transform .3s;
+}
+
+
+/* 1. KERETAPI */
+
+#keretapi img{
+    width:150px;
+}
+
+
+/* 2. DEKAK */
+
+#dekak img{
+    width:80px;
+}
+
+
+/* 3. DIARI */
+
+#diari img{
+    width:190px;
+}
+
+
+/* 4. BOLA */
+
+#bola img{
+    width:120px;
+}
+
+
+/* 5. TISU */
+
+#tisu img{
+    width:150px;
+}
+
+
+/* 6. BAKUL SAMPAH */
+
+#bakulsampah img{
+    width:180px;
+}
+
+
+/* 7. BANTAL */
+
+#bantal img{
+    width:110px;
+}
+
+
+/* 8. BEAR */
+
+#bear img{
+    width:110px;
+}
+
+
+/* 9. BEG */
+
+#beg img{
+    width:180px;
+}
+
+
+/* 10. CALENDAR */
+
+#calendar img{
+    width:120px;
+}
+
+
+/* 11. SHIRT */
+
+#shirt img{
+    width:200px;
+}
+
+
+/* 12. TOPI */
+
+#topi img{
+    width:110px;
+}
+
+
+/* 13. WARNA */
+
+#warna img{
+    width:80px;
+}
+
+
+/* 14. YOYO */
+
+#yoyo img{
+    width:100px;
+}
+
+
+/* 15. KERTAS */
+
+#kertas img{
+    width:150px;
+}
+
+
+/* =====================================================
+   ANIMASI BARANG
+===================================================== */
+
+.item{
+    position:absolute;
+
+    cursor:pointer;
+
+    transition:
+        left 1s ease,
+        top 1s ease,
+        bottom 1s ease,
+        right 1s ease;
+
+    z-index:20;
+
+    user-select:none;
+}
+
+
+/* =====================================================
+   ANIMASI IMEJ
+===================================================== */
+
+.item img{
+    display:block;
+
+    transition:
+        transform .25s ease,
+        filter .25s ease,
+        opacity .25s ease;
+}
+
+
+/* =====================================================
+   BLINK + GLOW
+===================================================== */
+
+.item.blinkNow img{
+    animation:itemBlink .8s ease-in-out infinite;
+}
+
+@keyframes itemBlink{
+
+    0%{
+        transform:scale(1);
+
+        filter:
+            drop-shadow(0 0 0px rgba(255,255,255,0));
+
+        opacity:1;
+    }
+
+    50%{
+        transform:
+            scale(1.12)
+            rotate(-3deg);
+
+        filter:
+            drop-shadow(0 0 8px #fff)
+            drop-shadow(0 0 18px #ffd54f)
+            drop-shadow(0 0 28px #ff9800);
+
+        opacity:.75;
+    }
+
+    100%{
+        transform:scale(1);
+
+        filter:
+            drop-shadow(0 0 0px rgba(255,255,255,0));
+
+        opacity:1;
+    }
+}
+
+
+/* =====================================================
+   BARANG SUDAH DIKEMAS
+===================================================== */
+
+.item.kemas img{
+    animation:none !important;
+    filter:none !important;
+}
+
+
+/* =====================================================
+   BAKUL SAMPAH SUDAH SELESAI
+===================================================== */
+
+.item.selesai img{
+    animation:none !important;
+    filter:none !important;
+}
+
+
+/* =====================================================
+   BARANG SAMPAI
+===================================================== */
+
+.item.kemas{
+    cursor:default;
+
+    animation:
+        kemasItem .8s ease;
+}
+
+@keyframes kemasItem{
+
+    0%{
+        transform:
+            scale(1);
+    }
+
+    40%{
+        transform:
+            scale(1.15)
+            rotate(-5deg);
+    }
+
+    70%{
+        transform:
+            scale(1.05)
+            rotate(3deg);
+    }
+
+    100%{
+        transform:
+            scale(1)
+            rotate(0);
+    }
+}
+
+
+/* =====================================================
+   KOTAK SOALAN
+===================================================== */
+
+#questionBox{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:500px;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:25px;
+
+    border:5px solid #ffca28;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+
+    z-index:200;
+
+    display:none;
+}
+
+#questionBox h2{
+
+    margin-top:0;
+
+    color:#ff9800;
+
+    font-size:24px;
+}
+
+#questionText{
+
+    font-size:21px;
+
+    font-weight:bold;
+
+    color:#333;
+
+    margin:
+        15px 0 20px;
+}
+
+
+/* =====================================================
+   BUTANG JAWAPAN
+===================================================== */
+
+.answer-btn{
+
+    display:block;
+
+    width:90%;
+
+    margin:10px auto;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff9800,
+            #f44336
+        );
+
+    color:white;
+
+    font-family:
+        "Comic Sans MS",
+        cursive;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 4px 8px rgba(0,0,0,.25);
+
+    transition:.2s;
+}
+
+.answer-btn:hover{
+
+    transform:scale(1.05);
+
+    background:
+        linear-gradient(
+            135deg,
+            #4caf50,
+            #2196f3
+        );
+}
+
+
+/* =====================================================
+   ARAHAN
+===================================================== */
+
+#instruction{
+
+    position:absolute;
+
+    bottom:15px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        rgba(0,0,0,.65);
+
+    color:white;
+
+    padding:10px 25px;
+
+    border-radius:20px;
+
+    font-size:18px;
+
+    z-index:100;
+}
+
+
+/* =====================================================
+   MESSAGE BOX
+===================================================== */
+
+#messageBox{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:500px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4caf50,
+            #2196f3
+        );
+
+    color:white;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    border:5px solid white;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+
+    z-index:500;
+
+    display:none;
+
+    animation:
+        popIn .5s ease;
+}
+
+#messageBox h2{
+
+    font-size:30px;
+
+    margin-top:0;
+}
+
+#messageBox p{
+
+    font-size:20px;
+}
+
+#nextBtn{
+
+    padding:13px 28px;
+
+    font-size:19px;
+
+    font-family:
+        "Comic Sans MS",
+        cursive;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff9800,
+            #f44336
+        );
+
+    border:none;
+
+    border-radius:25px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 10px rgba(0,0,0,.3);
+}
+
+#nextBtn:hover{
+
+    transform:scale(1.08);
+}
+
+@keyframes popIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.6);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+    }
+}
+
+
+/* =====================================================
+   KEDUDUKAN BARANG
+===================================================== */
+
+#keretapi{
+    position:absolute;
+    left:80%;
+    bottom:5%;
+}
+
+#dekak{
+    position:absolute;
+    left:90%;
+    bottom:3%;
+    z-index:10;
+}
+
+#diari{
+    position:absolute;
+    left:40%;
+    bottom:20%;
+    z-index:3;
+}
+
+#bola{
+    position:absolute;
+    left:55%;
+    bottom:5%;
+}
+
+#tisu{
+    position:absolute;
+    left:60%;
+    bottom:15%;
+}
+
+#bakulsampah{
+    position:absolute;
+    left:91%;
+    top:65%;
+}
+
+#bantal{
+    position:absolute;
+    left:10%;
+    top:88%;
+    z-index:10;
+}
+
+#bear{
+    position:absolute;
+    left:18%;
+    top:80%;
+}
+
+#beg{
+    position:absolute;
+    left:48%;
+    top:63%;
+}
+
+#calendar{
+    position:absolute;
+    left:25%;
+    top:85%;
+    z-index:60;
+}
+
+#shirt{
+    position:absolute;
+    left:65%;
+    top:75%;
+}
+
+#topi{
+    position:absolute;
+    left:33%;
+    top:73%;
+}
+
+#warna{
+    position:absolute;
+    left:30%;
+    top:78%;
+    z-index:60;
+}
+
+#yoyo{
+    position:absolute;
+    left:40%;
+    top:50%;
+}
+
+#kertas{
+    position:absolute;
+    left:1%;
+    top:80%;
+}
+
+
+/* =====================================================
+   KEDUDUKAN SEBENAR
+===================================================== */
+
+#keretapi.kemas{
+    left:80%;
+    bottom:65%;
+}
+
+#dekak.kemas{
+    left:57%;
+    bottom:36.5%;
+}
+
+#diari.kemas{
+    left:75%;
+    bottom:28%;
+    z-index:50;
+}
+
+#bola.kemas{
+    left:85%;
+    bottom:15%;
+    z-index:20;
+}
+
+#tisu.kemas{
+    left:75%;
+    bottom:64%;
+}
+
+#bear.kemas{
+    left:43%;
+    top:47%;
+}
+
+#beg.kemas{
+    left:15%;
+    top:55%;
+}
+
+#calendar.kemas{
+    left:9%;
+    top:48%;
+    z-index:50;
+}
+
+
+/* =====================================================
+   TOPI → MASUK KE DALAM ALMARI
+===================================================== */
+
+#topi.kemas{
+
+    left:62%;
+    top:42%;
+
+    z-index:5;
+
+    animation:
+        topiMasukAlmari
+        1.5s ease-in forwards;
+}
+
+@keyframes topiMasukAlmari{
+
+    0%{
+
+        transform:
+            scale(1)
+            rotate(0deg);
+
+        opacity:1;
+    }
+
+    50%{
+
+        transform:
+            scale(.85)
+            rotate(-5deg);
+
+        opacity:1;
+    }
+
+    80%{
+
+        transform:
+            scale(.55)
+            rotate(3deg);
+
+        opacity:1;
+    }
+
+    100%{
+
+        transform:
+            scale(.1)
+            rotate(0deg);
+
+        opacity:0;
+    }
+}
+
+
+#warna.kemas{
+
+    left:8%;
+    top:55%;
+
+    z-index:40;
+}
+
+
+#kertas.kemas{
+
+    left:20%;
+    top:45%;
+}
+
+
+/* =====================================================
+   BAKUL SAMPAH KEKAL
+===================================================== */
+
+#bakulsampah.kemas{
+
+    left:91%;
+    top:65%;
+
+    bottom:auto;
+}
+
+
+/* =====================================================
+   SHIRT → MASUK KE DALAM ALMARI
+===================================================== */
+
+#shirt.kemas{
+
+    left:62%;
+    top:42%;
+
+    z-index:5;
+
+    animation:
+        shirtMasukAlmari
+        1.5s ease-in forwards;
+}
+
+@keyframes shirtMasukAlmari{
+
+    0%{
+
+        transform:
+            scale(1)
+            rotate(0deg);
+
+        opacity:1;
+    }
+
+    50%{
+
+        transform:
+            scale(.85)
+            rotate(-5deg);
+
+        opacity:1;
+    }
+
+    80%{
+
+        transform:
+            scale(.55)
+            rotate(3deg);
+
+        opacity:1;
+    }
+
+    100%{
+
+        transform:
+            scale(.1)
+            rotate(0deg);
+
+        opacity:0;
+    }
+}
+
+
+/* =====================================================
+   BANTAL → BAKUL SAMPAH
+===================================================== */
+
+#bantal.buangSampah{
+
+    z-index:100;
+
+    pointer-events:none;
+
+    animation:
+        bantalMasukBakul
+        1.5s ease-in forwards;
+}
+
+@keyframes bantalMasukBakul{
+
+    0%{
+
+        transform:
+            translate(0,0)
+            scale(1)
+            rotate(0deg);
+
+        opacity:1;
+    }
+
+    30%{
+
+        transform:
+            translate(
+                calc(var(--moveX) * .3),
+                calc(var(--moveY) * .3 - 120px)
+            )
+            scale(1)
+            rotate(-8deg);
+
+        opacity:1;
+    }
+
+    60%{
+
+        transform:
+            translate(
+                calc(var(--moveX) * .7),
+                calc(var(--moveY) * .7 - 100px)
+            )
+            scale(1)
+            rotate(8deg);
+
+        opacity:1;
+    }
+
+    80%{
+
+        transform:
+            translate(
+                var(--moveX),
+                calc(var(--moveY) - 70px)
+            )
+            scale(1)
+            rotate(-3deg);
+
+        opacity:1;
+    }
+
+    100%{
+
+        transform:
+            translate(
+                var(--moveX),
+                var(--moveY)
+            )
+            scale(1)
+            rotate(0deg);
+
+        opacity:0;
+    }
+}
+
+
+/* =====================================================
+   YOYO → TERBANG KE KOTAK
+===================================================== */
+
+#yoyo.terbang{
+
+    z-index:100;
+
+    pointer-events:none;
+
+    animation:
+        yoyoTerbang
+        1.5s ease-in forwards;
+}
+
+@keyframes yoyoTerbang{
+
+    0%{
+
+        left:40%;
+        top:50%;
+
+        transform:
+            rotate(0deg)
+            scale(1);
+
+        opacity:1;
+    }
+
+    30%{
+
+        left:50%;
+        top:40%;
+
+        transform:
+            rotate(180deg)
+            scale(1);
+
+        opacity:1;
+    }
+
+    60%{
+
+        left:65%;
+        top:35%;
+
+        transform:
+            rotate(360deg)
+            scale(.9);
+
+        opacity:1;
+    }
+
+    85%{
+
+        left:75%;
+        bottom:25%;
+        top:auto;
+
+        transform:
+            rotate(540deg)
+            scale(.6);
+
+        opacity:1;
+    }
+
+    100%{
+
+        left:75%;
+        bottom:25%;
+        top:auto;
+
+        transform:
+            rotate(720deg)
+            scale(.1);
+
+        opacity:0;
+    }
+}
+
+
+/* =====================================================
+   KOTAK ARAHAN MULA MISI
+===================================================== */
+
+/* =====================================================
+   KOTAK ARAHAN MULA MISI
+===================================================== */
+
+#startBox{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+
+    width:500px;
+
+    background:white;
+
+    color:#222;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    border:5px solid #ffca28;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+
+    z-index:1000;
+
+    text-align:left;
+}
+
+
+/* TAJUK */
+
+#startBox h2{
+    margin:0 0 18px;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#ff9800;
+
+    text-align:center;
+}
+
+
+/* ARAHAN */
+
+#startBox p{
+    margin:0 0 22px;
+
+    font-size:19px;
+
+    font-weight:bold;
+
+    line-height:1.7;
+
+    color:#222;
+
+    text-align:left;
+}
+
+
+/* BUTANG MULA */
+
+#startMissionBtn{
+    display:block;
+
+    margin:0 auto;
+
+    padding:13px 30px;
+
+    font-size:20px;
+
+    font-family:"Comic Sans MS", cursive;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        #4caf50,
+        #2196f3
+    );
+
+    border:none;
+
+    border-radius:25px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 10px rgba(0,0,0,.3);
+}
+
+#startMissionBtn:hover{
+    transform:scale(1.08);
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div id="room">
+
+
+    <div id="wallDecor">
+
+        <div class="sun"></div>
+
+        <div class="window"></div>
+
+    </div>
+
+    
+<!-- =====================================================
+     ARAHAN MULA MISI
+===================================================== -->
+
+<div id="startBox">
+
+    <h2>🧹 MISI 1: KEMAS BILIK</h2>
+
+    <p>
+        🔎 Cari barang yang berkelip.<br>
+        🖱️ Klik barang tersebut.<br>
+        🧠 Jawab soalan Nombor.<br>
+        ✅ Jawab betul untuk mengemas barang.<br><br>
+        🏆 Dapatkan 15 jawapan betul untuk melengkapkan MISI ini.<br><br>
+
+        🚀 Bersedia? Jom mula!
+    </p>
+
+    <button id="startMissionBtn">
+        🚀 MULA MISI
+    </button>
+
+</div>
+
+
+
+    <!-- =================================================
+         MUZIK
+    ================================================== -->
+
+    <audio id="bgMusic" loop>
+
+        <source
+            src="../sounds/twinkle.mp3"
+            type="audio/mpeg">
+
+    </audio>
+
+
+    <!-- TAJUK -->
+
+    <div id="gameTitle">
+
+        🧹 MISI BERSIHKAN BILIK
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div id="statusBox">
+
+        <div id="statusTitle">
+
+            🏆 SKOR MISI
+
+        </div>
+
+        ⭐ SKOR:
+
+        <span id="score">0</span>
+
+        /15
+
+    </div>
+
+
+    <!-- =================================================
+         BARANG DALAM BILIK
+    ================================================== -->
+
+    <div class="item" id="keretapi">
+
+        <img
+            src="../images/keretapi.png"
+            alt="Keretapi">
+
+    </div>
+
+
+    <div class="item" id="dekak">
+
+        <img
+            src="../images/jamloceng.png"
+            alt="Dekak">
+
+    </div>
+
+
+    <div class="item" id="diari">
+
+        <img
+            src="../images/piala1.png"
+            alt="Diari">
+
+    </div>
+
+
+    <div class="item" id="bola">
+
+        <img
+            src="../images/bola.png"
+            alt="Bola">
+
+    </div>
+
+
+    <div class="item" id="tisu">
+
+        <img
+            src="../images/kapal.png"
+            alt="Tisu">
+
+    </div>
+
+
+    <div class="item" id="bakulsampah">
+
+        <img
+            src="../images/bakulsampah1.png"
+            alt="Bakul Sampah">
+
+    </div>
+
+
+    <div class="item" id="bantal">
+
+        <img
+            src="../images/bantal.png"
+            alt="Bantal">
+
+    </div>
+
+
+    <div class="item" id="bear">
+
+        <img
+            src="../images/bear.png"
+            alt="Bear">
+
+    </div>
+
+
+    <div class="item" id="beg">
+
+        <img
+            src="../images/beg1.png"
+            alt="Beg">
+
+    </div>
+
+
+    <div class="item" id="calendar">
+
+        <img
+            src="../images/calendar.png"
+            alt="Calendar">
+
+    </div>
+
+
+    <div class="item" id="shirt">
+
+        <img
+            src="../images/shirt.png"
+            alt="Shirt">
+
+    </div>
+
+
+    <div class="item" id="topi">
+
+        <img
+            src="../images/topi.png"
+            alt="Topi">
+
+    </div>
+
+
+    <div class="item" id="warna">
+
+        <img
+            src="../images/pensel.png"
+            alt="Warna">
+
+    </div>
+
+
+    <div class="item" id="yoyo">
+
+        <img
+            src="../images/cube.png"
+            alt="Yoyo">
+
+    </div>
+
+
+    <div class="item" id="kertas">
+
+        <img
+            src="../images/robot.png"
+            alt="Kertas">
+
+    </div>
+
+
+    <!-- =================================================
+         SOALAN
+    ================================================== -->
+
+    <div id="questionBox">
+
+        <h2>
+            🔢 CABARAN NOMBOR
+        </h2>
+
+        <div id="questionText"></div>
+
+        <div id="answers"></div>
+
+    </div>
+
+
+    <!-- =================================================
+         MESSAGE
+    ================================================== -->
+
+    <div id="messageBox">
+
+        <h2 id="messageTitle"></h2>
+
+        <p id="messageText"></p>
+
+        <button id="nextBtn">
+
+            NEXT ➡️
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   BANK SOALAN
+===================================================== */
+
+const allQuestions = [
+
+{
+    q:"Tulis nombor dalam perkataan: 47",
+    options:[
+        "empat puluh tujuh",
+        "lima puluh tujuh",
+        "tujuh puluh empat"
+    ],
+    a:"empat puluh tujuh"
+},
+
+{
+    q:"Nilai tempat bagi digit 4 dalam 452",
+    options:[
+        "ratus",
+        "puluh",
+        "ribu"
+    ],
+    a:"ratus"
+},
+
+{
+    q:"Nilai digit bagi 7 dalam 372",
+    options:[
+        "70",
+        "700",
+        "702"
+    ],
+    a:"70"
+},
+
+{
+    q:"Cerakinkan nombor 348",
+    options:[
+        "300+40+8",
+        "300+48",
+        "34+8"
+    ],
+    a:"300+40+8"
+},
+
+{
+    q:"Bundarkan 67 kepada puluh terdekat",
+    options:[
+        "60",
+        "70",
+        "80"
+    ],
+    a:"70"
+},
+
+{
+    q:"Susun menaik: 12, 9, 15",
+    options:[
+        "9,12,15",
+        "12,15,9",
+        "15,12,9"
+    ],
+    a:"9,12,15"
+},
+
+{
+    q:"Susun menurun: 23, 45, 31",
+    options:[
+        "45,31,23",
+        "23,31,45",
+        "31,45,23"
+    ],
+    a:"45,31,23"
+},
+
+{
+    q:"Lengkapkan pola: 2,4,6,?",
+    options:[
+        "7",
+        "8",
+        "9"
+    ],
+    a:"8"
+},
+
+{
+    q:"Tulis nombor dalam digit: seratus dua puluh lima",
+    options:[
+        "125",
+        "152",
+        "215"
+    ],
+    a:"125"
+},
+
+{
+    q:"Nilai tempat bagi digit 9 dalam 391",
+    options:[
+        "ratus",
+        "puluh",
+        "ribu"
+    ],
+    a:"puluh"
+},
+
+{
+    q:"Nilai digit bagi 4 dalam 246",
+    options:[
+        "40",
+        "400",
+        "46"
+    ],
+    a:"40"
+},
+
+{
+    q:"Bundarkan 144 kepada ratus terdekat",
+    options:[
+        "100",
+        "200",
+        "150"
+    ],
+    a:"100"
+},
+
+{
+    q:"Cerakinkan nombor 560",
+    options:[
+        "500+60+0",
+        "560+0",
+        "500+6"
+    ],
+    a:"500+60+0"
+},
+
+{
+    q:"Susun menaik: 7, 2, 5",
+    options:[
+        "2,5,7",
+        "7,5,2",
+        "5,7,2"
+    ],
+    a:"2,5,7"
+},
+
+{
+    q:"Susun menurun: 88, 92, 85",
+    options:[
+        "92,88,85",
+        "85,88,92",
+        "88,85,92"
+    ],
+    a:"92,88,85"
+},
+
+{
+    q:"Lengkapkan pola: 10,20,30,?",
+    options:[
+        "35",
+        "40",
+        "25"
+    ],
+    a:"40"
+},
+
+{
+    q:"Nilai digit bagi 6 dalam 461",
+    options:[
+        "60",
+        "600",
+        "61"
+    ],
+    a:"60"
+},
+
+{
+    q:"Bundarkan 349 kepada ratus terdekat",
+    options:[
+        "300",
+        "350",
+        "400"
+    ],
+    a:"300"
+},
+
+{
+    q:"Nombor genap antara 20 hingga 30",
+    options:[
+        "22",
+        "25",
+        "29"
+    ],
+    a:"22"
+},
+
+{
+    q:"Nombor ganjil antara 50 hingga 60",
+    options:[
+        "52",
+        "55",
+        "58"
+    ],
+    a:"55"
+},
+
+{
+    q:"Tulis nombor dalam perkataan: 103",
+    options:[
+        "seratus tiga",
+        "seratus tiga belas",
+        "seratus tiga puluh"
+    ],
+    a:"seratus tiga"
+},
+
+{
+    q:"Nilai tempat bagi digit 8 dalam 582",
+    options:[
+        "ratus",
+        "puluh",
+        "ribu"
+    ],
+    a:"puluh"
+},
+
+{
+    q:"Nilai digit bagi 9 dalam 9642",
+    options:[
+        "90",
+        "900",
+        "9000"
+    ],
+    a:"9000"
+},
+
+{
+    q:"Bundarkan 276 kepada ratus terdekat",
+    options:[
+        "200",
+        "300",
+        "250"
+    ],
+    a:"300"
+},
+
+{
+    q:"Susun menaik: 45, 32, 38",
+    options:[
+        "32,38,45",
+        "45,38,32",
+        "38,32,45"
+    ],
+    a:"32,38,45"
+},
+
+{
+    q:"Susun menurun: 14, 19, 11",
+    options:[
+        "19,14,11",
+        "11,14,19",
+        "14,19,11"
+    ],
+    a:"19,14,11"
+},
+
+{
+    q:"Lengkapkan pola: 5,10,15,?",
+    options:[
+        "18",
+        "20",
+        "25"
+    ],
+    a:"20"
+},
+
+{
+    q:"Tulis nombor dalam perkataan: 208",
+    options:[
+        "dua ratus lapan",
+        "dua ratus lapan belas",
+        "dua ratus lapan puluh"
+    ],
+    a:"dua ratus lapan"
+},
+
+{
+    q:"Cerakinkan nombor 729",
+    options:[
+        "700+20+9",
+        "700+29",
+        "729+0"
+    ],
+    a:"700+20+9"
+},
+
+{
+    q:"Nilai tempat bagi digit 3 dalam 3482",
+    options:[
+        "ratus",
+        "ribu",
+        "puluh"
+    ],
+    a:"ribu"
+}
+
+];
+
+
+/* =====================================================
+   PILIH 20 SOALAN RAWAK
+===================================================== */
+
+const selected =
+    [...allQuestions]
+    .sort(() => Math.random() - 0.5)
+    .slice(0,20);
+
+
+/* =====================================================
+   PEMBOLEH UBAH
+===================================================== */
+
+let currentQuestion = 0;
+
+let score = 0;
+
+let wrong = 0;
+
+let cleaned = 0;
+
+let activeItem = null;
+
+
+/* =====================================================
+   SENARAI BARANG
+===================================================== */
+
+const items = [
+
+    document.getElementById("keretapi"),
+
+    document.getElementById("dekak"),
+
+    document.getElementById("diari"),
+
+    document.getElementById("bola"),
+
+    document.getElementById("tisu"),
+
+    document.getElementById("bakulsampah"),
+
+    document.getElementById("bantal"),
+
+    document.getElementById("bear"),
+
+    document.getElementById("beg"),
+
+    document.getElementById("calendar"),
+
+    document.getElementById("shirt"),
+
+    document.getElementById("topi"),
+
+    document.getElementById("warna"),
+
+    document.getElementById("yoyo"),
+
+    document.getElementById("kertas")
+
+];
+
+
+/* =====================================================
+   BLINK SATU PERSATU
+===================================================== */
+
+let blinkIndex = 0;
+
+
+/* =====================================================
+   AKTIFKAN BLINK
+===================================================== */
+
+function startBlink(){
+
+    items.forEach(item => {
+
+        if(item){
+
+            item.classList.remove(
+                "blinkNow"
+            );
+
+        }
+
+    });
+
+
+    if(items[blinkIndex]){
+
+        items[blinkIndex]
+            .classList
+            .add("blinkNow");
+
+    }
+
+}
+
+
+
+/* =====================================================
+   KLIK BARANG
+===================================================== */
+
+document
+.querySelectorAll(".item")
+.forEach(item => {
+
+    item.addEventListener(
+        "click",
+        function(){
+
+            /* Barang sudah selesai */
+
+            if(
+                item.classList.contains(
+                    "kemas"
+                )
+            ){
+
+                return;
+
+            }
+
+
+            /* Hanya objek blink */
+
+            if(
+                !item.classList.contains(
+                    "blinkNow"
+                )
+            ){
+
+                return;
+
+            }
+
+
+            activeItem = item;
+
+            showQuestion();
+
+        }
+    );
+
+});
+
+
+/* =====================================================
+   PAPAR SOALAN
+===================================================== */
+
+function showQuestion(){
+
+    if(
+        currentQuestion >=
+        selected.length
+    ){
+
+        finishMission();
+
+        return;
+
+    }
+
+
+    const q =
+        selected[currentQuestion];
+
+
+    document
+        .getElementById(
+            "questionText"
+        )
+        .textContent =
+        q.q;
+
+
+    let html = "";
+
+
+    q.options.forEach(option => {
+
+        html += `
+
+            <button
+                class="answer-btn"
+                onclick="checkAnswer(this)"
+            >
+                ${option}
+            </button>
+
+        `;
+
+    });
+
+
+    document
+        .getElementById("answers")
+        .innerHTML =
+        html;
+
+
+    document
+        .getElementById(
+            "questionBox"
+        )
+        .style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   SEMAK JAWAPAN
+   15 BETUL / MAKSIMUM 20 SOALAN
+===================================================== */
+
+function checkAnswer(button){
+
+    const q =
+        selected[currentQuestion];
+
+
+    const answer =
+        button.textContent.trim();
+
+
+    /* Tutup soalan */
+
+    document
+        .getElementById(
+            "questionBox"
+        )
+        .style.display =
+        "none";
+
+
+    /* Setiap jawapan = 1 soalan */
+
+    currentQuestion++;
+
+
+    /* =================================================
+       JAWAPAN BETUL
+    ================================================= */
+
+    if(answer === q.a){
+
+        score++;
+
+
+        document
+            .getElementById("score")
+            .textContent =
+            score;
+
+
+        /* =================================================
+           BARANG BERJAYA DIBERSIHKAN
+        ================================================= */
+
+        if(activeItem){
+
+
+            /* =============================================
+               BANTAL → BAKUL SAMPAH
+            ============================================= */
+
+            if(
+                activeItem.id ===
+                "bantal"
+            ){
+
+                const bear =
+                    activeItem;
+
+                const bakul =
+                    document.getElementById(
+                        "bakulsampah"
+                    );
+
+
+                const bearRect =
+                    bear.getBoundingClientRect();
+
+
+                const bakulRect =
+                    bakul.getBoundingClientRect();
+
+
+                const bearCenterX =
+                    bearRect.left +
+                    bearRect.width / 2;
+
+
+                const bearCenterY =
+                    bearRect.top +
+                    bearRect.height / 2;
+
+
+                const bakulCenterX =
+                    bakulRect.left +
+                    bakulRect.width / 2;
+
+
+                const bakulCenterY =
+                    bakulRect.top +
+                    bakulRect.height / 2;
+
+
+                const moveX =
+                    bakulCenterX -
+                    bearCenterX;
+
+
+                const moveY =
+                    bakulCenterY -
+                    bearCenterY;
+
+
+                bear.style.setProperty(
+                    "--moveX",
+                    moveX + "px"
+                );
+
+
+                bear.style.setProperty(
+                    "--moveY",
+                    moveY + "px"
+                );
+
+
+                bear.classList.remove(
+                    "blinkNow"
+                );
+
+
+                bear.classList.add(
+                    "buangSampah"
+                );
+
+
+                bear.style.pointerEvents =
+                    "none";
+
+
+                setTimeout(
+                    function(){
+
+                        bear.style.display =
+                            "none";
+
+                    },
+                    1500
+                );
+
+            }
+
+
+            /* =============================================
+               BAKUL SAMPAH
+            ============================================= */
+
+            if(
+                activeItem.id ===
+                "bakulsampah"
+            ){
+
+                const img =
+                    activeItem.querySelector(
+                        "img"
+                    );
+
+
+                img.src =
+                    "../images/bakulsampah2.png";
+
+
+                activeItem.classList.add(
+                    "kemas"
+                );
+
+
+                activeItem.style.pointerEvents =
+                    "none";
+
+            }
+
+
+            /* =============================================
+               YOYO → KOTAK
+            ============================================= */
+
+            if(
+                activeItem.id ===
+                "yoyo"
+            ){
+
+                activeItem.classList.remove(
+                    "blinkNow"
+                );
+
+
+                activeItem.classList.add(
+                    "terbang"
+                );
+
+
+                activeItem.style.pointerEvents =
+                    "none";
+
+            }
+
+
+            /* =============================================
+               BAKUL SAMPAH
+            ============================================= */
+
+            else if(
+                activeItem.id ===
+                "bakulsampah"
+            ){
+
+                const img =
+                    activeItem.querySelector(
+                        "img"
+                    );
+
+
+                img.src =
+                    "../images/bakulsampah2.png";
+
+
+                activeItem.classList.add(
+                    "kemas"
+                );
+
+
+                activeItem.style.pointerEvents =
+                    "none";
+
+            }
+
+
+            /* =============================================
+               BARANG LAIN
+            ============================================= */
+
+            else{
+
+                activeItem.classList.add(
+                    "kemas"
+                );
+
+
+                activeItem.style.pointerEvents =
+                    "none";
+
+            }
+
+
+            /* Hentikan blink */
+
+            activeItem.classList.remove(
+                "blinkNow"
+            );
+
+
+            /* =============================================
+               BARANG SETERUSNYA
+            ============================================= */
+
+            blinkIndex++;
+
+
+            if(
+                blinkIndex <
+                items.length
+            ){
+
+                items[blinkIndex]
+                    .classList
+                    .add("blinkNow");
+
+            }
+
+        }
+
+
+        /* =================================================
+           15 BETUL = TERUS MENANG
+        ================================================= */
+
+        if(score >= 15){
+
+            setTimeout(
+                function(){
+
+                    finishMission();
+
+                },
+                500
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /* =================================================
+       JAWAPAN SALAH
+    ================================================= */
+else{
+
+    const questionBox =
+        document.getElementById("questionBox");
+
+    const questionTitle =
+        questionBox.querySelector("h2");
+
+    const questionText =
+        document.getElementById("questionText");
+
+    const answers =
+        document.getElementById("answers");
+
+
+    // Sembunyikan tajuk CABARAN NOMBOR
+    questionTitle.style.display = "none";
+
+
+    // Papar hanya OPSS SALAH
+    questionText.innerHTML =
+        "⚠️ OPSS! SALAH!";
+
+    questionText.style.color = "#f44336";
+    questionText.style.fontSize = "32px";
+
+
+    // Kosongkan jawapan
+    answers.innerHTML = "";
+
+
+    // Paparkan kotak
+    questionBox.style.display = "block";
+
+
+    // Barang yang sama kekal berkelip
+    if(activeItem){
+
+        activeItem.classList.add("blinkNow");
+
+    }
+
+
+    // Selepas 1 saat
+    setTimeout(function(){
+
+        questionBox.style.display = "none";
+
+        // Kembalikan tajuk
+        questionTitle.style.display = "block";
+
+        // Kembalikan format asal
+        questionText.style.color = "#333";
+        questionText.style.fontSize = "21px";
+
+        // Papar semula soalan
+        showQuestion();
+
+    }, 1000);
+
+}
+
+
+    /* =================================================
+       MAKSIMUM 20 SOALAN
+    ================================================= */
+
+    if(currentQuestion >= 20){
+
+        setTimeout(
+            function(){
+
+                finishMission();
+
+            },
+            500
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   TAMAT MISI
+===================================================== */
+
+function finishMission(){
+
+
+    /* =================================================
+       BERJAYA
+       WAJIB 15 BETUL
+    ================================================= */
+
+    if(score >= 15){
+
+
+        /* =============================================
+           SIMPAN STATUS MISI
+        ============================================= */
+
+        localStorage.setItem(
+            "kunciNombor",
+            "true"
+        );
+
+
+        localStorage.setItem(
+            "misiNomborSelesai",
+            "true"
+        );
+
+
+        localStorage.setItem(
+            "misiTambahAktif",
+            "true"
+        );
+
+
+        /* =============================================
+           TAMBAH 1 KUNCI
+        ============================================= */
+
+        if(
+            !localStorage.getItem(
+                "kunciNomborDiberi"
+            )
+        ){
+
+            let keys =
+                parseInt(
+                    localStorage.getItem(
+                        "keys"
+                    ) || "0",
+                    10
+                );
+
+
+            localStorage.setItem(
+                "keys",
+                keys + 1
+            );
+
+
+            localStorage.setItem(
+                "kunciNomborDiberi",
+                "true"
+            );
+
+        }
+
+
+        /* =============================================
+           MESSAGE BERJAYA
+        ============================================= */
+
+        showSuccessBox();
+
+    }
+
+
+    /* =================================================
+       GAGAL
+    ================================================= */
+
+    else{
+
+        showFailBox();
+
+    }
+
+}
+
+
+/* =====================================================
+   MESSAGE BERJAYA
+===================================================== */
+
+function showSuccessBox(){
+
+    document
+        .getElementById(
+            "messageTitle"
+        )
+        .textContent =
+        "🎉 MISI BERJAYA!";
+
+
+    document
+        .getElementById(
+            "messageText"
+        )
+        .textContent =
+
+        "Tahniah! Anda berjaya mendapat "
+        + score
+        + " jawapan betul daripada "
+        + currentQuestion
+        + " soalan. "
+        + "Anda berjaya menyelesaikan MISI ini dan tekan butang MISI SETERUSNYA";
+
+
+    document
+        .getElementById(
+            "nextBtn"
+        )
+        .textContent =
+        "MISI SETERUSNYA ➡️";
+
+
+    document
+        .getElementById(
+            "nextBtn"
+        )
+        .onclick =
+        function(){
+
+            window.location.href =
+                "../tahap1.html";
+
+        };
+
+
+    document
+        .getElementById(
+            "messageBox"
+        )
+        .style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   MESSAGE GAGAL
+===================================================== */
+
+function showFailBox(){
+
+    document
+        .getElementById(
+            "messageTitle"
+        )
+        .textContent =
+        "MISI GAGAL!";
+
+
+    document
+        .getElementById(
+            "messageText"
+        )
+        .innerHTML =
+
+        "Anda mendapat <strong>"
+        + score
+        + "/15 jawapan betul.</strong><br><br>"
+
+        + "<strong>MISI BELUM BERJAYA</strong><br><br>"
+
+        + "Jangan putus asa. Jom cuba lagi! 💪😊";
+
+
+    document
+        .getElementById(
+            "nextBtn"
+        )
+        .textContent =
+        "CUBA SEMULA 🔄";
+
+
+    document
+        .getElementById(
+            "nextBtn"
+        )
+        .onclick =
+        function(){
+
+            window.location.href =
+                "nombor1.html";
+
+        };
+
+
+    document
+        .getElementById(
+            "messageBox"
+        )
+        .style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   MUZIK LATAR
+===================================================== */
+
+const bgMusic =
+    document.getElementById(
+        "bgMusic"
+    );
+
+
+bgMusic.volume = 0.20;
+
+
+document.addEventListener(
+    "click",
+    function(){
+
+        if(bgMusic.paused){
+
+            bgMusic.play()
+                .catch(
+                    function(error){
+
+                        console.log(
+                            "Audio tidak dapat dimainkan:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+
+    },
+    {
+        once:true
+    }
+);
+
+/* =====================================================
+       MULA MISI SELEPAS TEKAN BUTANG
+    ===================================================== */
+
+    document.getElementById("startMissionBtn").addEventListener("click", function(){
+
+        /* Tutup kotak arahan */
+        document.getElementById("startBox").style.display = "none";
+
+        /* Mula objek berkelip */
+        startBlink();
+
+        /* Mula muzik */
+        if(bgMusic && bgMusic.paused){
+
+            bgMusic.play().catch(function(error){
+
+                console.log(
+                    "Audio tidak dapat dimainkan:",
+                    error
+                );
+
+            });
+
+        }
+
+        /* Mula timer */
+        if(window.mathAdventureTimer){
+
+            window.mathAdventureTimer.startTimer();
+
+        }
+
+    });
+
+
+</script>
+
+
+<!-- =====================================================
+     TIMER.JS
+     SISTEM TIMER ASAL
+===================================================== -->
+
+<script
+    type="module"
+    src="../timer.js">
+</script>
+
+
+</body>
+</html>
