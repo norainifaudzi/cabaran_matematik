@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Peta Pulau Treasure Hunt</title>
+
+<style>
+
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+
+    background-image: url('images/bg_tahap1.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+
+.map {
+    display: grid;
+
+    grid-template-columns: repeat(4, 150px);
+    grid-template-rows: repeat(2, 150px);
+
+    column-gap: 80px;
+    row-gap: 80px;
+
+    justify-content: center;
+
+    margin-top: 30px;
+}
+
+
+.pulau {
+    position: relative;
+    display: block;
+
+    transition: transform 0.3s ease;
+}
+
+
+/* Pulau yang boleh dimainkan */
+
+.pulau:not(.disabled) {
+    cursor: pointer;
+}
+
+
+/* Pulau yang masih terkunci */
+
+.pulau.disabled {
+    cursor: not-allowed;
+}
+
+
+.pulau img {
+    display: block;
+    height: auto;
+}
+
+/* SETIAP PULAU */
+#pulau-nombor img {
+    width: 140px;
+}
+
+#pulau-tambah img {
+    width: 140px;
+}
+
+#pulau-tolak img {
+    width: 140px;
+}
+
+#pulau-darab img {
+    width: 230px;
+}
+
+#pulau-bahagi img {
+    width: 140px;
+}
+
+#pulau-pecahan img {
+    width: 130px;
+}
+
+#pulau-masa img {
+    width: 130px;
+}
+
+#pulau-wang img {
+    width: 130px;
+}
+
+
+.pulau:hover {
+    transform: scale(1.1);
+    z-index: 2;
+}
+
+
+#pulau-nombor {
+    transform: translate(-50px, 350px);
+    z-index: 5;
+}
+
+
+#pulau-tambah {
+    transform: translate(30px, 400px);
+    z-index: 5;
+}
+
+
+#pulau-tolak {
+    transform: translate(110px, 370px);
+    z-index: 5;
+}
+
+
+#pulau-darab {
+    transform: translate(110px, 260px);
+    z-index: 5;
+}
+
+
+#pulau-bahagi {
+    transform: translate(550px, -100px);
+    z-index: 5;
+}
+
+
+#pulau-pecahan {
+    transform: translate(-200px, -160px);
+    z-index: 5;
+}
+
+
+#pulau-masa {
+    transform: translate(-150px, -200px);
+    z-index: 5;
+}
+
+
+#pulau-wang {
+    transform: translate(-90px, -240px);
+    z-index: 5;
+}
+
+
+.disabled {
+    opacity: 0.5;
+}
+
+
+/* =========================================
+   PULAU AKTIF - BERKELIP & SHINE
+========================================= */
+
+@keyframes pulauGlow {
+
+    0%, 100% {
+        filter:
+            brightness(1)
+            drop-shadow(0 0 0px rgba(255,255,255,0));
+    }
+
+    50% {
+        filter:
+            brightness(1.22)
+            drop-shadow(0 0 18px rgba(255,255,255,0.95));
+    }
+
+}
+
+
+.pulau.aktif {
+
+    animation:
+        pulauGlow 1.4s ease-in-out infinite;
+
+    z-index: 20;
+}
+
+
+/* Cahaya bergerak melintasi pulau */
+
+.pulau.aktif::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 5%;
+    left: -70%;
+
+    width: 35%;
+    height: 90%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.9),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    animation:
+        shinePulau 2.2s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+
+@keyframes shinePulau {
+
+    0% {
+        left: -70%;
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    50% {
+        left: 120%;
+        opacity: 0;
+    }
+
+    100% {
+        left: 120%;
+        opacity: 0;
+    }
+
+}
+
+
+/* Padlock */
+
+.padlock {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 60px;
+
+    transform:
+        translate(-50%, -50%);
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   KOTAK MISI
+========================================= */
+
+#statusKunci {
+
+    position: fixed;
+
+    top: 20px;
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    display: inline-block;
+
+    width: max-content;
+
+    min-width: 700px;
+    max-width: 90vw;
+
+    min-height: 125px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #8b5a2b,
+            #a86f3d 45%,
+            #75451f
+        );
+
+    border:
+        4px solid #5a3518;
+
+    border-radius: 18px;
+
+    padding:
+        12px 20px;
+
+    box-sizing: border-box;
+
+    color: white;
+
+    box-shadow:
+        0 6px 0 #4b2b14,
+        0 10px 18px rgba(0,0,0,0.35);
+
+    z-index: 100;
+}
+
+
+.info-section {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    width: auto;
+}
+
+
+.avatar-section {
+
+    width: 150px;
+    min-width: 150px;
+
+    text-align: center;
+
+    flex-shrink: 0;
+}
+
+
+#infoText {
+
+    font-weight: bold;
+
+    margin-top: 5px;
+
+    font-size: 18px;
+
+    width: auto;
+
+    min-width: 150px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+    text-shadow:
+        2px 2px 2px rgba(0,0,0,0.5);
+}
+
+
+#avatarImg {
+
+    display: block;
+
+    width: 100px;
+    height: 100px;
+
+    margin:
+        0 auto 5px auto;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border:
+        3px solid gold;
+
+    transform: none !important;
+
+    animation: none !important;
+}
+
+
+.kunci-section {
+
+    flex: 1;
+
+    text-align: left;
+
+    position: relative;
+}
+
+
+#teksKunci {
+
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    padding:
+        5px 14px;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #fff8dc;
+
+    background:
+        rgba(60, 30, 10, 0.45);
+
+    border:
+        2px solid rgba(255,255,255,0.35);
+
+    border-radius: 10px;
+
+    text-shadow:
+        2px 2px 2px rgba(0,0,0,0.5);
+}
+
+
+#gambarKunci {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    align-items: center;
+}
+
+
+#gambarKunci img {
+
+    width: 35px;
+    height: 45px;
+
+    object-fit: contain;
+}
+
+
+/* =========================================
+   BUTANG NAVIGASI
+========================================= */
+
+.nav-buttons {
+
+    position: fixed;
+
+    bottom: 25px;
+    right: 35px;
+    left: auto;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 15px;
+
+    z-index: 200;
+}
+
+
+.nav-btn {
+
+    min-width: 145px;
+
+    height: 58px;
+
+    padding:
+        0 25px;
+
+    border:
+        4px solid #ffffff;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff3a8 0%,
+            #ffdd67 45%,
+            #f4b942 100%
+        );
+
+    font-family:
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    color: #68420f;
+
+    cursor: pointer;
+
+    position: relative;
+
+    box-shadow:
+
+        inset 0 4px 4px
+        rgba(255,255,255,0.55),
+
+        inset 0 -6px 5px
+        rgba(180,120,20,0.18),
+
+        0 7px 0 #b97d1d,
+
+        0 10px 15px
+        rgba(0,0,0,0.20);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+
+    text-shadow:
+        1px 2px 0 #fff1b8;
+}
+
+
+.nav-btn::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 6px;
+    left: 12%;
+
+    width: 76%;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.45);
+
+    pointer-events: none;
+}
+
+
+.nav-btn:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.04);
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff8c7 0%,
+            #ffe88a 45%,
+            #f7c957 100%
+        );
+
+    border:
+        4px solid #ffffff;
+
+    box-shadow:
+
+        inset 0 4px 4px
+        rgba(255,255,255,0.65),
+
+        inset 0 -6px 5px
+        rgba(180,120,20,0.18),
+
+        0 10px 0 #b97d1d,
+
+        0 14px 20px
+        rgba(0,0,0,0.22);
+}
+
+
+.nav-btn:active {
+
+    transform:
+        translateY(5px)
+        scale(0.98);
+
+    border:
+        4px solid #ffffff;
+
+    box-shadow:
+
+        inset 0 5px 7px
+        rgba(0,0,0,0.18),
+
+        0 3px 0 #b97d1d,
+
+        0 5px 8px
+        rgba(0,0,0,0.18);
+}
+
+
+.back-btn,
+.home-btn {
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff3a8 0%,
+            #ffdd67 45%,
+            #f4b942 100%
+        );
+
+    border:
+        4px solid #ffffff;
+
+    color: #68420f;
+
+    font-weight: 900;
+
+    font-size: 20px;
+
+    text-shadow:
+        2px 2px 0 #a66a16,
+        0 3px 4px rgba(0,0,0,0.25);
+}
+
+/* =====================================================
+   ⭐ BUTANG CETAK SIJIL
+   GAYA SAMA 100% SEPERTI KEMBALI & HOME
+===================================================== */
+
+#sijilButton {
+
+    display: none;
+
+    min-width: 145px;
+    height: 58px;
+
+    padding: 0 25px;
+
+    border: 4px solid #ffffff;
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff3a8 0%,
+            #ffdd67 45%,
+            #f4b942 100%
+        );
+
+    font-family:
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+
+    font-size: 20px;
+    font-weight: 900;
+
+     text-shadow:
+        2px 2px 0 #a66a16,
+        0 3px 4px rgba(0,0,0,0.25);
+        
+    color: #68420f;
+
+    cursor: pointer;
+
+    position: fixed;
+
+    bottom: 25px;
+
+    /* Kedudukan di sebelah kiri KEMBALI */
+    right: 360px;
+
+    box-shadow:
+
+        inset 0 4px 4px
+        rgba(255,255,255,0.55),
+
+        inset 0 -6px 5px
+        rgba(180,120,20,0.18),
+
+        0 7px 0 #b97d1d,
+
+        0 10px 15px
+        rgba(0,0,0,0.20);
+
+    text-shadow:
+        1px 2px 0 #fff1b8;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+
+    z-index: 300;
+}
+
+
+/* =====================================================
+   ⭐ KESAN CAHAYA ATAS
+===================================================== */
+
+#sijilButton::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 6px;
+    left: 12%;
+
+    width: 76%;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.45);
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   ⭐ HOVER
+===================================================== */
+
+#sijilButton:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.04);
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff8c7 0%,
+            #ffe88a 45%,
+            #f7c957 100%
+        );
+
+    border:
+        4px solid #ffffff;
+
+    box-shadow:
+
+        inset 0 4px 4px
+        rgba(255,255,255,0.65),
+
+        inset 0 -6px 5px
+        rgba(180,120,20,0.18),
+
+        0 10px 0 #b97d1d,
+
+        0 14px 20px
+        rgba(0,0,0,0.22);
+}
+
+
+/* =====================================================
+   ⭐ KETIKA DITEKAN
+===================================================== */
+
+#sijilButton:active {
+
+    transform:
+        translateY(5px)
+        scale(0.98);
+
+    box-shadow:
+
+        inset 0 5px 7px
+        rgba(0,0,0,0.18),
+
+        0 3px 0 #b97d1d,
+
+        0 5px 8px
+        rgba(0,0,0,0.18);
+}
+
+
+/* =====================================================
+   ⭐ ANIMASI BUTANG CETAK
+===================================================== */
+
+@keyframes sijilBlink {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+        filter: brightness(1.15);
+    }
+
+}
+
+
+/* =====================================================
+   ⭐ KESAN HOVER
+===================================================== */
+
+#sijilButton:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.06);
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff8c7 0%,
+            #ffe88a 45%,
+            #f7c957 100%
+        );
+
+    border: 4px solid #ffffff;
+
+    box-shadow:
+
+        inset 0 4px 4px
+        rgba(255,255,255,0.65),
+
+        inset 0 -6px 5px
+        rgba(180,120,20,0.18),
+
+        0 10px 0 #b97d1d,
+
+        0 14px 20px
+        rgba(0,0,0,0.22);
+}
+
+
+/* =====================================================
+   ⭐ KETIKA DITEKAN
+===================================================== */
+
+#sijilButton:active {
+
+    transform:
+        translateY(5px)
+        scale(0.98);
+
+    box-shadow:
+
+        inset 0 5px 7px
+        rgba(0,0,0,0.18),
+
+        0 3px 0 #b97d1d,
+
+        0 5px 8px
+        rgba(0,0,0,0.18);
+}
+
+
+/* =====================================================
+   ⭐⭐⭐ KOTAK SIJIL
+   TERSEMBUNYI SEMASA BERMAIN
+===================================================== */
+
+#sijilPrint {
+
+    display: none;
+}
+
+/* =====================================================
+   ⭐⭐⭐ PREVIEW SIJIL
+   TERSEMBUNYI SEMASA GAME
+===================================================== */
+
+#sijilPreview {
+
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+/* =====================================================
+   ⭐⭐⭐ REKAAN SIJIL
+===================================================== */
+
+/* =====================================================
+   ⭐⭐⭐ KOTAK SIJIL
+===================================================== */
+
+.sijil {
+
+    position: relative;
+
+    width: 1120px;
+    height: 790px;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    outline: none;
+
+    box-shadow: none;
+
+    overflow: hidden;
+
+    background: white;
+}
+
+
+/* =====================================================
+   ⭐ BACKGROUND SIJIL
+   GUNA IMG SEBENAR - BUKAN BACKGROUND CSS
+===================================================== */
+
+.backgroundSijil {
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: fill;
+
+    display: block;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+/* Tajuk */
+
+.sijil-tajuk {
+
+    font-size: 50px;
+
+    font-weight: bold;
+
+    color: #142d59;
+
+    margin-top: 20px;
+
+    letter-spacing: 2px;
+}
+
+
+.sijil-subtajuk {
+
+    display: inline-block;
+
+    margin-top: 10px;
+
+    padding:
+        10px 45px;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #222;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffe68a,
+            #dcae2b
+        );
+
+    border:
+        2px solid #b8860b;
+
+    border-radius: 8px;
+
+}
+
+
+/* Ayat */
+
+.sijil-text {
+
+    font-size: 24px;
+
+    margin-top: 25px;
+
+    color: #222;
+}
+
+
+/* Nama */
+
+.nama-pelajar {
+
+    position: absolute;
+
+    left: 48%;
+    top: 43%;
+   
+    transform: translateX(-50%);
+
+    width: 800px;
+
+    text-align: center;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 36px;
+
+    font-weight: bold;
+
+    color: #142d59;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    z-index: 2;
+}
+
+
+.kelas-pelajar {
+
+    position: absolute;
+
+    left: 48%;
+    top: 50%;
+
+    transform: translateX(-50%);
+
+    width: 600px;
+
+    text-align: center;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 36px;
+
+    font-weight: bold;
+
+    color: #142d59;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+
+    z-index: 2;
+}
+
+/* 8 misi */
+
+.misi-selesai {
+
+    margin-top: 15px;
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+    color: #9c2f21;
+}
+
+
+/* Bahagian bawah */
+
+.sijil-footer {
+
+    position: absolute;
+
+    left: 110px;
+    right: 110px;
+
+    bottom: 65px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-end;
+}
+
+/* =====================================================
+   BUTANG TUTUP PREVIEW SIJIL
+===================================================== */
+
+#tutupSijil {
+
+    position: absolute;
+
+    top: 20px;
+    right: 25px;
+
+    width: 50px;
+    height: 50px;
+
+    border: 3px solid white;
+    border-radius: 50%;
+
+    background: #d32f2f;
+
+    color: white;
+
+    font-size: 32px;
+    font-weight: bold;
+
+    line-height: 40px;
+
+    cursor: pointer;
+
+    z-index: 10001;
+
+    box-shadow:
+        0 4px 0 #8b1a1a,
+        0 6px 12px rgba(0,0,0,0.4);
+}
+
+#tutupSijil:hover {
+
+    transform: scale(1.1);
+
+    background: #f44336;
+}
+
+
+/* =====================================================
+   BUTANG CETAK DALAM PREVIEW
+===================================================== */
+
+#cetakPreview {
+
+    position: absolute;
+
+    bottom: 25px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    min-width: 190px;
+    height: 55px;
+
+    padding: 0 25px;
+
+    border: 4px solid white;
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff3a8 0%,
+            #ffdd67 45%,
+            #f4b942 100%
+        );
+
+    color: #68420f;
+
+    font-family:
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+
+    font-size: 19px;
+    font-weight: 900;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 0 #b97d1d,
+        0 9px 15px rgba(0,0,0,0.3);
+
+    z-index: 10001;
+}
+
+#cetakPreview:hover {
+
+    transform:
+        translateX(-50%)
+        scale(1.05);
+}
+
+/* =====================================================
+   ⭐⭐⭐ CETAK / PDF
+===================================================== */
+
+/* =====================================================
+   ⭐⭐⭐ CETAK SIJIL - A4 LANDSCAPE
+===================================================== */
+
+@media print {
+
+    @page {
+
+        size: A4 landscape;
+
+        margin: 0;
+    }
+
+
+    html,
+    body {
+
+        width: 100%;
+        height: 100%;
+
+        margin: 0;
+        padding: 0;
+
+        overflow: hidden;
+
+        background: white !important;
+    }
+
+
+    /* SEMBUNYIKAN SEMUA */
+    body * {
+
+        visibility: hidden;
+    }
+
+
+    /* PAPARKAN SIJIL SAHAJA */
+    #sijilPreview,
+    #sijilPreview * {
+
+        visibility: visible;
+    }
+
+
+    #sijilPreview {
+
+        position: absolute;
+
+        left: 0;
+        top: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        display: flex !important;
+
+        justify-content: center;
+        align-items: center;
+
+        margin: 0;
+        padding: 0;
+
+        background: white !important;
+    }
+
+
+    /* KOTAK SIJIL */
+    #sijilCetak {
+
+        position: absolute;
+
+        left: 0;
+        top: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        margin: 0;
+        padding: 0;
+
+        overflow: hidden;
+
+        background: white;
+
+        border: none !important;
+
+        box-shadow: none !important;
+    }
+
+
+    /* GAMBAR SIJIL */
+    #sijilCetak .backgroundSijil {
+
+        position: absolute;
+
+        left: 0;
+        top: 0;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: fill;
+
+        display: block;
+
+        z-index: 1;
+    }
+
+
+    /* NAMA */
+    #sijilCetak .nama-pelajar {
+
+        z-index: 2;
+    }
+
+
+    /* KELAS */
+    #sijilCetak .kelas-pelajar {
+
+        z-index: 2;
+    }
+
+
+    /* SEMBUNYIKAN BUTANG */
+    #tutupSijil,
+    #cetakPreview {
+
+        display: none !important;
+    }
+
+}
+
+
+/* =====================================================
+   PAPARAN SIJIL DI SCREEN JIKA DIPERLUKAN
+===================================================== */
+
+@media screen {
+
+    #sijilPrint {
+
+        display: none !important;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     STATUS KUNCI
+===================================================== -->
+
+<div id="statusKunci">
+
+    <div class="info-section">
+
+        <div class="avatar-section">
+
+            <img
+                id="avatarImg"
+                src="images/avatar_default.png"
+                alt="Avatar">
+
+            <div id="infoText">
+                Nama (Kelas)
+            </div>
+
+        </div>
+
+
+        <div class="kunci-section">
+
+            <div id="teksKunci">
+                MISI: 0 / 8
+            </div>
+
+            <div id="gambarKunci"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PETA PULAU
+===================================================== -->
+
+<div class="map">
+
+
+    <!-- Pulau Nombor -->
+
+    <div id="pulau-nombor" class="pulau">
+
+        <a href="games/nombor1.html">
+
+            <img
+                src="images/nombor.png"
+                alt="Pulau Nombor">
+
+        </a>
+
+        <img
+            id="lock-nombor"
+            src="images/padlock.png"
+            class="padlock">
+
+    </div>
+
+
+
+    <!-- Pulau Tambah -->
+
+    <div id="pulau-tambah" class="pulau disabled">
+
+        <img
+            src="images/tambah.png"
+            alt="Pulau Tambah">
+
+        <img
+            id="lock-tambah"
+            src="images/padlock.png"
+            class="padlock">
+
+    </div>
+
+
+
+    <!-- Pulau Tolak -->
+
+    <div id="pulau-tolak" class="pulau disabled">
+
+        <img
+            src="images/tolak.png"
+            alt="Pulau Tolak">
+
+        <img
+            id="lock-tolak"
+            src="images/padlock.png"
+            class="padlock">
+
+    </div>
+
+
+
+    <!-- Pulau Darab -->
+
+    <div id="pulau-darab" class="pulau disabled">
+
+        <img
+            src="images/darab.png"
+            alt="Pulau Darab">
+
+        <img
+            id="lock-darab"
+            src="images/padlock.png"
+            class="padlock">
+
+    </div>
+
+
+
+    <!-- Pulau Bahagi -->
+
+    <div id="pulau-bahagi" class="pulau disabled">
+
+        <img
+            src="images/bahagi.png"
+            alt="Pulau Bahagi">
+
+        <img
+            id="lock-bahagi"
+            src="images/padlock.png"
+            class="padlock">
+
+    </div>
+
+
+
+    <!-- Pulau Pecahan -->
+
+    <div id="pulau-pecahan" class="pulau disabled">
+
+        <img
+            src="images/pecahan.png"
+            alt="Pulau Pecahan">
+
+        <img
+            id="lock-pecahan"
+            src="images/padlock.png"
+            class="padlock">
+
+    </div>
+
+
+
+    <!-- Pulau Masa -->
+
+    <div id="pulau-masa" class="pulau disabled">
+
+        <img
+            src="images/masa.png"
+            alt="Pulau Masa">
+
+        <img
+            id="lock-masa"
+            src="images/padlock.png"
+            class="padlock">
+
+    </div>
+
+
+
+    <!-- Pulau Wang -->
+
+    <div id="pulau-wang" class="pulau disabled">
+
+        <img
+            src="images/wang.png"
+            alt="Pulau Wang">
+
+        <img
+            id="lock-wang"
+            src="images/padlock.png"
+            class="padlock">
+
+    </div>
+
+
+</div>
+
+<!-- =====================================================
+     BUTANG NAVIGASI
+===================================================== -->
+
+<div class="nav-buttons">
+
+    <button
+        class="nav-btn back-btn"
+        onclick="window.location.href='login1.html'">
+
+        KEMBALI
+
+    </button>
+
+
+    <button
+        class="nav-btn home-btn"
+        onclick="window.location.href='index.html'">
+
+        HOME
+
+    </button>
+
+</div>
+
+<!-- =====================================================
+     ⭐⭐⭐ BUTANG CETAK SIJIL
+===================================================== -->
+
+<button 
+    id="sijilButton"
+    class="nav-btn sijil-btn"
+    onclick="printSijil()">
+
+    🏆 CETAK SIJIL
+
+</button>
+
+<!-- =====================================================
+     ⭐⭐⭐ PREVIEW SIJIL
+===================================================== -->
+
+<div id="sijilPreview">
+
+    <!-- BUTANG TUTUP -->
+    <button
+        id="tutupSijil"
+        onclick="tutupPreviewSijil()">
+        ×
+    </button>
+
+
+    <!-- KOTAK SIJIL -->
+    <div
+        class="sijil"
+        id="sijilCetak">
+
+        <!-- BACKGROUND SIJIL SEBAGAI GAMBAR SEBENAR -->
+        <img
+            src="images/sijil.png"
+            class="backgroundSijil"
+            alt="Sijil">
+
+
+        <!-- NAMA PELAJAR -->
+        <div
+            id="namaSijil"
+            class="nama-pelajar">
+        </div>
+
+
+        <!-- KELAS -->
+        <div
+            id="kelasSijil"
+            class="kelas-pelajar">
+        </div>
+
+    </div>
+
+
+    <!-- BUTANG CETAK -->
+    <button
+        id="cetakPreview"
+        onclick="cetakSijilSekarang()">
+
+        🖨️ CETAK SIJIL
+
+    </button>
+
+</div>
+
+
+<script>
+
+
+// ======================================================
+// FUNGSI: DAPATKAN JUMLAH KUNCI
+// Maksimum 8
+// ======================================================
+
+function updateKunci() {
+
+    let jumlahKunci =
+        parseInt(
+            localStorage.getItem("keys") || "0"
+        );
+
+
+    jumlahKunci =
+        Math.min(jumlahKunci, 8);
+
+
+    localStorage.setItem(
+        "keys",
+        jumlahKunci
+    );
+
+
+    document.getElementById(
+        "teksKunci"
+    ).textContent =
+        "MISI: " +
+        jumlahKunci +
+        " / 8";
+
+
+    let container =
+        document.getElementById(
+            "gambarKunci"
+        );
+
+
+    container.innerHTML = "";
+
+
+    for (
+        let i = 0;
+        i < jumlahKunci;
+        i++
+    ) {
+
+        let img =
+            document.createElement("img");
+
+
+        img.src =
+            "images/kunci.png";
+
+
+        img.alt =
+            "Kunci";
+
+
+        img.style.width =
+            "40px";
+
+
+        img.style.height =
+            "45px";
+
+
+        img.style.margin =
+            "5px";
+
+
+        container.appendChild(img);
+
+    }
+
+}
+
+
+
+// ======================================================
+// FUNGSI: BERIKAN 1 KUNCI SAHAJA
+// ======================================================
+
+function beriKunci(namaPulau) {
+
+    let statusKunci =
+        "kunci_" + namaPulau;
+
+
+    if (
+        localStorage.getItem(statusKunci)
+        === "true"
+    ) {
+
+        console.log(
+            "Kunci Pulau " +
+            namaPulau +
+            " sudah pernah diperoleh."
+        );
+
+        return false;
+    }
+
+
+    let jumlahKunci =
+        parseInt(
+            localStorage.getItem("keys") || "0"
+        );
+
+
+    if (
+        jumlahKunci >= 8
+    ) {
+
+        return false;
+    }
+
+
+    jumlahKunci++;
+
+
+    localStorage.setItem(
+        "keys",
+        jumlahKunci
+    );
+
+
+    localStorage.setItem(
+        statusKunci,
+        "true"
+    );
+
+
+    console.log(
+        "Kunci diperoleh dari Pulau " +
+        namaPulau +
+        ". Jumlah: " +
+        jumlahKunci
+    );
+
+
+    return true;
+}
+
+
+
+// ======================================================
+// FUNGSI: UNLOCK PULAU
+// ======================================================
+
+function unlockPulau(
+    idPulau,
+    idLock,
+    namaPulau,
+    failGame
+) {
+
+    let pulau =
+        document.getElementById(idPulau);
+
+
+    let lock =
+        document.getElementById(idLock);
+
+
+    if (
+        !pulau ||
+        !lock
+    ) return;
+
+
+    pulau.classList.remove(
+        "disabled"
+    );
+
+
+    pulau.style.pointerEvents =
+        "auto";
+
+
+    pulau.style.cursor =
+        "pointer";
+
+
+    lock.style.display =
+        "none";
+
+
+    if (
+        localStorage.getItem(
+            "selesai_" + namaPulau
+        ) !== "true"
+    ) {
+
+        pulau.classList.add(
+            "aktif"
+        );
+
+    } else {
+
+        pulau.classList.remove(
+            "aktif"
+        );
+
+    }
+
+
+    pulau.onclick =
+        function() {
+
+            window.location.href =
+                failGame;
+
+        };
+
+}
+
+
+
+// ======================================================
+// FUNGSI: KUNCIKAN PULAU
+// ======================================================
+
+function lockPulau(
+    idPulau,
+    idLock
+) {
+
+    let pulau =
+        document.getElementById(idPulau);
+
+
+    let lock =
+        document.getElementById(idLock);
+
+
+    if (
+        !pulau ||
+        !lock
+    ) return;
+
+
+    pulau.classList.add(
+        "disabled"
+    );
+
+
+    pulau.style.pointerEvents =
+        "none";
+
+
+    lock.style.display =
+        "block";
+
+
+    pulau.classList.remove(
+        "aktif"
+    );
+
+}
+
+
+
+// ======================================================
+// FUNGSI MASUK PULAU
+// ======================================================
+
+function masukPulau(namaPulau) {
+
+    let key =
+        namaPulau.toLowerCase();
+
+
+    let lock =
+        document.getElementById(
+            "lock-" + key
+        );
+
+
+    if (
+        lock &&
+        lock.style.display !== "none"
+    ) {
+
+        alert(
+            "Pulau " +
+            namaPulau +
+            " masih terkunci!"
+        );
+
+        return;
+    }
+
+}
+
+
+
+// ======================================================
+// PAPAR AVATAR
+// ======================================================
+
+function paparkanAvatar() {
+
+    let jantina =
+        localStorage.getItem(
+            "jantina"
+        ) || "";
+
+
+    let avatarImg =
+        document.getElementById(
+            "avatarImg"
+        );
+
+
+    if (!avatarImg) return;
+
+
+    if (
+        jantina === "Lelaki"
+    ) {
+
+        avatarImg.src =
+            "images/avatar_lelaki.png";
+
+    }
+
+    else if (
+        jantina === "Perempuan"
+    ) {
+
+        avatarImg.src =
+            "images/avatar_perempuan.png";
+
+    }
+
+    else {
+
+        avatarImg.src =
+            "images/avatar_default.png";
+
+    }
+
+}
+
+
+
+// ======================================================
+// PAPAR NAMA & KELAS
+// ======================================================
+
+function paparkanMaklumatPelajar() {
+
+    let nama =
+        localStorage.getItem(
+            "nama"
+        ) || "";
+
+
+    let kelas =
+        localStorage.getItem(
+            "kelas"
+        ) || "";
+
+
+    let infoText =
+        document.getElementById(
+            "infoText"
+        );
+
+
+    if (infoText) {
+
+        infoText.textContent =
+            nama +
+            " (" +
+            kelas +
+            ")";
+
+    }
+
+}
+
+
+
+// ======================================================
+// ⭐⭐⭐ SIJIL
+// SEMAK SAMA ADA 8 MISI SUDAH SELESAI
+// ======================================================
+
+function semakSijil() {
+
+    const jumlahKunci = parseInt(
+        localStorage.getItem("keys") || "0"
+    );
+
+    const butangSijil =
+        document.getElementById("sijilButton");
+
+    if (!butangSijil) return;
+
+    // HANYA paparkan selepas 8 misi selesai
+    if (jumlahKunci >= 8) {
+
+        butangSijil.style.display = "block";
+
+        console.log(
+            "🏆 8 MISI SELESAI - SIJIL BOLEH DICETAK"
+        );
+
+    } else {
+
+        butangSijil.style.display = "none";
+
+    }
+}
+
+
+
+// ======================================================
+// ⭐⭐⭐ PAPAR MAKLUMAT SIJIL
+// ======================================================
+
+function kemaskiniSijil() {
+
+    let nama =
+        localStorage.getItem("nama") ||
+        "NAMA PELAJAR";
+
+    let kelas =
+        localStorage.getItem("kelas") ||
+        "-";
+
+    let namaSijil =
+        document.getElementById("namaSijil");
+
+    let kelasSijil =
+        document.getElementById("kelasSijil");
+
+    if (namaSijil) {
+        namaSijil.textContent = nama;
+    }
+
+    if (kelasSijil) {
+        kelasSijil.textContent = kelas;
+    }
+
+}
+
+
+
+// ======================================================
+// ⭐⭐⭐ FUNGSI CETAK SIJIL
+// ======================================================
+
+function printSijil() {
+
+    // Untuk ujian sementara
+    kemaskiniSijil();
+
+    let preview =
+        document.getElementById("sijilPreview");
+
+    if (preview) {
+
+        preview.style.display = "flex";
+
+    }
+
+}
+
+// ======================================================
+// ⭐ TUTUP PREVIEW SIJIL
+// ======================================================
+
+function tutupPreviewSijil() {
+
+    const preview =
+        document.getElementById("sijilPreview");
+
+    if (preview) {
+
+        preview.style.display = "none";
+
+    }
+
+}
+
+
+// ======================================================
+// ⭐ CETAK SIJIL SEKARANG
+// ======================================================
+
+function cetakSijilSekarang() {
+
+    // Pastikan nama & kelas dikemaskini
+    kemaskiniSijil();
+
+    // Cetak
+    window.print();
+
+}
+
+
+// ======================================================
+// SETUP PETA
+// ======================================================
+
+window.onload = function() {
+
+
+    // ==========================================
+    // 1. PAPAR KUNCI
+    // ==========================================
+
+    updateKunci();
+
+
+
+    // ==========================================
+    // 2. PAPAR AVATAR
+    // ==========================================
+
+    paparkanAvatar();
+
+
+
+    // ==========================================
+    // 3. PAPAR NAMA & KELAS
+    // ==========================================
+
+    paparkanMaklumatPelajar();
+
+
+
+    // ==========================================
+    // 4. PULAU NOMBOR
+    // SENTIASA AKTIF
+    // ==========================================
+
+    let pulauNombor =
+        document.getElementById(
+            "pulau-nombor"
+        );
+
+
+    let lockNombor =
+        document.getElementById(
+            "lock-nombor"
+        );
+
+
+    pulauNombor.style.pointerEvents =
+        "auto";
+
+
+    pulauNombor.style.cursor =
+        "pointer";
+
+
+    lockNombor.style.display =
+        "none";
+
+
+    if (
+        localStorage.getItem(
+            "selesai_nombor"
+        ) !== "true"
+    ) {
+
+        pulauNombor.classList.add(
+            "aktif"
+        );
+
+    }
+
+    else {
+
+        pulauNombor.classList.remove(
+            "aktif"
+        );
+
+    }
+
+
+
+    // ==========================================
+    // 5. PULAU TAMBAH
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "misiTambahAktif"
+        ) === "true"
+    ) {
+
+        unlockPulau(
+            "pulau-tambah",
+            "lock-tambah",
+            "tambah",
+            "games/tambah1.html"
+        );
+
+    }
+
+    else {
+
+        lockPulau(
+            "pulau-tambah",
+            "lock-tambah"
+        );
+
+    }
+
+
+
+    // ==========================================
+    // 6. PULAU TOLAK
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "misiTolakAktif"
+        ) === "true"
+    ) {
+
+        unlockPulau(
+            "pulau-tolak",
+            "lock-tolak",
+            "tolak",
+            "games/tolak1.html"
+        );
+
+    }
+
+    else {
+
+        lockPulau(
+            "pulau-tolak",
+            "lock-tolak"
+        );
+
+    }
+
+
+
+    // ==========================================
+    // 7. PULAU DARAB
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "misiDarabAktif"
+        ) === "true"
+    ) {
+
+        unlockPulau(
+            "pulau-darab",
+            "lock-darab",
+            "darab",
+            "games/darab1.html"
+        );
+
+    }
+
+    else {
+
+        lockPulau(
+            "pulau-darab",
+            "lock-darab"
+        );
+
+    }
+
+
+
+    // ==========================================
+    // 8. PULAU BAHAGI
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "misiBahagiAktif"
+        ) === "true"
+    ) {
+
+        unlockPulau(
+            "pulau-bahagi",
+            "lock-bahagi",
+            "bahagi",
+            "games/bahagi1.html"
+        );
+
+    }
+
+    else {
+
+        lockPulau(
+            "pulau-bahagi",
+            "lock-bahagi"
+        );
+
+    }
+
+
+
+    // ==========================================
+    // 9. PULAU PECAHAN
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "misiPecahanAktif"
+        ) === "true"
+    ) {
+
+        unlockPulau(
+            "pulau-pecahan",
+            "lock-pecahan",
+            "pecahan",
+            "games/pecahan1.html"
+        );
+
+    }
+
+    else {
+
+        lockPulau(
+            "pulau-pecahan",
+            "lock-pecahan"
+        );
+
+    }
+
+
+
+    // ==========================================
+    // 10. PULAU MASA
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "misiMasaAktif"
+        ) === "true"
+    ) {
+
+        unlockPulau(
+            "pulau-masa",
+            "lock-masa",
+            "masa",
+            "games/masa1.html"
+        );
+
+    }
+
+    else {
+
+        lockPulau(
+            "pulau-masa",
+            "lock-masa"
+        );
+
+    }
+
+
+
+    // ==========================================
+    // 11. PULAU WANG
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "misiWangAktif"
+        ) === "true"
+    ) {
+
+        unlockPulau(
+            "pulau-wang",
+            "lock-wang",
+            "wang",
+            "games/wang1.html"
+        );
+
+    }
+
+    else {
+
+        lockPulau(
+            "pulau-wang",
+            "lock-wang"
+        );
+
+    }
+// ==========================================
+    // SIJIL
+    // ==========================================
+
+    semakSijil();
+    kemaskiniSijil();
+
+};
+
+
+</script>
+
+
+</body>
+
+</html>

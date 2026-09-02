@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Matematik Adventure: Jelajah Pulau Ilmu</title>
+
+
+<style>
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    font-family:
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+
+}
+
+
+/* =========================================
+   VIDEO BACKGROUND
+========================================= */
+
+#video-background {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    background: #000;
+
+    z-index: 1;
+
+}
+
+
+/* =========================================
+   OVERLAY
+========================================= */
+
+.overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        rgba(0, 0, 0, 0.15);
+
+    z-index: 2;
+
+}
+
+
+/* =========================================
+   BUTANG SKIP
+========================================= */
+
+#skipButton {
+
+    position: fixed;
+
+    right: 35px;
+    bottom: 30px;
+
+    z-index: 1000;
+
+    min-width: 150px;
+    height: 58px;
+
+    padding: 0 25px;
+
+    border: 4px solid #ffffff;
+
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffd95a 0%,
+            #ffb300 50%,
+            #f28c00 100%
+        );
+
+    color: #5a3200;
+
+    font-family:
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    letter-spacing: 1px;
+
+    /* KESAN 3D */
+
+    box-shadow:
+
+        0 7px 0 #c66f00,
+
+        0 11px 18px
+        rgba(0,0,0,0.40),
+
+        inset 0 4px 0
+        rgba(255,255,255,0.65),
+
+        inset 0 -4px 0
+        rgba(190,100,0,0.25);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        filter 0.15s ease;
+
+}
+
+
+/* =========================================
+   HOVER SKIP
+========================================= */
+
+#skipButton:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.05);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+
+        0 11px 0 #c66f00,
+
+        0 17px 25px
+        rgba(0,0,0,0.45),
+
+        inset 0 4px 0
+        rgba(255,255,255,0.75),
+
+        inset 0 -4px 0
+        rgba(190,100,0,0.20);
+
+}
+
+
+/* =========================================
+   BUTANG DITEKAN
+========================================= */
+
+#skipButton:active {
+
+    transform:
+        translateY(5px)
+        scale(0.97);
+
+    box-shadow:
+
+        0 3px 0 #c66f00,
+
+        0 5px 10px
+        rgba(0,0,0,0.30),
+
+        inset 0 3px 0
+        rgba(255,255,255,0.45);
+
+}
+
+
+/* =========================================
+   ANIMASI MASUK BUTANG
+========================================= */
+
+@keyframes skipAppear {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translateY(40px)
+            scale(0.7);
+
+    }
+
+    70% {
+
+        opacity: 1;
+
+        transform:
+            translateY(-5px)
+            scale(1.05);
+
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+#skipButton {
+
+    animation:
+        skipAppear
+        0.8s
+        ease-out
+        1;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    #video-background {
+
+        object-fit: cover;
+
+    }
+
+    #skipButton {
+
+        right: 20px;
+
+        bottom: 20px;
+
+        min-width: 125px;
+
+        height: 50px;
+
+        font-size: 17px;
+
+        border-width: 3px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     VIDEO BACKGROUND
+========================================= -->
+
+<video
+    id="video-background"
+    autoplay
+    playsinline
+    preload="auto">
+
+    <source
+        src="sounds/videoindex.mp4"
+        type="video/mp4">
+
+</video>
+
+
+<!-- =========================================
+     OVERLAY
+========================================= -->
+
+<div class="overlay"></div>
+
+
+<!-- =========================================
+     BUTTON SKIP
+========================================= -->
+
+<button
+    id="skipButton"
+    type="button"
+    onclick="skipToLogin()">
+
+    SKIP ▶
+
+</button>
+
+
+
+<script>
+
+/* =========================================
+   DAPATKAN VIDEO
+========================================= */
+
+const video =
+    document.getElementById(
+        "video-background"
+    );
+
+
+/* =========================================
+   DAPATKAN BUTTON SKIP
+========================================= */
+
+const skipButton =
+    document.getElementById(
+        "skipButton"
+    );
+
+
+/* =========================================
+   FUNGSI SKIP
+========================================= */
+
+function skipToLogin() {
+
+    /* Hentikan video */
+
+    video.pause();
+
+
+    /* Terus ke login */
+
+    window.location.href =
+        "login1.html";
+
+}
+
+
+/* =========================================
+   VIDEO TAMAT
+========================================= */
+
+video.addEventListener(
+    "ended",
+    function() {
+
+        console.log(
+            "Video telah tamat."
+        );
+
+
+        /* Pergi ke login */
+
+        window.location.href =
+            "login1.html";
+
+    }
+);
+
+
+/* =========================================
+   PASTIKAN VIDEO BERMAIN
+========================================= */
+
+window.addEventListener(
+    "load",
+    function() {
+
+        video.play()
+        .catch(function(error) {
+
+            console.log(
+                "Autoplay disekat oleh browser:",
+                error
+            );
+
+        });
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

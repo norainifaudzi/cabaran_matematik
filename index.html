@@ -1,0 +1,2249 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>TOP 10 - Cabaran Matematik SK Jabi</title>
+
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HTML & BODY
+========================================================= */
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+}
+
+
+body {
+
+    font-family:
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+
+    background-image:
+        url("images/mainbackground.png");
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        center center;
+
+    background-size:
+        100vw 100vh;
+
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+#gameContainer {
+
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   BUTTON CONTAINER
+========================================================= */
+
+.buttonContainer {
+
+    position: absolute;
+
+    left: 43%;
+
+    top: 65%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 15px;
+
+    z-index: 20;
+
+}
+
+
+/* =========================================================
+   GAME BUTTON
+========================================================= */
+
+.gameButton {
+
+    display: block;
+
+    border: none;
+
+    background: transparent;
+
+    padding: 0;
+
+    margin: 0;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease;
+
+}
+
+
+.gameButton img {
+
+    display: block;
+
+    width: 300px;
+
+    height: auto;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    pointer-events: none;
+
+}
+
+
+.gameButton:hover {
+
+    transform:
+        scale(1.08);
+
+}
+
+
+.gameButton:active {
+
+    transform:
+        scale(0.95);
+
+}
+
+
+/* =========================================================
+   PAPAN TOP 10
+========================================================= */
+
+.leaderboard {
+    position: fixed;
+
+    top: 50%;
+
+    right: 45px;
+
+    transform: translateY(-50%);
+
+    width: 460px;
+
+    max-height: 82vh;
+
+    padding: 22px;
+
+    background: rgba(255,250,238,0.97);
+
+    border: 5px solid #f2bd55;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 8px 0 #d69b3b,
+        0 15px 30px rgba(0,0,0,0.25),
+        inset 0 3px 5px rgba(255,255,255,0.8);
+
+    z-index: 100;
+
+    overflow-y: auto;
+}
+
+/* =========================================================
+   TAJUK
+========================================================= */
+
+.title {
+
+    text-align: center;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #f08a24;
+
+    text-shadow:
+        2px 3px 0 #ffe0a3;
+
+    margin-bottom: 5px;
+
+}
+
+
+.subtitle {
+
+    text-align: center;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    color: #8a6a4b;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.table-header {
+
+    display: grid;
+
+    grid-template-columns:
+        55px
+        1fr
+        90px
+        90px;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        9px 10px;
+
+    margin-bottom: 8px;
+
+    background:
+        #f3cf7c;
+
+    border-radius:
+        12px;
+
+    color:
+        #5a3b18;
+
+    font-size:
+        14px;
+
+    font-weight:
+        bold;
+
+    text-align:
+        center;
+
+}
+
+
+/* =========================================================
+   RANKING LIST
+========================================================= */
+
+#rankingList {
+
+    width: 100%;
+
+}
+
+
+/* =========================================================
+   SETIAP BARIS
+========================================================= */
+
+.rank-row {
+
+    display: grid;
+
+    grid-template-columns:
+        55px
+        1fr
+        90px
+        90px;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        9px 10px;
+
+    margin-bottom: 8px;
+
+    background:
+        #ffffff;
+
+    border:
+        3px solid #f3cf7c;
+
+    border-radius:
+        14px;
+
+    box-shadow:
+        0 4px 0
+        rgba(210,160,80,0.22);
+
+    color:
+        #5a4636;
+
+    font-size:
+        15px;
+
+    font-weight:
+        bold;
+
+}
+
+
+/* =========================================================
+   KEDUDUKAN
+========================================================= */
+
+.rank-number {
+
+    text-align:
+        center;
+
+    font-size:
+        20px;
+
+}
+
+
+/* =========================================================
+   NAMA
+========================================================= */
+
+.student-name {
+
+    text-align: left;
+
+    white-space: normal;
+
+    overflow: visible;
+
+    text-overflow: clip;
+
+    overflow-wrap: anywhere;
+
+    line-height: 1.2;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   KELAS
+========================================================= */
+
+.student-class {
+
+    text-align: center;
+
+    color: #8a6a4b;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   MASA
+========================================================= */
+
+.student-time {
+
+    text-align: right;
+
+    color: #e67e22;
+
+    font-size: 12px;
+
+}
+
+/* =========================================================
+   TOP 3
+========================================================= */
+
+.rank-1 {
+
+    background:
+        #fff7d6;
+
+    border-color:
+        #ffd54f;
+
+}
+
+
+.rank-2 {
+
+    background:
+        #f5f5f5;
+
+}
+
+
+.rank-3 {
+
+    background:
+        #fff0dc;
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+#loading {
+
+    text-align:
+        center;
+
+    padding:
+        20px;
+
+    color:
+        #8a6a4b;
+
+    font-weight:
+        bold;
+
+}
+
+
+/* =========================================================
+   TIADA REKOD
+========================================================= */
+
+#noRecord {
+
+    display:
+        none;
+
+    text-align:
+        center;
+
+    padding:
+        20px;
+
+    color:
+        #8a6a4b;
+
+    font-weight:
+        bold;
+
+}
+
+
+/* =========================================================
+   STATUS FIREBASE
+========================================================= */
+
+#firebaseStatus {
+
+    margin-top:
+        12px;
+
+    padding:
+        8px;
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(255,213,79,0.20);
+
+    color:
+        #8a6a4b;
+
+    font-size:
+        12px;
+
+    font-weight:
+        bold;
+
+    text-align:
+        center;
+
+}
+
+
+/* =========================================================
+   BUTTON BACK
+========================================================= */
+
+.back-button {
+
+    position:
+        fixed;
+
+    left:
+        30px;
+
+    bottom:
+        25px;
+
+    z-index:
+        200;
+
+}
+
+
+.back-button img {
+
+    width:
+        90px;
+
+    height:
+        90px;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform 0.2s ease;
+
+    filter:
+        drop-shadow(
+            0 5px 5px
+            rgba(0,0,0,0.25)
+        );
+
+}
+
+
+.back-button img:hover {
+
+    transform:
+        scale(1.12);
+
+}
+
+
+.back-button img:active {
+
+    transform:
+        scale(0.92);
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .leaderboard {
+
+        width:
+            400px;
+
+        right:
+            20px;
+
+    }
+
+
+    .buttonContainer {
+
+        left:
+            34%;
+
+    }
+
+
+    .gameButton img {
+
+        width:
+            260px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    body {
+
+        overflow:
+            auto;
+
+    }
+
+
+    #gameContainer {
+
+        min-height:
+            100vh;
+
+        overflow:
+            auto;
+
+    }
+
+
+    .leaderboard {
+
+        position:
+            absolute;
+
+        top:
+            40px;
+
+        right:
+            20px;
+
+        transform:
+            none;
+
+        width:
+            390px;
+
+        max-height:
+            55vh;
+
+    }
+
+
+    .buttonContainer {
+
+        left:
+            25%;
+
+        top:
+            70%;
+
+    }
+
+
+    .gameButton img {
+
+        width:
+            220px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TELEFON
+========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+
+        background-size:
+            cover;
+
+    }
+
+
+   .leaderboard {
+    position: fixed;
+
+    top: 30%;
+
+    right: 45px;
+
+    transform:
+        translateY(-50%);
+
+    width: 460px;
+
+    max-height: 82vh;
+
+    padding: 22px;
+
+    }
+
+
+    .title {
+
+        font-size:
+            21px;
+
+    }
+
+
+    .subtitle {
+
+        font-size:
+            12px;
+
+    }
+
+
+    .table-header,
+   .rank-row {
+
+    display: grid;
+
+    grid-template-columns:
+        55px
+        1fr
+        90px
+        90px;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        8px 10px;
+
+    margin-bottom: 8px;
+
+    background:
+        #ffffff;
+
+    border:
+        3px solid #f3cf7c;
+
+    border-radius:
+        14px;
+
+    box-shadow:
+        0 4px 0
+        rgba(210,160,80,0.22);
+
+    color:
+        #5a4636;
+
+    font-size:
+        15px;
+
+    font-weight:
+        bold;
+
+}
+
+
+    .rank-number {
+    text-align: center;
+    font-size: 20px;
+}
+
+
+    .student-time {
+
+        font-size:
+            13px;
+
+    }
+
+
+    .buttonContainer {
+
+        left:
+            50%;
+
+        top:
+            82%;
+
+    }
+
+
+    .gameButton img {
+
+        width:
+            180px;
+
+    }
+
+
+    .back-button {
+
+        left:
+            10px;
+
+        bottom:
+            10px;
+
+    }
+
+
+    .back-button img {
+
+        width:
+            65px;
+
+        height:
+            65px;
+
+    }
+
+}
+
+/* =========================================================
+   MESSAGE BOX - CARA BERMAIN
+========================================================= */
+
+#caraMainOverlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(45, 35, 20, 0.55);
+
+    z-index: 500;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+}
+
+
+/* KOTAK */
+
+.caraMainBox {
+
+    position: relative;
+
+    width: min(650px, 92vw);
+
+    max-height: 88vh;
+
+    overflow-y: auto;
+
+    padding: 30px 35px 28px;
+
+    /* WARNA HIJAU */
+
+    background:
+        linear-gradient(
+            180deg,
+            #f1ffe8 0%,
+            #dff5c9 100%
+        );
+
+    border: 6px solid #72b84a;
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 10px 0 #4f9635,
+        0 18px 35px rgba(0,0,0,0.30);
+
+}
+
+
+@keyframes caraMainMasuk {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(0.75)
+            translateY(30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+    }
+
+}
+
+
+/* TAJUK */
+
+.caraMainTitle {
+
+    text-align: center;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    color: #f08a24;
+
+    text-shadow:
+        2px 3px 0 #ffe0a3;
+
+    margin-bottom: 8px;
+
+}
+
+
+.caraMainSubtitle {
+
+    text-align: center;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    color: #8a6a4b;
+
+    margin-bottom: 22px;
+
+}
+
+
+/* LANGKAH */
+
+.langkah {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 14px;
+
+    margin-bottom: 14px;
+
+    padding: 13px 15px;
+
+    background: #ffffff;
+
+    border: 3px solid #f3cf7c;
+
+    border-radius: 17px;
+
+    box-shadow:
+        0 4px 0 rgba(210,160,80,0.18);
+
+}
+
+
+.langkahNo {
+
+    flex-shrink: 0;
+
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f3cf7c;
+
+    color: #5a3b18;
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+}
+
+
+.langkahText {
+
+    color: #5a4636;
+
+    font-size: 16px;
+
+    line-height: 1.45;
+
+}
+
+
+.langkahText strong {
+
+    color: #e67e22;
+
+}
+
+
+/* NOTA */
+
+.notaCaraMain {
+
+    margin-top: 18px;
+
+    padding: 15px 18px;
+
+    background:
+        rgba(255,213,79,0.25);
+
+    border: 3px dashed #e8b947;
+
+    border-radius: 16px;
+
+    color: #6b4d2e;
+
+    font-size: 15px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+}
+
+
+/* BUTTON TUTUP */
+
+.tutupCaraMain {
+
+    display: block;
+
+    margin: 22px auto 0;
+
+    border: none;
+
+    padding: 11px 32px;
+
+    border-radius: 15px;
+
+    background: #f08a24;
+
+    color: white;
+
+    font-family:
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 0 #c96d16;
+
+    transition:
+        transform 0.15s ease;
+
+}
+
+
+.tutupCaraMain:hover {
+
+    transform:
+        scale(1.06);
+
+}
+
+
+.tutupCaraMain:active {
+
+    transform:
+        translateY(3px);
+
+    box-shadow:
+        0 2px 0 #c96d16;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .caraMainBox {
+
+        padding:
+            22px 18px 22px;
+
+        border-width:
+            4px;
+
+        border-radius:
+            22px;
+
+    }
+
+
+    .caraMainTitle {
+
+        font-size:
+            23px;
+
+    }
+
+
+    .caraMainSubtitle {
+
+        font-size:
+            13px;
+
+    }
+
+
+    .langkah {
+
+        gap:
+            10px;
+
+        padding:
+            10px;
+
+    }
+
+
+    .langkahNo {
+
+        width:
+            32px;
+
+        height:
+            32px;
+
+        font-size:
+            16px;
+
+    }
+
+
+    .langkahText {
+
+        font-size:
+            14px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div id="gameContainer">
+
+
+    <!-- =====================================================
+         BUTTON MULA & CARA MAIN
+    ====================================================== -->
+
+    <div class="buttonContainer">
+
+
+        <!-- MULA MISI -->
+
+       <button
+    class="gameButton"
+    id="btnMula"
+    type="button"
+    onclick="window.location.href='intro.html'">
+
+    <img
+        src="images/button_mula.png"
+        alt="Mula Misi">
+
+    </button>
+
+
+        <!-- CARA MAIN -->
+
+        <button
+            class="gameButton"
+            id="btnCaraMain"
+            type="button">
+
+            <img
+                src="images/button_carabermain.png"
+                alt="Cara Main">
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PAPAN TOP 10
+    ====================================================== -->
+
+    <div class="leaderboard">
+
+
+        <div class="title">
+
+            🏆 TOP 10 CABARAN MATEMATIK 🏆
+
+        </div>
+
+
+        <div class="subtitle">
+
+            🚀 Peserta Terpantas Menyelesaikan 8 Misi
+
+        </div>
+
+
+        <!-- HEADER -->
+
+        <div class="table-header">
+
+            <div>
+                KED.
+            </div>
+
+            <div>
+                NAMA
+            </div>
+
+            <div>
+                KELAS
+            </div>
+
+            <div>
+                MASA
+            </div>
+
+        </div>
+
+
+        <!-- LOADING -->
+
+        <div id="loading">
+
+            ⏳ Sedang mengambil rekod...
+
+        </div>
+
+
+        <!-- TIADA REKOD -->
+
+        <div id="noRecord">
+
+            📚 Belum ada rekod peserta.
+
+            <br><br>
+
+            Jadilah peserta pertama!
+
+        </div>
+
+
+        <!-- SENARAI -->
+
+        <div id="rankingList"></div>
+
+
+        <!-- STATUS -->
+
+        <div id="firebaseStatus">
+
+            🔄 Menunggu data Firebase...
+
+        </div>
+
+
+    </div>
+
+<!-- =====================================================
+     MESSAGE BOX - CARA BERMAIN
+====================================================== -->
+
+<div id="caraMainOverlay">
+
+    <div class="caraMainBox">
+
+        <div class="caraMainTitle">
+            🎮 CARA BERMAIN
+        </div>
+
+        <div class="caraMainSubtitle">
+            🧮 Cabaran Matematik SK Jabi
+        </div>
+
+
+        <!-- LANGKAH 1 -->
+
+        <div class="langkah">
+
+            <div class="langkahNo">1</div>
+
+            <div class="langkahText">
+
+                <strong>MULA PERMAINAN</strong><br>
+
+                Tekan butang <strong>MULA MISI</strong>
+                untuk memulakan permainan.
+
+            </div>
+
+        </div>
+
+
+        <!-- LANGKAH 2 -->
+
+        <div class="langkah">
+
+            <div class="langkahNo">2</div>
+
+            <div class="langkahText">
+
+                <strong>MASUKKAN MAKLUMAT</strong><br>
+
+                Masukkan <strong>nama, kelas dan jantina</strong>
+                dengan betul.
+
+            </div>
+
+        </div>
+
+
+        <!-- LANGKAH 3 -->
+
+        <div class="langkah">
+
+            <div class="langkahNo">3</div>
+
+            <div class="langkahText">
+
+                <strong>IKUTI TURUTAN MISI</strong><br>
+
+                Selesaikan <strong>8 misi Matematik</strong>
+                mengikut turutan yang diberikan.
+
+            </div>
+
+        </div>
+
+
+        <!-- LANGKAH 4 -->
+
+        <div class="langkah">
+
+            <div class="langkahNo">4</div>
+
+            <div class="langkahText">
+
+                <strong>BACA SOALAN</strong><br>
+
+                Baca setiap soalan dengan teliti
+                sebelum memilih jawapan.
+
+            </div>
+
+        </div>
+
+
+        <!-- LANGKAH 5 -->
+
+        <div class="langkah">
+
+            <div class="langkahNo">5</div>
+
+            <div class="langkahText">
+
+                <strong>JAWAB SOALAN</strong><br>
+
+                Pilih <strong>satu jawapan yang betul</strong>
+                daripada <strong>4 pilihan jawapan</strong>
+                yang diberikan. 🧠
+
+            </div>
+
+        </div>
+
+
+        <!-- LANGKAH 6 -->
+
+        <div class="langkah">
+
+            <div class="langkahNo">6</div>
+
+            <div class="langkahText">
+
+                <strong>JAWAPAN SALAH?</strong><br>
+
+                Jangan risau! Cuba lagi dan fikirkan
+                jawapan dengan teliti.
+
+            </div>
+
+        </div>
+
+
+        <!-- LANGKAH 7 -->
+
+        <div class="langkah">
+
+            <div class="langkahNo">7</div>
+
+            <div class="langkahText">
+
+                <strong>LENGKAPKAN SEMUA MISI</strong><br>
+
+                Teruskan permainan sehingga
+                <strong>kesemua 8 misi selesai</strong>.
+
+            </div>
+
+        </div>
+
+
+        <!-- LANGKAH 8 -->
+
+        <div class="langkah">
+
+            <div class="langkahNo">8</div>
+
+            <div class="langkahText">
+
+                <strong>MASA ANDA AKAN DIREKODKAN</strong><br>
+
+                Masa permainan akan direkodkan
+                selepas semua misi selesai.
+
+            </div>
+
+        </div>
+
+
+        <!-- TIP -->
+
+        <div class="notaCaraMain">
+
+            🏆 <strong>CABAR DIRI ANDA!</strong><br>
+
+            Jawab dengan <strong>tepat dan pantas</strong>
+            untuk mencatat masa terbaik dan cuba masuk
+            ke <strong>TOP 10!</strong>
+
+            <br><br>
+
+            💡 <strong>TIP:</strong>
+            Baca soalan dengan teliti, fikir sebelum
+            menjawab dan jangan mudah berputus asa!
+
+        </div>
+
+
+        <!-- BUTTON TUTUP -->
+
+        <button
+            type="button"
+            class="tutupCaraMain"
+            id="btnTutupCaraMain">
+
+            👍 FAHAM!
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     FIREBASE
+========================================================= -->
+
+<script type="module">
+
+
+/* =========================================================
+   IMPORT FIREBASE
+========================================================= */
+
+import {
+
+    initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+
+    getDatabase,
+    ref,
+    onValue
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCL_Qo_85H7syg9upgFV6oiqOp_MwJZL0k",
+
+    authDomain:
+        "cabaran-matematik-sk-jabi.firebaseapp.com",
+
+    databaseURL:
+        "https://cabaran-matematik-sk-jabi-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+    projectId:
+        "cabaran-matematik-sk-jabi",
+
+    storageBucket:
+        "cabaran-matematik-sk-jabi.firebasestorage.app",
+
+    messagingSenderId:
+        "215473379431",
+
+    appId:
+        "1:215473379431:web:4d76691fd5ca026a9b5cc2"
+
+};
+
+
+
+/* =========================================================
+   INIT FIREBASE
+========================================================= */
+
+const app =
+    initializeApp(
+        firebaseConfig
+    );
+
+
+const database =
+    getDatabase(app);
+
+
+
+/* =========================================================
+   ELEMENT
+========================================================= */
+
+const rankingList =
+    document.getElementById(
+        "rankingList"
+    );
+
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+
+const noRecord =
+    document.getElementById(
+        "noRecord"
+    );
+
+
+const firebaseStatus =
+    document.getElementById(
+        "firebaseStatus"
+    );
+
+
+
+/* =========================================================
+   FORMAT MASA
+========================================================= */
+
+function formatTime(seconds) {
+
+    seconds =
+        Math.max(
+            0,
+            Math.floor(
+                Number(seconds) || 0
+            )
+        );
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const secs =
+        seconds % 60;
+
+
+    return (
+
+        String(minutes)
+            .padStart(2, "0")
+
+        +
+
+        ":"
+
+        +
+
+        String(secs)
+            .padStart(2, "0")
+
+    );
+
+}
+
+
+
+/* =========================================================
+   DAPATKAN JUMLAH MASA
+========================================================= */
+
+function getTotalSeconds(record) {
+
+
+    /*
+       Jika Firebase sudah simpan
+       jumlahSaat, gunakan nilai itu.
+    */
+
+    if (
+        record.jumlahSaat !== undefined
+        &&
+        record.jumlahSaat !== null
+    ) {
+
+        return Number(
+            record.jumlahSaat
+        ) || 0;
+
+    }
+
+
+
+    /*
+       Jika tiada jumlahSaat,
+       cuba jumlahkan 8 misi.
+    */
+
+    const missions = [
+
+        "masaNombor",
+        "masaTambah",
+        "masaTolak",
+        "masaDarab",
+        "masaBahagi",
+        "masaPecahan",
+        "masaMasa",
+        "masaWang"
+
+    ];
+
+
+    let total = 0;
+
+
+    missions.forEach(
+        function(mission) {
+
+            total +=
+                Number(
+                    record[mission]
+                ) || 0;
+
+        }
+    );
+
+
+    return total;
+
+}
+
+
+
+/* =========================================================
+   EMOJI RANK
+========================================================= */
+
+function getRankDisplay(rank) {
+
+    if (rank === 1) {
+
+        return "🥇";
+
+    }
+
+
+    if (rank === 2) {
+
+        return "🥈";
+
+    }
+
+
+    if (rank === 3) {
+
+        return "🥉";
+
+    }
+
+
+    return rank;
+
+}
+
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+/* =========================================================
+   PAPAR RANKING
+========================================================= */
+
+function displayRanking(data) {
+
+
+    rankingList.innerHTML =
+        "";
+
+
+    loading.style.display =
+        "none";
+
+
+    noRecord.style.display =
+        "none";
+
+
+    const records = [];
+
+
+
+    /*
+       Tukar Firebase object
+       kepada array.
+    */
+
+    Object.entries(
+        data || {}
+    ).forEach(
+        function([id, record]) {
+
+
+            if (!record) {
+
+                return;
+
+            }
+
+
+const totalSeconds =
+    getTotalSeconds(record);
+
+
+/* =====================================================
+   SYARAT 1
+   MESTI ADA PENANDA SELESAI 8 MISI
+===================================================== */
+
+if (
+    record.selesai8Misi !== true
+) {
+
+    console.log(
+        "⛔ Tidak layak Top 10:",
+        record.nama,
+        "→ Belum lengkap 8 misi."
+    );
+
+    return;
+
+}
+
+
+/* =====================================================
+   SYARAT 2
+   SEMAK SEMUA 8 MASA MISI
+===================================================== */
+
+const missionTimes = [
+
+    record.masaNombor,
+
+    record.masaTambah,
+
+    record.masaTolak,
+
+    record.masaDarab,
+
+    record.masaBahagi,
+
+    record.masaPecahan,
+
+    record.masaMasa,
+
+    record.masaWang
+
+];
+
+
+/*
+   Semua 8 misi mesti mempunyai masa > 0
+*/
+
+const lengkap8Misi =
+    missionTimes.every(
+        function(time) {
+
+            return (
+                Number(time) > 0
+            );
+
+        }
+    );
+
+
+if (!lengkap8Misi) {
+
+    console.log(
+        "⛔ Tidak layak Top 10:",
+        record.nama,
+        "→ Masa 8 misi tidak lengkap."
+    );
+
+    return;
+
+}
+
+
+/* =====================================================
+   SYARAT 3
+   JUMLAH MASA MESTI SAH
+===================================================== */
+
+if (
+    totalSeconds <= 0
+) {
+
+    return;
+
+}
+
+          
+
+            records.push({
+
+                id:
+                    id,
+
+                nama:
+                    record.nama ||
+                    "Tanpa Nama",
+
+                kelas:
+                    record.kelas ||
+                    "-",
+
+                jumlahSaat:
+                    totalSeconds,
+
+                jumlahMasa:
+                    record.jumlahMasa ||
+                    formatTime(
+                        totalSeconds
+                    ),
+
+                timestamp:
+                    Number(
+                        record.timestamp
+                    ) || 0
+
+            });
+
+        }
+    );
+
+
+
+    /* =====================================================
+       SUSUN TERPANTAS
+    ===================================================== */
+
+    records.sort(
+        function(a,b) {
+
+
+            if (
+                a.jumlahSaat !==
+                b.jumlahSaat
+            ) {
+
+                return (
+                    a.jumlahSaat -
+                    b.jumlahSaat
+                );
+
+            }
+
+
+            return (
+                a.timestamp -
+                b.timestamp
+            );
+
+        }
+    );
+
+
+
+    /*
+       Ambil TOP 10 sahaja.
+    */
+
+    const top10 =
+        records.slice(
+            0,
+            10
+        );
+
+
+
+    /* =====================================================
+       TIADA REKOD
+    ===================================================== */
+
+    if (
+        top10.length === 0
+    ) {
+
+        noRecord.style.display =
+            "block";
+
+
+        firebaseStatus.textContent =
+            "📭 Tiada rekod peserta selesai 8 misi.";
+
+        return;
+
+    }
+
+
+
+    /* =====================================================
+       PAPAR TOP 10
+    ===================================================== */
+
+    top10.forEach(
+        function(student,index) {
+
+
+            const rank =
+                index + 1;
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "rank-row rank-" +
+                rank;
+
+
+
+            row.innerHTML = `
+
+                <div class="rank-number">
+
+                    ${getRankDisplay(rank)}
+
+                </div>
+
+
+                <div class="student-name">
+
+                    ${escapeHTML(
+                        student.nama
+                    )}
+
+                </div>
+
+
+                <div class="student-class">
+
+                    ${escapeHTML(
+                        student.kelas
+                    )}
+
+                </div>
+
+
+                <div class="student-time">
+
+                    ⏱️ ${escapeHTML(
+                        student.jumlahMasa
+                    )}
+
+                </div>
+
+            `;
+
+
+            rankingList.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+
+    firebaseStatus.textContent =
+
+        "🟢 Firebase aktif • " +
+
+        top10.length +
+
+        " peserta dipaparkan";
+
+}
+
+
+
+/* =========================================================
+   FIREBASE DATABASE
+========================================================= */
+
+const leaderboardRef =
+    ref(
+        database,
+        "rekod_pelajar"
+    );
+
+
+
+/* =========================================================
+   REALTIME LISTENER
+========================================================= */
+
+onValue(
+
+    leaderboardRef,
+
+    function(snapshot) {
+
+
+        const data =
+            snapshot.val();
+
+
+        displayRanking(
+            data
+        );
+
+    },
+
+
+    function(error) {
+
+
+        console.error(
+            "Firebase error:",
+            error
+        );
+
+
+        loading.style.display =
+            "none";
+
+
+        firebaseStatus.textContent =
+            "🔴 Tidak dapat membaca Firebase.";
+
+
+        noRecord.style.display =
+            "block";
+
+
+        noRecord.innerHTML = `
+
+            ⚠️ Gagal mendapatkan rekod.
+
+            <br><br>
+
+            Sila semak sambungan Firebase.
+
+        `;
+
+    }
+
+);
+
+
+/* =========================================================
+   MESSAGE BOX CARA BERMAIN
+========================================================= */
+
+const caraMainOverlay =
+    document.getElementById(
+        "caraMainOverlay"
+    );
+
+
+const btnCaraMain =
+    document.getElementById(
+        "btnCaraMain"
+    );
+
+
+const btnTutupCaraMain =
+    document.getElementById(
+        "btnTutupCaraMain"
+    );
+
+
+/* BUKA MESSAGE BOX */
+
+btnCaraMain.addEventListener(
+    "click",
+    function() {
+
+        caraMainOverlay.style.display =
+            "flex";
+
+    }
+);
+
+
+/* TUTUP MESSAGE BOX */
+
+btnTutupCaraMain.addEventListener(
+    "click",
+    function() {
+
+        caraMainOverlay.style.display =
+            "none";
+
+    }
+);
+
+
+/* KLIK LUAR KOTAK UNTUK TUTUP */
+
+caraMainOverlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target ===
+            caraMainOverlay
+        ) {
+
+            caraMainOverlay.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

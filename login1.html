@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Tahap 1</title>
+  
+  <style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Comic Sans MS', Arial, sans-serif;
+
+    background: url('images/login_background.png')
+        no-repeat center center fixed;
+
+    background-size: cover;
+
+    text-align: center;
+    color: #fff;
+}
+    h2 {
+    font-size: 28px;
+    color: #f08a24;
+    text-shadow: 2px 3px 0 #ffe0a3;
+    margin-top: -15px;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
+
+.subtitle {
+    color: #6b4b32;
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+   label {
+    display: block;
+    margin: 15px 0 8px;
+
+    font-weight: bold;
+    color: #6b4b32;
+
+    font-size: 20px;
+}
+input,
+select {
+    width: 85%;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+
+    border-radius: 17px;
+    border: 3px solid #f3cf7c;
+
+    /* PUTIH */
+    background: #ffffff !important;
+    color: #5a4636;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    outline: none;
+
+    box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.05),
+        0 4px 0 rgba(210,160,80,0.20);
+
+    transition: 
+        transform 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+input:focus,
+select:focus {
+    background: #ffffff !important;
+
+    border-color: #f08a24;
+
+    transform: scale(1.025);
+
+    box-shadow:
+        0 0 0 4px rgba(240,138,36,0.12),
+        inset 0 2px 4px rgba(0,0,0,0.05),
+        0 5px 0 rgba(210,160,80,0.25);
+}
+
+input:focus,
+select:focus {
+    border-color: #f08a24;
+    transform: scale(1.02);
+}
+
+   button {
+    background: linear-gradient(
+        #ffd966,
+        #f4b942
+    );
+
+    color: #5a3b18;
+
+    padding: 16px 28px;
+
+    border: none;
+    border-radius: 18px;
+
+    cursor: pointer;
+
+    font-size: 19px;
+    font-weight: bold;
+
+    box-shadow:
+        0 7px 0 #c98d25,
+        0 10px 15px rgba(0,0,0,0.2);
+
+    transition: all 0.15s ease;
+}
+
+button:hover {
+    background: linear-gradient(
+        #ffe58a,
+        #f7c957
+    );
+
+    transform: translateY(-3px) scale(1.03);
+}
+
+button:active {
+    transform: translateY(4px);
+
+    box-shadow:
+        0 3px 0 #c98d25;
+}
+
+
+/* =====================================================
+   BUTTON BACK & RESET - CLAY 3D
+===================================================== */
+
+.nav-buttons {
+
+    position: fixed;
+
+    bottom: 28px;
+
+    right: 55px;
+
+    display: flex;
+
+    gap: 16px;
+
+    z-index: 100;
+
+}
+
+/* =====================================================
+   BUTTON KEMBALI & RESET
+   KUNING + BORDER PUTIH
+===================================================== */
+
+.nav-button {
+
+    position: relative;
+
+    width: 150px;
+    height: 65px;
+
+    border: 4px solid #ffffff;
+
+    border-radius: 22px;
+
+    /* KUNING CLAY */
+    background: linear-gradient(
+        180deg,
+        #fff3a8 0%,
+        #ffdd67 45%,
+        #f4b942 100%
+    );
+
+    color: #68420f;
+
+    font-family:
+        "Comic Sans MS",
+        Arial,
+        sans-serif;
+
+    font-size: 21px;
+
+    font-weight: 900;
+
+    letter-spacing: 0.8px;
+
+    text-shadow:
+        1px 2px 0 #fff1b8;
+
+    cursor: pointer;
+
+    box-shadow:
+
+        0 7px 0 #b97d1d,
+
+        0 11px 18px
+        rgba(0,0,0,0.25),
+
+        inset 0 4px 0
+        rgba(255,255,255,0.65),
+
+        inset 0 -4px 0
+        rgba(205,145,30,0.25);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   KILAUAN ATAS
+===================================================== */
+
+.nav-button::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 5px;
+    left: 12%;
+
+    width: 76%;
+    height: 13px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.45);
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   HOVER
+===================================================== */
+
+.nav-button:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.05);
+
+    /* KEKAL KUNING */
+
+    background: linear-gradient(
+        180deg,
+        #fff8c7 0%,
+        #ffe88a 45%,
+        #f7c957 100%
+    );
+
+    /* KEKAL BORDER PUTIH */
+
+    border: 4px solid #ffffff;
+
+    box-shadow:
+
+        0 10px 0 #b97d1d,
+
+        0 15px 22px
+        rgba(0,0,0,0.28),
+
+        inset 0 4px 0
+        rgba(255,255,255,0.70),
+
+        inset 0 -4px 0
+        rgba(205,145,30,0.25);
+}
+
+
+/* =====================================================
+   TEKAN
+===================================================== */
+
+.nav-button:active {
+
+    transform:
+        translateY(5px)
+        scale(0.98);
+
+    border: 4px solid #ffffff;
+
+    box-shadow:
+
+        0 3px 0 #b97d1d,
+
+        0 6px 10px
+        rgba(0,0,0,0.18),
+
+        inset 0 3px 0
+        rgba(255,255,255,0.40);
+}
+
+
+/* =====================================================
+   KEMBALI & RESET
+   KEDUA-DUA SAMA
+===================================================== */
+
+.nav-button.back,
+.nav-button.reset {
+
+    background: linear-gradient(
+        180deg,
+        #fff3a8 0%,
+        #ffdd67 45%,
+        #f4b942 100%
+    );
+
+    border: 4px solid #ffffff;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .nav-buttons {
+
+        right: 20px;
+
+        bottom: 20px;
+
+        gap: 10px;
+
+    }
+
+    .nav-button {
+
+        width: 125px;
+
+        height: 55px;
+
+        font-size: 15px;
+
+    }
+
+}
+
+/* =====================================================
+   CONTAINER LOGIN
+===================================================== */
+
+.login-container { 
+    width: 100%; 
+    min-height: 100vh; 
+ 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+ 
+    gap: 50px;
+    padding: 30px; 
+}
+
+
+/* =====================================================
+   KOTAK LOGIN - CLAY 3D
+===================================================== */
+
+.login-box {
+
+    width: 560px;
+    min-height: 430px;
+
+    /* WARNA CLAY LEMBUT */
+    background: rgba(255, 250, 238, 0.97);
+
+    /* BORDER */
+    border: 5px solid #f2bd55;
+    border-radius: 28px;
+
+    padding: 38px;
+
+    /* KESAN 3D / CLAY */
+    box-shadow:
+        0 8px 0 #d69b3b,
+        0 15px 30px rgba(0, 0, 0, 0.25),
+        inset 0 3px 5px rgba(255, 255, 255, 0.8);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* KEDUDUKAN */
+    transform: translateX(0);
+
+    position: relative;
+    top: -20px;
+
+    z-index: 20;
+
+    /* ANIMASI */
+    transition: transform 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+
+/* =====================================================
+   KESAN HOVER - KOTAK TERANG SEDIKIT
+===================================================== */
+
+.login-box:hover {
+
+    transform: translateX(0) translateY(-4px);
+
+    box-shadow:
+        0 12px 0 #d69b3b,
+        0 20px 35px rgba(0, 0, 0, 0.25),
+        inset 0 3px 5px rgba(255, 255, 255, 0.8);
+}
+
+.mission-video { 
+    width: 450px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+
+    transform: translateX(70px);
+}
+
+#loginCharacter {
+    width: 600px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <!-- KOTAK LOGIN DI SEBELAH KIRI -->
+    <div class="login-box">
+
+        <h2>🎒 JOM MULAKAN PENGEMBARAAN!</h2>
+
+        <p class="subtitle">
+            Sediakan diri untuk Cabaran Matematik
+        </p>
+
+        <form onsubmit="redirectToTahap1(event)" autocomplete="off">
+
+            <label for="nama">Nama:</label>
+
+            <input
+                type="text"
+                id="nama"
+                name="nama"
+                required
+                autocomplete="off"
+            >
+
+            <label for="kelas">Kelas:</label>
+
+            <input
+                type="text"
+                id="kelas"
+                name="kelas"
+                required
+                autocomplete="off"
+            >
+
+            <label for="jantina">Jantina:</label>
+
+            <select id="jantina" name="jantina" required>
+
+                <option value="">-- Pilih Jantina --</option>
+
+                <option value="Lelaki">
+                    Lelaki
+                </option>
+
+                <option value="Perempuan">
+                    Perempuan
+                </option>
+
+            </select>
+
+            <button type="submit">
+                MULA CABARAN MATEMATIK 🚀
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- BUDAK LELAKI DI SEBELAH KANAN -->
+    <div class="mission-video">
+
+        <img
+            id="loginCharacter"
+            src="images/boy.png"
+            alt="Budak lelaki memberi semangat"
+        >
+
+    </div>
+
+</div>
+
+
+<!-- BUTANG BACK & RESET -->
+
+<!-- =====================================================
+     BUTTON BACK & RESET
+===================================================== -->
+
+<div class="nav-buttons">
+
+    <button
+        type="button"
+        class="nav-button back"
+        onclick="window.location.href='index.html'">
+
+        KEMBALI
+
+    </button>
+
+
+    <button
+        type="button"
+        class="nav-button reset"
+        onclick="document.querySelector('form').reset()">
+
+        RESET
+
+    </button>
+
+</div>
+
+
+<script>
+
+function redirectToTahap1(event) {
+
+    event.preventDefault();
+
+    // Reset semua progres bila login baru
+    localStorage.clear();
+
+    localStorage.setItem(
+        "nama",
+        document.getElementById("nama").value
+    );
+
+    localStorage.setItem(
+        "kelas",
+        document.getElementById("kelas").value
+    );
+
+    localStorage.setItem(
+        "jantina",
+        document.getElementById("jantina").value
+    );
+
+    // Reset kunci bila mula login
+    localStorage.setItem("keys", 0);
+
+    // Redirect ke tahap 1
+    window.location.href = "tahap1.html";
+}
+
+</script>
+
+</body>
+</html>
