@@ -736,79 +736,87 @@ body {
 }
 
 /* =====================================================
-   ⭐ BUTANG CETAK SIJIL
-   GAYA SAMA 100% SEPERTI KEMBALI & HOME
+   🏆 BUTANG CETAK SIJIL
+   MERAH + BLINK + SHINE
 ===================================================== */
 
 #sijilButton {
 
     display: none;
 
-    min-width: 145px;
-    height: 58px;
+    position: fixed;
 
-    padding: 0 25px;
+    /* GERAK SEDIKIT KE KIRI */
+    top: 80px;
+    right: 60px;
 
-    border: 4px solid #ffffff;
-    border-radius: 20px;
+    min-width: 160px;
+    height: 55px;
 
-    background:
-        linear-gradient(
-            180deg,
-            #fff3a8 0%,
-            #ffdd67 45%,
-            #f4b942 100%
-        );
+    padding: 0 20px;
+
+    border: 4px solid white;
+    border-radius: 18px;
+
+    background: linear-gradient(
+        180deg,
+        #ff6b6b 0%,
+        #e53935 50%,
+        #b71c1c 100%
+    );
 
     font-family:
         "Comic Sans MS",
         Arial,
         sans-serif;
 
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 900;
 
-     text-shadow:
-        2px 2px 0 #a66a16,
-        0 3px 4px rgba(0,0,0,0.25);
-        
-    color: #68420f;
+    color: white;
 
     cursor: pointer;
 
-    position: fixed;
-
-    bottom: 25px;
-
-    /* Kedudukan di sebelah kiri KEMBALI */
-    right: 360px;
+    overflow: hidden;
 
     box-shadow:
-
-        inset 0 4px 4px
-        rgba(255,255,255,0.55),
-
-        inset 0 -6px 5px
-        rgba(180,120,20,0.18),
-
-        0 7px 0 #b97d1d,
-
-        0 10px 15px
-        rgba(0,0,0,0.20);
+        inset 0 4px 4px rgba(255,255,255,0.35),
+        inset 0 -6px 5px rgba(120,0,0,0.20),
+        0 6px 0 #8b0000,
+        0 10px 15px rgba(0,0,0,0.25);
 
     text-shadow:
-        1px 2px 0 #fff1b8;
-
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
+        2px 2px 0 #8b0000;
 
     z-index: 300;
+
+    /* BLINK TANPA TRANSPARENT */
+    animation: sijilBlink 1.2s ease-in-out infinite;
 }
 
 
 /* =====================================================
-   ⭐ KESAN CAHAYA ATAS
+   ✨ BLINK
+   TIDAK GUNA opacity
+===================================================== */
+
+@keyframes sijilBlink {
+
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+        filter: brightness(1.18);
+    }
+
+}
+
+
+/* =====================================================
+   ✨ SHINE BERGERAK
 ===================================================== */
 
 #sijilButton::before {
@@ -817,59 +825,94 @@ body {
 
     position: absolute;
 
-    top: 6px;
-    left: 12%;
+    top: 0;
+    left: -80%;
 
-    width: 76%;
-    height: 12px;
+    width: 45%;
+    height: 100%;
 
-    border-radius: 50%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.75),
+        transparent
+    );
 
-    background:
-        rgba(255,255,255,0.45);
+    transform: skewX(-20deg);
+
+    animation: shineSijil 2.2s ease-in-out infinite;
 
     pointer-events: none;
+
+    z-index: 1;
 }
 
 
 /* =====================================================
-   ⭐ HOVER
+   ✨ ANIMASI SHINE
+===================================================== */
+
+@keyframes shineSijil {
+
+    0% {
+        left: -80%;
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    50% {
+        left: 130%;
+        opacity: 0;
+    }
+
+    100% {
+        left: 130%;
+        opacity: 0;
+    }
+
+}
+
+
+/* =====================================================
+   🖱️ HOVER
+   KEKAL MERAH
 ===================================================== */
 
 #sijilButton:hover {
 
+    background: linear-gradient(
+        180deg,
+        #ff7777 0%,
+        #e53935 50%,
+        #b71c1c 100%
+    );
+
     transform:
         translateY(-4px)
-        scale(1.04);
+        scale(1.08);
 
-    background:
-        linear-gradient(
-            180deg,
-            #fff8c7 0%,
-            #ffe88a 45%,
-            #f7c957 100%
-        );
-
-    border:
-        4px solid #ffffff;
+    border: 4px solid white;
 
     box-shadow:
 
         inset 0 4px 4px
-        rgba(255,255,255,0.65),
+        rgba(255,255,255,0.50),
 
         inset 0 -6px 5px
-        rgba(180,120,20,0.18),
+        rgba(120,0,0,0.25),
 
-        0 10px 0 #b97d1d,
+        0 10px 0 #8b0000,
 
         0 14px 20px
-        rgba(0,0,0,0.22);
+        rgba(0,0,0,0.30);
 }
 
 
 /* =====================================================
-   ⭐ KETIKA DITEKAN
+   👆 KETIKA DITEKAN
 ===================================================== */
 
 #sijilButton:active {
@@ -883,12 +926,11 @@ body {
         inset 0 5px 7px
         rgba(0,0,0,0.18),
 
-        0 3px 0 #b97d1d,
+        0 3px 0 #8b0000,
 
         0 5px 8px
         rgba(0,0,0,0.18);
 }
-
 
 /* =====================================================
    ⭐ ANIMASI BUTANG CETAK
@@ -907,41 +949,6 @@ body {
         filter: brightness(1.15);
     }
 
-}
-
-
-/* =====================================================
-   ⭐ KESAN HOVER
-===================================================== */
-
-#sijilButton:hover {
-
-    transform:
-        translateY(-4px)
-        scale(1.06);
-
-    background:
-        linear-gradient(
-            180deg,
-            #fff8c7 0%,
-            #ffe88a 45%,
-            #f7c957 100%
-        );
-
-    border: 4px solid #ffffff;
-
-    box-shadow:
-
-        inset 0 4px 4px
-        rgba(255,255,255,0.65),
-
-        inset 0 -6px 5px
-        rgba(180,120,20,0.18),
-
-        0 10px 0 #b97d1d,
-
-        0 14px 20px
-        rgba(0,0,0,0.22);
 }
 
 
@@ -2130,7 +2137,6 @@ function paparkanMaklumatPelajar() {
 }
 
 
-
 // ======================================================
 // ⭐⭐⭐ SIJIL
 // SEMAK SAMA ADA 8 MISI SUDAH SELESAI
@@ -2162,8 +2168,6 @@ function semakSijil() {
 
     }
 }
-
-
 
 // ======================================================
 // ⭐⭐⭐ PAPAR MAKLUMAT SIJIL
